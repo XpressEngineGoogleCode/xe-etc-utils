@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<addon version="0.2">
+    <title xml:lang="ko">비회원 이름 고정</title>
+    <description xml:lang="ko">
+        글/댓글 작성시 비회원의 이름을 고정시킵니다.
+    </description>
+    <version>1.1</version>
+    <date>2009-09-24</date>
+
+    <author email_address="sinsy200@gmail.com" link="http://etcutils.xpressengine.net">
+        <name xml:lang="ko">난다날아</name>
+    </author>
+	<extra_vars>
+	<var name="guest_name">
+		<title xml:lang="ko">비회원 고정 이름</title>
+		<description xml:lang="ko">글/댓글 작성시 비회원의 이름은 이곳에 설정한 이름으로 고정됩니다.</description>
+	</var>
+	</extra_vars>
+</addon>
