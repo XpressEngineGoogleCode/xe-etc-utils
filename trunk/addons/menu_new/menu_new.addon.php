@@ -45,6 +45,7 @@
 			if (!$target_module)	continue;
 
 			// 2차 메뉴 있을 때
+			$mark1 = false;
 			if ($menu1['list'] && count($menu1['list'])) {
 				foreach($menu1['list'] as $no2 => $menu2){
 					// 해당 메뉴에 연결된 모듈 정보
@@ -52,6 +53,7 @@
 					if (!$target_module2)	continue;
 
 					// 3차 메뉴 있을 때
+					$mark2 = false;
 					if ($menu2['list'] && count($menu2['list'])) {
 						foreach($menu2['list'] as $no3 => $menu3) {
 							// 해당 메뉴에 연결된 모듈 정보
@@ -65,9 +67,10 @@
 
 							if ($db_output->data){ foreach($db_output->data as $doc){
 								if($doc->regdate > $time_check) {
-									if ($addon_info->up_new) {
+									if ($addon_info->up_new && !$mark2) {
 										$target_menu->list[$no1][link] .= $new_image;
 										$target_menu->list[$no1]['list'][$no2][link] .= $new_image;
+										$mark2 = true;
 									}
 									$target_menu->list[$no1]['list'][$no2]['list'][$no3][link] .= $new_image;
 								}
@@ -83,7 +86,10 @@
 
 						if ($db_output->data){ foreach($db_output->data as $doc){
 							if($doc->regdate > $time_check) {
-								if ($addon_info->up_new) $target_menu->list[$no1][link] .= $new_image;
+								if ($addon_info->up_new && !$mark1) {
+									$target_menu->list[$no1][link] .= $new_image;
+									$mark1 = true;
+								}
 								$target_menu->list[$no1]['list'][$no2][link] .= $new_image;
 							}
 						}}
