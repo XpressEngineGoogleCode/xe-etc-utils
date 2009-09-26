@@ -115,4 +115,7 @@
 
 	// 레이아웃을 다시 컴파일
 	$output = $oTemplate->compile($layout_path, $layout_file, $edited_layout_file);
+
+	// 트리커 다시 호출!
+	ModuleHandler::triggerCall('display', 'before', $output);
 ?>
