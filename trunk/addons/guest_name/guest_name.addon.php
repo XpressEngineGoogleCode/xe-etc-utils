@@ -10,7 +10,7 @@
 
 	if (Context::get('logged_info'))	return;
 
-    if($called_position == 'before_display_content' && Context::getResponseMethod() == 'HTML' ) {
+    if($called_position == 'before_display_content' && Context::getResponseMethod() == 'HTML' && Context::get('act') != 'dispMemberSignUpForm' ) {
 		// 비회원 고정 이름
 		$guest_name = $addon_info->guest_name;
 		if (empty($guest_name))	$guest_name = '손님';
