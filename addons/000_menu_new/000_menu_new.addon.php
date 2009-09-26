@@ -40,6 +40,8 @@
 	$args->order_type = 'asc';
 	if ($target_menu->list && count($target_menu->list)){
 		foreach($target_menu->list as $no1 => $menu1){
+			if (!$menu1[link])	continue;
+
 			// 해당 메뉴에 연결된 모듈 정보
 			$target_module = $oModuleModel->getModuleInfoByMid($menu1[url]);
 			if (!$target_module)	continue;
@@ -48,6 +50,8 @@
 			$mark1 = false;
 			if ($menu1['list'] && count($menu1['list'])) {
 				foreach($menu1['list'] as $no2 => $menu2){
+					if (!$menu2[link])	continue;
+
 					// 해당 메뉴에 연결된 모듈 정보
 					$target_module2 = $oModuleModel->getModuleInfoByMid($menu2[url]);
 					if (!$target_module2)	continue;
@@ -56,6 +60,8 @@
 					$mark2 = false;
 					if ($menu2['list'] && count($menu2['list'])) {
 						foreach($menu2['list'] as $no3 => $menu3) {
+							if (!$menu3[link])	continue;
+
 							// 해당 메뉴에 연결된 모듈 정보
 							$target_module3 = $oModuleModel->getModuleInfoByMid($menu3[url]);
 							if (!$target_module3)	continue;
