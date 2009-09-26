@@ -23,6 +23,10 @@
 		<title xml:lang="ko">올림 표시</title>
 		<description xml:lang="ko">새 게시물이 있는 메뉴의 상위 메뉴에도 모두 new 표시를 하려면 1을 적으세요.</description>
 	</var>
+	<var name="text_new">
+		<title xml:lang="ko">text 변수에도 이미지 표시</title>
+		<description xml:lang="ko">메뉴의 text 변수에도 이미지를 표시하려면 1을 적으세요.</description>
+	</var>
 	<var name="new_image">
 		<title xml:lang="ko">new 이미지 주소</title>
 		<description xml:lang="ko">new 이미지 주소를 입력하세요. 비워두면 기본 이미지를 이용합니다.</description>
