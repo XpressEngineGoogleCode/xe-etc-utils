@@ -1,0 +1,48 @@
+<!--%import("join.css")-->
+<div class="joinContent">
+	<h2 class="joinTitle">{$lang->member_join_extend_title}</h2>
+	<form action="" method="post" onsubmit="return false" class="member_join_extend">
+		<fieldset>
+			<!--@if($config->use_agreement == "Y")-->
+			<h3>{$lang->agreement}</h3>
+			<div class="joinAgreement">{nl2br($config->agreement)} </div>
+			<p class="checkAgreement"><input name="" type="checkbox" value="" id="checkAgreement" class="inputCheck" /><label for="checkAgreement">{$lang->agree_agreement}</label></p>
+			<!--@end-->
+
+			<!--@if($config->use_private_agreement == "Y")-->
+			<h3>{$lang->private_agreement}</h3>
+			<div class="joinAgreement">{nl2br($config->private_agreement)}</div>
+				<!--@if($config->private_gathering_agreement)-->
+				<h3>{$lang->private_gathering_agreement}</h3>
+				<div class="joinAgreement">{nl2br($config->private_gathering_agreement)}</div>
+				<!--@end-->
+			<p class="checkAgreement"><input name="" type="checkbox" value="" id="checkPrivateAgreement" class="inputCheck" /><label for="checkPrivateAgreement">{$lang->agree_private_agreement}</label></p>
+			<!--@end-->
+
+			<!--@if($config->use_jumin == "Y")-->
+			<h3>{$lang->jumin_check}</h3>
+			<div class="joinButtonArea">
+				<table class="joinAgreement jumin">
+				<tr>
+					<th scope="row">{$lang->name}</th>
+					<td><input type="text" name="name" size="8" /></td>
+				</tr>
+				<tr>
+					<th scope="row">{$lang->jumin}</th>
+					<td><input type="text" name="jumin1" size="6" maxlength="6"/> - <input type="password" name="jumin2" size="7" maxlength="7"/></td>
+				</tr>
+				</table>
+			</div>
+			<!--@end-->
+
+			<div class="joinButtonArea">
+			<!--@if($config->use_age_restrictions == 'Y')-->
+				<span class="joinButton"><input name="" class="member_join_agree" type="submit" value="{sprintf($lang->junior, $config->age_restrictions)}" /></span>
+				<span class="joinButton"><input type="button" class="junior_join" value="{sprintf($lang->senior, $config->age_restrictions)}" /></span>
+			<!--@else-->
+				<span class="joinButton"><input name="" class="member_join_agree" type="submit" value="{$lang->agree}" /></span>
+			<!--@end-->
+			</div>
+		</fieldset>
+	</form>
+</div>
