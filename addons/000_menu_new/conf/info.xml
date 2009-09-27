@@ -4,7 +4,7 @@
     <description xml:lang="ko">
         해당 메뉴에 새글이 있을 경우 new 표시합니다. 3차 메뉴까지 지원합니다.
     </description>
-    <version>1.0.1</version>
+    <version>1.0.4</version>
     <date>2009-09-25</date>
 
     <author email_address="sinsy200@gmail.com" link="http://etcutils.xpressengine.net">
