@@ -1,0 +1,27 @@
+<!--%import("join.css")-->
+<div class="joinContent">
+	<h2 class="joinTitle">{$lang->member_join_extend_title}</h2>
+	<form action="" method="post" onsubmit="return false" class="member_join_extend">
+		<fieldset>
+			<!--@if($agreement)-->
+			<div class="joinAgreement">{nl2br($agreement)} </div>
+			<p class="checkAgreement"><input name="" type="checkbox" value="" id="checkAgreement" class="inputCheck" /><label for="checkAgreement">{$lang->agree_agreement}</label></p>
+			<!--@end-->
+
+			<!--@if($private_agreement)-->
+			<div class="joinAgreement">{nl2br($private_agreement)}</div>
+				<!--@if($private_gathering_agreement)--><div class="joinAgreement">{nl2br($private_gathering_agreement)}</div><!--@end-->
+			<p class="checkAgreement"><input name="" type="checkbox" value="" id="checkPrivateAgreement" class="inputCheck" /><label for="checkPrivateAgreement">{$lang->agree_private_agreement}</label></p>
+			<!--@end-->
+
+			<div class="joinButtonArea">
+			<!--@if($use_junior_join == 'Y')-->
+				<span class="joinButton"><input name="" class="member_join_agree" type="submit" value="{$lang->junior}" /></span>
+				<span class="joinButton"><input type="button" class="junior_join" value="{$lang->senior}" /></span>
+			<!--@else-->
+				<span class="joinButton"><input name="" class="member_join_agree" type="submit" value="{$lang->agree}" /></span>
+			<!--@end-->
+			</div>
+		</fieldset>
+	</form>
+</div>
