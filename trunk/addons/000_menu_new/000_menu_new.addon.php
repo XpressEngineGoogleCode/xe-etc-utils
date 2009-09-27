@@ -66,66 +66,98 @@
 							$target_module3 = $oModuleModel->getModuleInfoByMid($menu3[url]);
 							if (!$target_module3)	continue;
 
+							$is_new = false;
 							// 해당 모듈의 마지막 글 가져오기
 							$args->module_srl = $target_module3->module_srl;
 							$db_output = executeQuery('document.getDocumentList', $args);
 							if (!$db_output->toBool())	continue;
 
 							if ($db_output->data){ foreach($db_output->data as $doc){
-								if($doc->regdate > $time_check) {
-									if ($addon_info->up_new) {
-										if (!$mark1) {
-											$target_menu->list[$no1][link] .= $new_image;
-											if ($addon_info->text_new)	$target_menu->list[$no1][text] .= $new_image;
-											$mark1 = true;
-										}
-										if (!$mark2) {
-											$target_menu->list[$no1]['list'][$no2][link] .= $new_image;
-											if ($addon_info->text_new)	$target_menu->list[$no1]['list'][$no2][text] .= $new_image;
-											$mark2 = true;
-										}
-									}
-									if ($addon_info->text_new)	$target_menu->list[$no1]['list'][$no2]['list'][$no3][text] .= $new_image;
-									$target_menu->list[$no1]['list'][$no2]['list'][$no3][link] .= $new_image;
-								}
+								if($doc->regdate > $time_check)	$is_new = true;
 							}}
+
+							// 댓글
+							if ($addon_info->use_comment) {
+								$db_output = executeQuery('comment.getNewestCommentList', $args);
+								if (!$db_output->toBool())	continue;
+
+								if($db_output->data->regdate > $time_check)	$is_new = true;
+							}
+
+							if ($is_new) {
+								if ($addon_info->up_new) {
+									if (!$mark1) {
+										$target_menu->list[$no1][link] .= $new_image;
+										if ($addon_info->text_new)	$target_menu->list[$no1][text] .= $new_image;
+										$mark1 = true;
+									}
+									if (!$mark2) {
+										$target_menu->list[$no1]['list'][$no2][link] .= $new_image;
+										if ($addon_info->text_new)	$target_menu->list[$no1]['list'][$no2][text] .= $new_image;
+										$mark2 = true;
+									}
+								}
+								if ($addon_info->text_new)	$target_menu->list[$no1]['list'][$no2]['list'][$no3][text] .= $new_image;
+								$target_menu->list[$no1]['list'][$no2]['list'][$no3][link] .= $new_image;
+							}
 						}
 					}
 					// 3차 메뉴 없을 때
 					else{
+						$is_new = false;
 						// 해당 모듈의 마지막 글 가져오기
 						$args->module_srl = $target_module2->module_srl;
 						$db_output = executeQuery('document.getDocumentList', $args);
 						if (!$db_output->toBool())	continue;
 
 						if ($db_output->data){ foreach($db_output->data as $doc){
-							if($doc->regdate > $time_check) {
-								if ($addon_info->up_new && !$mark1) {
-									$target_menu->list[$no1][link] .= $new_image;
-									if ($addon_info->text_new)	$target_menu->list[$no1][text] .= $new_image;
-									$mark1 = true;
-								}
-								if ($addon_info->text_new)	$target_menu->list[$no1]['list'][$no2][text] .= $new_image;
-								$target_menu->list[$no1]['list'][$no2][link] .= $new_image;
-							}
+							if($doc->regdate > $time_check)	$is_new = true;
 						}}
+
+						// 댓글
+						if ($addon_info->use_comment) {
+							$db_output = executeQuery('comment.getNewestCommentList', $args);
+							if (!$db_output->toBool())	continue;
+
+							if($db_output->data->regdate > $time_check)	$is_new = true;
+						}
+
+						if ($is_new) {
+							if ($addon_info->up_new && !$mark1) {
+								$target_menu->list[$no1][link] .= $new_image;
+								if ($addon_info->text_new)	$target_menu->list[$no1][text] .= $new_image;
+								$mark1 = true;
+							}
+							if ($addon_info->text_new)	$target_menu->list[$no1]['list'][$no2][text] .= $new_image;
+							$target_menu->list[$no1]['list'][$no2][link] .= $new_image;
+						}
 					}
 				}
 			}
 			// 2차 메뉴 없을 때
 			else{
+				$is_new = false;
 				// 해당 모듈의 마지막 글 가져오기
 				$args->module_srl = $target_module->module_srl;
 				$db_output = executeQuery('document.getDocumentList', $args);
 				if (!$db_output->toBool())	continue;
 
 				if ($db_output->data){ foreach($db_output->data as $doc){
-					if($doc->regdate > $time_check) {
-						$target_menu->list[$no1][link] .= $new_image;
-						if ($addon_info->text_new) $target_menu->list[$no1][text] .= $new_image;
-					}
+					if($doc->regdate > $time_check)	$is_new = true;
 				}}
 
+				// 댓글
+				if ($addon_info->use_comment) {
+					$db_output = executeQuery('comment.getNewestCommentList', $args);
+					if (!$db_output->toBool())	continue;
+
+					if($db_output->data->regdate > $time_check)	$is_new = true;
+				}
+
+				if ($is_new) {
+					$target_menu->list[$no1][link] .= $new_image;
+					if ($addon_info->text_new) $target_menu->list[$no1][text] .= $new_image;
+				}
 			}
 		}
 	}
