@@ -73,14 +73,17 @@
 
 							if ($db_output->data){ foreach($db_output->data as $doc){
 								if($doc->regdate > $time_check) {
-									if ($addon_info->up_new && !$mark2) {
-										$target_menu->list[$no1][link] .= $new_image;
-										$target_menu->list[$no1]['list'][$no2][link] .= $new_image;
-										if ($addon_info->text_new) {
-											$target_menu->list[$no1][text] .= $new_image;
-											$target_menu->list[$no1]['list'][$no2][text] .= $new_image;
+									if ($addon_info->up_new) {
+										if (!$mark1) {
+											$target_menu->list[$no1][link] .= $new_image;
+											if ($addon_info->text_new)	$target_menu->list[$no1][text] .= $new_image;
+											$mark1 = true;
 										}
-										$mark2 = true;
+										if (!$mark2) {
+											$target_menu->list[$no1]['list'][$no2][link] .= $new_image;
+											if ($addon_info->text_new)	$target_menu->list[$no1]['list'][$no2][text] .= $new_image;
+											$mark2 = true;
+										}
 									}
 									if ($addon_info->text_new)	$target_menu->list[$no1]['list'][$no2]['list'][$no3][text] .= $new_image;
 									$target_menu->list[$no1]['list'][$no2]['list'][$no3][link] .= $new_image;
