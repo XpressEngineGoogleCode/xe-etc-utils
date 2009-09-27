@@ -10,6 +10,7 @@
 
 	// HTML 출력 직전
 	if($called_position != 'before_display_content' || Context::getResponseMethod() != 'HTML' ) return;
+	if(Context::get('layout') == 'none')	return;
 
 	// 메뉴 변수 명
 	$menu_var_name = $addon_info->menu_var_name;
