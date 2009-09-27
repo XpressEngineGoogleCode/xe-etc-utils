@@ -4,8 +4,8 @@
     <description xml:lang="ko">
         글/댓글 작성시 비회원의 이름을 고정시킵니다.
     </description>
-    <version>1.1</version>
-    <date>2009-09-24</date>
+    <version>1.1.1</version>
+    <date>2009-09-27</date>
 
     <author email_address="sinsy200@gmail.com" link="http://etcutils.xpressengine.net">
         <name xml:lang="ko">난다날아</name>
