@@ -2,7 +2,7 @@
     if(!defined("__ZBXE__")) exit();
 
     /**
-     * @file member_join_extend.addon.php
+     * @file join_extend.addon.php
      * @author sol (sol@ngleader.com), 난다날아 (sinsy200@gmail.com)
      * @brief 회원 가입 화면 출력시 (dispMemberSignUpForm) 14세 이상/미만 구분, 이용약관, 주민등록번호 입력 출력
      **/
