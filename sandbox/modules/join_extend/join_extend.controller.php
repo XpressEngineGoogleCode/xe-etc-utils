@@ -1,11 +1,11 @@
 <?php
 	/**
-	 * @class  member_join_extendController
+	 * @class  join_extendController
 	 * @author 난다날아 (sinsy200@gmail.com)
-	 * @brief  member_join_extend모듈의 controller class
+	 * @brief  join_extend모듈의 controller class
 	 **/
 
-	class member_join_extendController extends member_join_extend {
+	class join_extendController extends join_extend {
 
 		/**
 		 * @brief 초기화
@@ -16,25 +16,25 @@
 		/**
 		 * @brief 동의
 		 **/
-		function procMember_join_extendAgree() {
-			$oMJExtedModel = &getModel('member_join_extend');
+		function procJoin_extendAgree() {
+			$oJoinExtedModel = &getModel('join_extend');
 
 			// 중복 확인
-			$result = $oMJExtedModel->isDuplicate();
+			$result = $oJoinExtedModel->isDuplicate();
 			if ($result)	return $this->stop('jumin_exist');
 
 			// 나이제한 확인
-			$result = $oMJExtedModel->isAge();
+			$result = $oJoinExtedModel->isAge();
 			if (!$result)	return $this->stop('age_restrictions');
 
 			// 주민번호 확인
-			$result = $oMJExtedModel->isValid();
+			$result = $oJoinExtedModel->isValid();
 			if (!$result)	return $this->stop('invaild_jumin');
 
 			// session 추가 
-			$_SESSION['member_join_extend_authed'] = true;
-			$_SESSION['member_join_extend_jumin']['name'] = Context::get('name');
-			$_SESSION['member_join_extend_jumin']['jumin'] = md5(Context::get('jumin1') . '-' . Context::get('jumin2'));
+			$_SESSION['join_extend_authed'] = true;
+			$_SESSION['join_extend_jumin']['name'] = Context::get('name');
+			$_SESSION['join_extend_jumin']['jumin'] = md5(Context::get('jumin1') . '-' . Context::get('jumin2'));
 
 			// xml_rpc return
 			header("Content-Type: text/xml; charset=UTF-8");
@@ -52,12 +52,12 @@
 		/**
 		 * @brief 주민번호 입력
 		 **/
-		function procJuminInsert($member_srl) {
+		function procJoin_extendJuminInsert($member_srl) {
 			if (!$member_srl) return false;
-			$args->jumin = $_SESSION['member_join_extend_jumin']['jumin'];
+			$args->jumin = $_SESSION['join_extend_jumin']['jumin'];
 			$args->member_srl = $member_srl;
 
-			$output = executeQuery('member_join_extend.insertJumin', $args);
+			$output = executeQuery('join_extend.insertJumin', $args);
 			if (!$output->toBool())  return false;
 			
 			return true;

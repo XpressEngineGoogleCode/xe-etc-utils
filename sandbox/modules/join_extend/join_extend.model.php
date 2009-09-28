@@ -1,11 +1,11 @@
 <?php
 	/**
-	 * @class  member_join_extendModel
+	 * @class  join_extendModel
 	 * @author 난다날아 (sinsy200@gmail.com)
-	 * @brief  member_join_extend 모듈의 model class
+	 * @brief  join_extend 모듈의 model class
 	 **/
 
-	class member_join_extendModel extends member_join_extend {
+	class join_extendModel extends join_extend {
 
 		/**
 		 * @brief 초기화
@@ -18,7 +18,7 @@
 		 **/
 		function getConfig() {
             $oModuleModel = &getModel('module');
-			return $oModuleModel->getModuleConfig('member_join_extend');
+			return $oModuleModel->getModuleConfig('join_extend');
 		}
 
 		/**
@@ -88,7 +88,7 @@
 			
 			$args->jumin = md5($resno1 . '-' . $resno2);
 
-			$output = executeQuery('member_join_extend.isDuplicate', $args);
+			$output = executeQuery('join_extend.isDuplicate', $args);
 			if (!$output->toBool())  return true;
 			
 			if ($output->data->count)   return true;

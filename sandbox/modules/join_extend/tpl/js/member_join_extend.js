@@ -31,7 +31,7 @@
 							jumin1: $('input[name=jumin1]').val(),
 							jumin2: $('input[name=jumin2]').val()
 							}
-				exec_xml('member_join_extend','procMember_join_extendAgree',param, function(){ location.reload()});
+				exec_xml('join_extend','procJoin_extendAgree',param, function(){ location.reload()});
 			}else{
 				alert(msg_check_agree);
 			}

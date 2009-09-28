@@ -5,8 +5,8 @@
      * @brief  한국어 언어팩 (기본적인 내용만 수록)
      **/
 
-	$lang->member_join_extend = '회원가입확장';
-	$lang->member_join_extend_title = '회원 가입을 위한 약관 동의 절차'; 
+	$lang->join_extend = '회원가입확장';
+	$lang->join_extend_title = '회원 가입을 위한 약관 동의 절차'; 
 
 	$lang->use_agreement = '이용약관 표시';
 	$lang->about_use_agreement = '이용약관을 표시 및 동의를 받습니다.';

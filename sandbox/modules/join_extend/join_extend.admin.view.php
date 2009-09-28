@@ -1,11 +1,11 @@
 <?php
 	/**
-	 * @class  member_join_extendAdminView
+	 * @class  join_extendAdminView
 	 * @author 난다날아 (sinsy200@gmail.com)
-	 * @brief  member_join_extend모듈의 admin view class
+	 * @brief  join_extend모듈의 admin view class
 	 **/
 
-	class member_join_extendAdminView extends member_join_extend {
+	class join_extendAdminView extends join_extend {
 
 		/**
 		 * @brief 초기화
@@ -16,9 +16,9 @@
 		/**
 		 * @brief 모듈 설정 화면
 		 **/
-		function dispMember_join_extendAdminIndex() {
-			$oMJExtendModel = &getModel('member_join_extend');
-            $config = $oMJExtendModel->getConfig();
+		function dispJoin_extendAdminIndex() {
+			$oJoinExtendModel = &getModel('join_extend');
+            $config = $oJoinExtendModel->getConfig();
             Context::set('config',$config);
 
 			// 스킨 목록을 구해옴
