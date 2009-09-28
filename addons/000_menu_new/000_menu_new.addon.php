@@ -26,7 +26,7 @@
 
 	// new 이미지
 	if (!empty($addon_info->new_image)) {
-		$new_image = sprintf('<img src="%snew.gif" alt="new" title="new" style="margin-left:2px;" class="addon_menu_new"/>', $addon_info->new_image);
+		$new_image = sprintf('<img src="%s" alt="new" title="new" style="margin-left:2px;" class="addon_menu_new"/>', $addon_info->new_image);
     }else{
 		$path = sprintf('%s%s',getUrl(), 'modules/document/tpl/icons/');
 		$new_image = sprintf('<img src="%snew.gif" alt="new" title="new" style="margin-left:2px;" class="addon_menu_new"/>', $path);
