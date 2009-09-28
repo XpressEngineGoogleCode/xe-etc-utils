@@ -25,6 +25,9 @@
 		 * @brief 올바른 주민번호인지 확인
 		 **/
 		function isValid() {
+			$config = $this->getConfig();
+			if ($config->use_jumin != 'Y')	return true;
+
 			// 일단 정규식과 주민번호 규칙을 이용하여 검사
 			$name = Context::get('name');
 			$resno1 = Context::get('jumin1');
@@ -67,6 +70,7 @@
 		{
 			$config = $this->getConfig();
 			if ($config->use_age_restrictions != "Y")	return true;
+			if ($config->use_jumin != "Y")	return true;
 
 			$birthYear = (2 >= intVal(substr(Context::get('jumin2'), 0, 1))) ? 1900 : 2000; 
 			$birthYear += intVal(substr(Context::get('jumin1'), 0, 2));
@@ -83,6 +87,9 @@
 		 **/
 		function isDuplicate()
 		{
+			$config = $this->getConfig();
+			if ($config->use_jumin != "Y")	return false;
+
 			$resno1 = Context::get('jumin1');
 			$resno2 = Context::get('jumin2');
 			

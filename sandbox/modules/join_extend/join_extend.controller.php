@@ -17,18 +17,18 @@
 		 * @brief 동의
 		 **/
 		function procJoin_extendAgree() {
-			$oJoinExtedModel = &getModel('join_extend');
+			$oJoinExtendModel = &getModel('join_extend');
 
 			// 중복 확인
-			$result = $oJoinExtedModel->isDuplicate();
+			$result = $oJoinExtendModel->isDuplicate();
 			if ($result)	return $this->stop('jumin_exist');
 
 			// 나이제한 확인
-			$result = $oJoinExtedModel->isAge();
+			$result = $oJoinExtendModel->isAge();
 			if (!$result)	return $this->stop('age_restrictions');
 
 			// 주민번호 확인
-			$result = $oJoinExtedModel->isValid();
+			$result = $oJoinExtendModel->isValid();
 			if (!$result)	return $this->stop('invaild_jumin');
 
 			// session 추가 
@@ -53,6 +53,10 @@
 		 * @brief 주민번호 입력
 		 **/
 		function procJoin_extendJuminInsert($member_srl) {
+			$oJoinExtendModel = &getModel('join_extend');
+			$config = $oJoinExtendModel->getConfig();
+			if ($config->use_jumin != "Y")	return true;
+
 			if (!$member_srl) return false;
 			$args->jumin = $_SESSION['join_extend_jumin']['jumin'];
 			$args->member_srl = $member_srl;
