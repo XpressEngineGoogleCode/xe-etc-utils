@@ -168,6 +168,15 @@
 	// 레이아웃을 다시 컴파일
 	$output = $oTemplate->compile($layout_path, $layout_file, $edited_layout_file);
 
+	// xe_banner 문제
+	if ($_COOKIE['xb']){
+		switch ($_COOKIE['xb']){
+			case 0:	$_COOKIE['xb'] = 2;	break;
+			case 1:	$_COOKIE['xb'] = 0;	break;
+			case 2:	$_COOKIE['xb'] = 1;	break;
+			case 3:	$_COOKIE['xb'] = 2;	break;
+		}
+	}
 	// 트리커 다시 호출!
 	ModuleHandler::triggerCall('display', 'before', $output);
 ?>
