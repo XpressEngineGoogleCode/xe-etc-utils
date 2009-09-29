@@ -36,7 +36,7 @@
 	$lang->msg_junior_join = '나이제한 미만 메시지';
 
     $lang->agree_agreement= '이용약관에 동의 합니다.'; 
-    $lang->agree_private_agreement= '개인정포취급방침에 동의 합니다.'; 
+    $lang->agree_private_agreement= '개인정보취급방침에 동의 합니다.'; 
 	$lang->agree = '동의';
 	$lang->junior = '%d세 이상';
 	$lang->senior = '%d세 미만';
