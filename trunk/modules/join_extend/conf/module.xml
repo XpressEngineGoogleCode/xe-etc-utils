@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<module>
+    <grants />
+    <actions>
+		<action name="dispJoin_extendAdminIndex" type="view" standalone="true" admin_index="true" />
+		<action name="procJoin_extendAdminInsertConfig" type="controller"  />
+		<action name="procJoin_extendAgree" type="controller"  />
+    </actions>
+</module>
