@@ -80,12 +80,12 @@
 			// 회원가입이 안 됐으면 생략
 			if(is_a($output, 'Object') || is_subclass_of($output, 'Object')) return;
 
+			$member_srl = $this->get('member_srl');
+
 			$oMJExtendController = &getController('join_extend');
 			$oMemberController = &getController('member');
-			$oMemberModel = &getModel('member');
-			$logged_info = $oMemberModel->getLoggedInfo();
 			
-			$res = $oMJExtendController->procJoin_extendJuminInsert($logged_info->member_srl);
+			$res = $oMJExtendController->procJoin_extendJuminInsert($member_srl);
 			
 			// 주민번호 입력에 실패하면 회원가입을 취소
 			if (!$res){
