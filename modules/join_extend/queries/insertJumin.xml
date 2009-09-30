@@ -1,0 +1,12 @@
+<query id="insertJumin" action="update">
+    <tables>
+        <table name="member" />
+    </tables>
+    <columns>
+        <column name="jumin" var="jumin" />
+        <column name="extra_vars" var="ex_var" />
+    </columns>
+    <conditions>
+        <condition operation="equal" column="member_srl" var="member_srl"  notnull="notnull" />
+    </conditions>
+</query>
