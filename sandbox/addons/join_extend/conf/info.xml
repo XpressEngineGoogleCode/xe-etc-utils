@@ -4,8 +4,8 @@
     <description xml:lang="ko">
         회원가입에 여러 기능을 추가하는 애드온입니다. 회원가입 확장 모듈과 한짝입니다.
     </description>
-    <version>0.1.1</version>
-    <date>2009-09-28</date>
+    <version>0.1.2</version>
+    <date>2009-09-30</date>
 
     <author email_address="sol@ngleader.com" link="http://blog.ngleader.com">
         <name xml:lang="ko">sol</name>
