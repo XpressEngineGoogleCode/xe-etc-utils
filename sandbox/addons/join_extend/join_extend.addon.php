@@ -24,6 +24,17 @@
 			if ($config->use_jumin == "Y") {
 				Context::set('user_name', $_SESSION['join_extend_jumin']['name']);
 			}
+
+		// 회원 정보 수정 시
+		}else if (Context::get('act') == 'procMemberModifyInfo') {
+			// 모듈 옵션
+			$oMJExtendModel = &getModel('join_extend');
+			$config = $oMJExtendModel->getConfig();
+
+			// 혹시나 있을 이름 변경에 대비
+			if ($config->use_jumin == "Y") {
+				Context::set('user_name', $_SESSION['join_extend_jumin']['name']);
+			}
 		}
 
 	} else if($called_position == 'after_module_proc') {
@@ -76,7 +87,7 @@
             }
 
 		// 회원가입 완료 후 주민번호 입력
-		}else if (in_array(Context::get('act'),array('procMemberInsert'))) {
+		}else if (Context::get('act') == 'procMemberInsert') {
 			// 회원가입이 안 됐으면 생략
 			if(is_a($output, 'Object') || is_subclass_of($output, 'Object')) return;
 
@@ -93,6 +104,20 @@
 				$oMemberController->deleteMember($logged_info->member_srl);
 				$output = new Object(-1, 'insert_fail_jumin');
 			}
+
+		// 회원 정보 수정 화면 주민번호 사용시 이름 변경 금지!
+		}else if (Context::get('act') == 'dispMemberModifyInfo'){
+				// 모듈 옵션
+				$oMJExtendModel = &getModel('join_extend');
+				$config = $oMJExtendModel->getConfig();
+
+				if ($config->use_jumin == "Y") {
+					$member_info = Context::get('member_info');
+					Context::addHtmlHeader(sprintf('<script type="text/javascript"> var user_name ="%s";  </script>', $member_info->user_name));
+					Context::addJsFile('./modules/join_extend/tpl/js/fix_name.js',false);
+					$_SESSION['join_extend_jumin']['name'] = $member_info->user_name;
+				}
+
 		// 회원가입 벗어나면 주민번호 정보를 필히 삭제
 		}else if (strpos(Context::get('act'), 'procMember') === false && Context::getResponseMethod() == 'HTML'){
 			unset($_SESSION['join_extend_authed_act']);
