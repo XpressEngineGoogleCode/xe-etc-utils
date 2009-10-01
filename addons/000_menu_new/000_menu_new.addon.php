@@ -21,7 +21,7 @@
 	if (empty($target_menu))	return;
 
 	// 새글 표시 시간
-	$time_interval = intVal($addon_info->menu_var_name) * 60 * 60;
+	$time_interval = intVal($addon_info->duration_new) * 60 * 60;
 	if (!$time_interval)	$time_interval = 24 * 60 * 60;
 
 	// new 이미지
