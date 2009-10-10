@@ -119,6 +119,7 @@
 				}
 
 		// 회원가입 벗어나면 주민번호 정보를 필히 삭제
+		// 09.10.10. 핸드폰 인증 문제 해결
 		}else if (( strpos(Context::get('act'), 'procMember') === false ||
 		            in_array(Context::get('act'), array('dispMobilemessageValidation')) ) &&
 		            Context::getResponseMethod() == 'HTML'){
