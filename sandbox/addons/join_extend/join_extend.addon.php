@@ -119,7 +119,9 @@
 				}
 
 		// 회원가입 벗어나면 주민번호 정보를 필히 삭제
-		}else if (strpos(Context::get('act'), 'procMember') === false && Context::getResponseMethod() == 'HTML'){
+		}else if (( strpos(Context::get('act'), 'procMember') === false ||
+		            in_array(Context::get('act'), array('dispMobilemessageValidation')) ) &&
+		            Context::getResponseMethod() == 'HTML'){
 			unset($_SESSION['join_extend_authed_act']);
 			unset($_SESSION['join_extend_jumin']);
 		}
