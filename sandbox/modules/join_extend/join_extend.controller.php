@@ -56,6 +56,7 @@
 			$oJoinExtendModel = &getModel('join_extend');
 			$config = $oJoinExtendModel->getConfig();
 			if ($config->use_jumin != "Y")	return true;
+			if ($config->save_jumin != "Y") return true;
 
 			if (!$member_srl) return false;
 			$args->jumin = $_SESSION['join_extend_jumin']['jumin'];

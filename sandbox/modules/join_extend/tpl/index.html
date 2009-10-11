@@ -56,6 +56,16 @@
         </td>
     </tr>
     <tr>
+        <th scope="col"><div>{$lang->save_jumin}</div></th>
+        <td>
+            <select name="save_jumin">
+				<option value="N"<!--@if($config->save_jumin=='N')--> selected="selected"<!--@end-->>{$lang->notuse}</option>
+                <option value="Y"<!--@if($config->save_jumin=='Y')--> selected="selected"<!--@end-->>{$lang->use}</option>
+            </select>
+            <p>{$lang->about_save_jumin}</p>
+        </td>
+    </tr>
+    <tr>
         <th scope="col"><div>{$lang->use_age_restrictions}</div></th>
         <td>
             <select name="use_age_restrictions">

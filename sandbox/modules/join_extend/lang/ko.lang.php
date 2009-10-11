@@ -29,6 +29,9 @@
     $lang->insert_fail_jumin = '주민등록번호 저장에 실패했습니다.';
     $lang->invaild_jumin = '잘못된 주민등록번호입니다.';
     $lang->jumin_exist = '입력한 주민등록번호는 이미 가입되어 있습니다.';
+    
+    $lang->save_jumin = '주민등록번호 저장하기';
+    $lang->about_save_jumin = '입력받은 주민등록번호를 저장할지 여부를 선택합니다. 저장할 경우 MD5 해시를 이용하여 암호화되어 저장되며 주민등록번호를 이용하여 중복가입을 막을 수 있습니다. 저장하지 않을 경우 주민등록번호 유효성 검사만 수행하며 중복가입을 막을 수는 없습니다.';
 
 	$lang->use_age_restrictions = '나이제한 사용';
 	$lang->about_use_age_restrictions = '아래 설정된 나이 이상만 가입을 받습니다.';
