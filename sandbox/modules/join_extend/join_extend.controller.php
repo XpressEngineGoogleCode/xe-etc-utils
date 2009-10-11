@@ -31,10 +31,8 @@
 			$result = $oJoinExtendModel->isValid();
 			if (!$result)	return $this->stop('invaild_jumin');
 
-			// session 추가 
-			$_SESSION['join_extend_authed'] = true;
-			$_SESSION['join_extend_jumin']['name'] = Context::get('name');
-			$_SESSION['join_extend_jumin']['jumin'] = md5(Context::get('jumin1') . '-' . Context::get('jumin2'));
+			// session 추가
+			$oJoinExtendModel->createSession();
 
 			// xml_rpc return
 			header("Content-Type: text/xml; charset=UTF-8");
