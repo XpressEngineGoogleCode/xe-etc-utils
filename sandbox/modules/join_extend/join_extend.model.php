@@ -64,6 +64,25 @@
         }
         
         /**
+         * @brief 성별 검사
+         **/
+        function isSex()
+        {
+            $config = $this->getConfig();
+            if ($config->use_sex_restrictions != "M" && $config->use_sex_restrictions != "W")   return true;
+            if ($config->use_jumin != "Y")  return true;
+            
+            $sex_code = substr(Context::get('jumin2'), 0, 1);
+
+            if ($sex_code == '1' || $sex_code == '3')   $sex = "M";
+            else                                        $sex = "W";
+
+            if ($config->use_sex_restrictions != $sex)  return false;
+
+            return true;
+        }
+        
+        /**
          * @brief 나이제한 검사
          **/
         function isAge()
@@ -116,9 +135,11 @@
             $jumin1 = Context::get('jumin1');
             $jumin2 = Context::get('jumin2');
             
+            // 이름과 해시된 주민번호
             $_SESSION['join_extend_jumin']['name'] = Context::get('name');
             $_SESSION['join_extend_jumin']['jumin'] = md5($jumin1 . '-' . $jumin2);
 
+            // 생년월일
             $birthYear = ('2' >= $jumin2[0]) ? '19' : '20';
             $birthYear .= substr($jumin1, 0, 2);
             $birthMonth = substr($jumin1, 2, 2);
@@ -126,6 +147,13 @@
             
             $_SESSION['join_extend_jumin']['birthday'] = $birthYear . $birthMonth . $birthDate;
             $_SESSION['join_extend_jumin']['birthday2'] = sprintf("%s-%s-%s", $birthYear, $birthMonth, $birthDate);
+            
+            // 성별 정보
+            if (!empty($config->sex_var_name)) {
+                if ($jumin2[0] == '1' || $jumin2[0] == '3') $sex = $config->man_value;
+                else                                        $sex = $config->woman_value;
+                $_SESSION['join_extend_jumin']['sex'] = $sex;
+            }
         }
     }
 ?>

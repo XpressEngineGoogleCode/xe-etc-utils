@@ -67,6 +67,38 @@
         </td>
     </tr>
     <tr>
+        <th scope="col"><div>{$lang->use_sex_restrictions}</div></th>
+        <td>
+            <select name="use_sex_restrictions">
+				<option value="N"<!--@if($config->use_sex_restrictions=='N')--> selected="selected"<!--@end-->>{$lang->notuse}</option>
+                <option value="M"<!--@if($config->use_sex_restrictions=='M')--> selected="selected"<!--@end-->>{$lang->man}</option>
+                <option value="W"<!--@if($config->use_sex_restrictions=='W')--> selected="selected"<!--@end-->>{$lang->woman}</option>
+            </select>
+            <p>{$lang->about_use_sex_restrictions}</p>
+        </td>
+    </tr>
+    <tr>
+        <th scope="col"><div>{$lang->sex_var_name}</div></th>
+        <td>
+            <input type="text" name="sex_var_name" value="{$config->sex_var_name}"  class="inputTypeText w100" />
+            <p>{$lang->about_sex_var_name}</p>
+        </td>
+    </tr>
+    <tr>
+        <th scope="col"><div>{$lang->man_value}</div></th>
+        <td>
+            <input type="text" name="man_value" value="{$config->man_value}"  class="inputTypeText w100" />
+            <p>{$lang->about_man_value}</p>
+        </td>
+    </tr>
+    <tr>
+        <th scope="col"><div>{$lang->woman_value}</div></th>
+        <td>
+            <input type="text" name="woman_value" value="{$config->woman_value}"  class="inputTypeText w100" />
+            <p>{$lang->about_woman_value}</p>
+        </td>
+    </tr>
+    <tr>
         <th scope="col"><div>{$lang->use_age_restrictions}</div></th>
         <td>
             <select name="use_age_restrictions">

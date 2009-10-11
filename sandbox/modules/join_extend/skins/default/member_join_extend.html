@@ -35,6 +35,16 @@
 					<th scope="row">{$lang->jumin}</th>
 					<td><input type="text" name="jumin1" size="6" maxlength="6"/> - <input type="password" name="jumin2" size="7" maxlength="7"/></td>
 				</tr>
+				<tr>
+				    <td colspan="2">
+                        <!--@if ($config->use_sex_restrictions == "M")-->
+        				    ※ {$lang->sex_restrictions_m}
+        				<!--@end-->
+        				<!--@if ($config->use_sex_restrictions == "W")-->
+        				    ※ {$lang->sex_restrictions_w}
+        				<!--@end-->
+				    </td>
+				</tr>
 				</table>
 			</div>
 			<!--@end-->
