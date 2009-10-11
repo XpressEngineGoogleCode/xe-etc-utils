@@ -76,9 +76,19 @@
 				$oMJExtendModel = &getModel('join_extend');
 				$config = $oMJExtendModel->getConfig();
 
+                // 주민번호를 입력받고 성별 정보가 있으면 자동으로 선택한다.
+				if ($config->use_jumin == "Y" && !empty($config->sex_var_name)) {
+				    Context::addHtmlHeader(sprintf('<script type="text/javascript"> var sex_var_name ="%s"; var sex = "%s"; </script>', 
+				                                    $config->sex_var_name,
+					                                $_SESSION['join_extend_jumin']['sex']));
+				}
+				
 				// 주민번호를 입력받으면 이름을 고정시킨다.
 				if ($config->use_jumin == "Y") {
-					Context::addHtmlHeader(sprintf('<script type="text/javascript"> var user_name ="%s";  </script>', $_SESSION['join_extend_jumin']['name']));
+					Context::addHtmlHeader(sprintf('<script type="text/javascript"> var user_name ="%s"; var birthday = "%s"; var birthday2 = "%s"; </script>', 
+					                                $_SESSION['join_extend_jumin']['name'],
+					                                $_SESSION['join_extend_jumin']['birthday'],
+					                                $_SESSION['join_extend_jumin']['birthday2']));
 					Context::addJsFile('./modules/join_extend/tpl/js/fix_name.js',false);
 				}
 
@@ -110,15 +120,20 @@
 				// 모듈 옵션
 				$oMJExtendModel = &getModel('join_extend');
 				$config = $oMJExtendModel->getConfig();
-
+				$member_info = Context::get('member_info');
+				
+				if ($config->use_jumin == "Y" && !empty($config->sex_var_name) && !empty($member_info->{$config->sex_var_name})) {
+				    Context::addHtmlHeader(sprintf('<script type="text/javascript"> var sex_var_name ="%s"; </script>', $config->sex_var_name));
+				}
+				
 				if ($config->use_jumin == "Y") {
-					$member_info = Context::get('member_info');
 					Context::addHtmlHeader(sprintf('<script type="text/javascript"> var user_name ="%s";  </script>', $member_info->user_name));
 					Context::addJsFile('./modules/join_extend/tpl/js/fix_name.js',false);
 					$_SESSION['join_extend_jumin']['name'] = $member_info->user_name;
 				}
 
 		// 회원가입 벗어나면 주민번호 정보를 필히 삭제
+		// 09.10.10. 핸드폰 인증 문제 해결
 		}else if (( strpos(Context::get('act'), 'procMember') === false ||
 		            in_array(Context::get('act'), array('dispMobilemessageValidation')) ) &&
 		            Context::getResponseMethod() == 'HTML'){
