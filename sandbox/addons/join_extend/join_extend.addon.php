@@ -78,7 +78,10 @@
 
 				// 주민번호를 입력받으면 이름을 고정시킨다.
 				if ($config->use_jumin == "Y") {
-					Context::addHtmlHeader(sprintf('<script type="text/javascript"> var user_name ="%s";  </script>', $_SESSION['join_extend_jumin']['name']));
+					Context::addHtmlHeader(sprintf('<script type="text/javascript"> var user_name ="%s"; var birthday = "%s"; var birthday2 = "%s"; </script>', 
+					                                $_SESSION['join_extend_jumin']['name'],
+					                                $_SESSION['join_extend_jumin']['birthday'],
+					                                $_SESSION['join_extend_jumin']['birthday2']));
 					Context::addJsFile('./modules/join_extend/tpl/js/fix_name.js',false);
 				}
 
