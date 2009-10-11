@@ -4,23 +4,23 @@
 	<form action="" method="post" onsubmit="return false" class="member_join_extend">
 		<fieldset>
 			<!--@if($config->use_agreement == "Y")-->
-			<h3>{$lang->agreement}</h3>
+			<h3 class="joinSubTitle">{$lang->agreement}</h3>
 			<div class="joinAgreement">{nl2br($config->agreement)} </div>
 			<p class="checkAgreement"><input name="" type="checkbox" value="" id="checkAgreement" class="inputCheck" /><label for="checkAgreement">{$lang->agree_agreement}</label></p>
 			<!--@end-->
 
 			<!--@if($config->use_private_agreement == "Y")-->
-			<h3>{$lang->private_agreement}</h3>
+			<h3 class="joinSubTitle">{$lang->private_agreement}</h3>
 			<div class="joinAgreement">{nl2br($config->private_agreement)}</div>
 				<!--@if($config->private_gathering_agreement)-->
-				<h3>{$lang->private_gathering_agreement}</h3>
+				<h3 class="joinSubTitle">{$lang->private_gathering_agreement}</h3>
 				<div class="joinAgreement">{nl2br($config->private_gathering_agreement)}</div>
 				<!--@end-->
 			<p class="checkAgreement"><input name="" type="checkbox" value="" id="checkPrivateAgreement" class="inputCheck" /><label for="checkPrivateAgreement">{$lang->agree_private_agreement}</label></p>
 			<!--@end-->
 
 			<!--@if($config->use_jumin == "Y")-->
-			<h3>{$lang->jumin_check}</h3>
+			<h3 class="joinSubTitle">{$lang->jumin_check}</h3>
 			<div class="joinButtonArea">
 				<table class="joinAgreement jumin">
 				<tr>
