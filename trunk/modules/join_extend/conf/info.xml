@@ -2,8 +2,8 @@
 <module version="0.2">
     <title xml:lang="ko">회원가입 확장</title>
     <description xml:lang="ko">회원가입에 여러 기능을 추가합니다.</description>
-    <version>0.1.1</version>
-    <date>2009-09-28</date>
+    <version>0.2.0</version>
+    <date>2009-10-11</date>
     <category>member</category>
 
     <author email_address="sinsy200@gmail.com" link="http://etcutils.xpressengine.net">

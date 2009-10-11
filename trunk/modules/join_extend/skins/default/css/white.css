@@ -4,7 +4,8 @@
 .joinContent form{ margin:0; padding:0;}
 .joinContent label{ cursor:pointer;}
 .joinContent .inputCheck{ width:13px; height:13px; vertical-align:middle; margin:0 5px 0 0;}
-.joinContent .joinTitle{ font-size:14px; padding:12px 20px; margin:0 0 10px 0; }
+.joinContent .joinTitle{ font-size:14px; padding:12px 20px; margin:0 0 10px 0; line-height: 140%; color: #999;}
+.joinContent .joinSubTitle{ font-size:12px; margin:0 0 10px 0; line-height: 140%; color: #999;}
 .joinContent .joinAgreement{ position:relative; height:140px; line-height:1.5; margin:0 20px 15px 20px; padding:10px; overflow:auto; border:1px solid #ddd; background:#fbfbfb; color:#767676; -moz-border-radius:3px; -webkit-border-radius:3px;}
 .joinContent .checkAgreement{ margin:0 20px 15px 20px; color:#333;}
 .joinContent .joinButtonArea{ margin:0 20px; *zoom:1; text-align:center; }
