@@ -30,5 +30,29 @@
             $this->setTemplatePath($this->module_path.'tpl');
             $this->setTemplateFile('index');
 		}
+		
+		/**
+         * @brief 특정 스킨에 속한 컬러셋 목록을 return
+         **/
+        function getJoin_extendAdminColorset() {
+            $skin = Context::get('skin');
+
+            if(!$skin) $tpl = "";
+            else {
+                $oModuleModel = &getModel('module');
+                $skin_info = $oModuleModel->loadSkinInfo($this->module_path, $skin);
+                Context::set('skin_info', $skin_info);
+
+                $oModuleModel = &getModel('module');
+                $config = $oModuleModel->getModuleConfig('join_extend');
+                if(!$config->colorset) $config->colorset = "white";
+                Context::set('config', $config);
+
+                $oTemplate = &TemplateHandler::getInstance();
+                $tpl = $oTemplate->compile($this->module_path.'tpl', 'colorset_list');
+            }
+
+            $this->add('tpl', $tpl);
+        }
 	}
 ?>
