@@ -113,7 +113,11 @@
 				Context::loadLang(_XE_PATH_.'modules/join_extend/lang');
 				$oMemberController->deleteMember($logged_info->member_srl);
 				$output = new Object(-1, 'insert_fail_jumin');
+				return;
 			}
+			
+			unset($_SESSION['join_extend_authed_act']);
+			unset($_SESSION['join_extend_jumin']);
 
 		// 회원 정보 수정 화면 주민번호 사용시 이름 변경 금지!
 		}else if (Context::get('act') == 'dispMemberModifyInfo'){
@@ -131,14 +135,6 @@
 					Context::addJsFile('./modules/join_extend/tpl/js/fix_name.js',false);
 					$_SESSION['join_extend_jumin']['name'] = $member_info->user_name;
 				}
-
-		// 회원가입 벗어나면 주민번호 정보를 필히 삭제
-		// 09.10.10. 핸드폰 인증 문제 해결
-		}else if (( strpos(Context::get('act'), 'procMember') === false ||
-		            in_array(Context::get('act'), array('dispMobilemessageValidation')) ) &&
-		            Context::getResponseMethod() == 'HTML'){
-			unset($_SESSION['join_extend_authed_act']);
-			unset($_SESSION['join_extend_jumin']);
 		}
 	}
 ?>
