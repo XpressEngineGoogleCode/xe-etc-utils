@@ -27,7 +27,7 @@
 	}
 
 	// 현재 화면의 댓글 목록 구하기
-	$pattern = "/<!--BeforeComment\((.*),.*\)-->/U";
+    $pattern = "/<!--BeforeComment\((.*),.*\)-->/U";
 	unset($matches);
 	$res = preg_match_all($pattern, $output, $matches);
 
@@ -42,8 +42,13 @@
 	// new 이미지 적용
 	foreach($oComments as $oComment) {
 		if ($oComment->regdate > $time_check) {
-			$pattern = sprintf('/<!--BeforeComment\(%s,.*\)-->/U', $oComment->comment_srl);
-			$output = preg_replace($pattern, "$0 $new_image", $output);
+		    if ($addon_info->position) {
+    			$pattern = sprintf('/<!--AfterComment\(%s,.*\)-->/U', $oComment->comment_srl);
+	    		$output = preg_replace($pattern, "$new_image $0", $output);
+	    	}else{
+    			$pattern = sprintf('/<!--BeforeComment\(%s,.*\)-->/U', $oComment->comment_srl);
+	    		$output = preg_replace($pattern, "$0 $new_image", $output);
+	        }
 		}
 	}
 ?>
