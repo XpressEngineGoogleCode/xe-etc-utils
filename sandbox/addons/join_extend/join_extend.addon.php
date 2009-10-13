@@ -83,6 +83,13 @@
 					                                $_SESSION['join_extend_jumin']['sex']));
 				}
 				
+				// 주민번호를 입력받고 나이 정보가 있으면 자동으로 입력한다.
+				if ($config->use_jumin == "Y" && !empty($config->age_var_name)){
+				    Context::addHtmlHeader(sprintf('<script type="text/javascript"> var age_var_name ="%s"; var age = "%s"; </script>', 
+				                                    $config->age_var_name,
+					                                $_SESSION['join_extend_jumin']['age']));
+				}
+				
 				// 주민번호를 입력받으면 이름을 고정시킨다.
 				if ($config->use_jumin == "Y") {
 					Context::addHtmlHeader(sprintf('<script type="text/javascript"> var user_name ="%s"; var birthday = "%s"; var birthday2 = "%s"; </script>', 
