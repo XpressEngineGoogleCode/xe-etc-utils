@@ -46,7 +46,10 @@
     $lang->sex_restrictions = '성별제한';
     $lang->sex_restrictions_m = '남성만 가입할 수 있습니다.';
     $lang->sex_restrictions_w = '여성만 가입할 수 있습니다.';
-    
+
+    $lang->age_var_name = '나이 확장 변수명';
+    $lang->about_age_var_name = '주민등록번호를 이용하여 나이정보를 자동으로 입력합니다. <br/>회원 관리 - 가입 폼 관리에 추가된 나이 정보의 <strong>입력항목 이름</strong>을 입력하세요. <br/>사용하지 않을 경우 비워두세요.';
+        
 	$lang->use_age_restrictions = '나이제한 사용';
 	$lang->about_use_age_restrictions = '아래 설정된 나이 이상만 가입을 받습니다.';
 	$lang->age_restrictions = '나이제한';

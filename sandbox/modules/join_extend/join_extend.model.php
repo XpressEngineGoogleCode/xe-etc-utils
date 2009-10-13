@@ -154,6 +154,15 @@
                 else                                        $sex = $config->woman_value;
                 $_SESSION['join_extend_jumin']['sex'] = $sex;
             }
+            
+            // 나이 정보
+            if (!empty($config->age_var_name)) {
+                $birthYear = (2 >= intVal(substr($jumin2, 0, 1))) ? 1900 : 2000; 
+                $birthYear += intVal(substr($jumin1, 0, 2));
+                $now = intVal(date('Y'));
+                $age = $now - $birthYear + 1;
+                $_SESSION['join_extend_jumin']['age'] = $age;
+            }
         }
     }
 ?>
