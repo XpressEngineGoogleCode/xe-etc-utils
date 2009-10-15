@@ -12,22 +12,9 @@
     if ($called_position == 'after_module_proc' && strpos($this->act, 'procMenuAdmin') !== false) {
         $oMenuNewAdminController = &getAdminController('zzz_menu_new');
         $menu_srl = Context::get('menu_srl');
-        if (!menu_srl)  return;
+        if (!$menu_srl)  return;
         
         // 새글 표시도 재생성!
         $oMenuNewAdminController->procZzz_menu_newAdminRemakeCache($menu_srl);
-    }
-    
-    // 매 접속시 캐시를 이용 new 갱신
-    if ($called_position == 'after_module_proc') {
-        // 한번만 실행하기 위한 글로벌 flag
-        global $menu_new_run;
-        
-        if ($menu_new_run)  return;
-
-        $oMenuNewController = &getController('zzz_menu_new');
-        $oMenuNewController->procUpdateNewUseCache();
-        
-        $menu_new_run = true;
     }
 ?>
