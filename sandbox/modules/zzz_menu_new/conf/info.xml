@@ -2,7 +2,7 @@
 <module version="0.2">
     <title xml:lang="ko">메뉴에 새글 표시</title>
     <description xml:lang="ko">새 글/댓글이 있을 경우 메뉴에 표시해 줍니다.</description>
-    <version>0.1.1</version>
+    <version>0.1.0</version>
     <date>2009-10-16</date>
     <category>construction</category>
 
