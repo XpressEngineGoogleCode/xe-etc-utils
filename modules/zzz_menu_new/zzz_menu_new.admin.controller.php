@@ -23,22 +23,16 @@
             $oModuleController = &getController('module');
             $output = $oModuleController->insertModuleConfig('zzz_menu_new',$config);
             if (!$output->toBool()) $output;
-            
-            // 캐시 재생성
-            $this->procZzz_menu_newAdminRemakeCacheAll();
         }
 
         /**
          * @brief 캐시파일 재생성
          **/
         function procZzz_menu_newAdminRemakeCacheAll() {
-            // 캐시 디렉토리
-            $menu_cache_path = _XE_PATH_.'files/cache/menu';
-            $menu_new_cache_path = _XE_PATH_.'files/cache/menu_new';
-            FileHandler::removeFilesInDir($menu_new_cache_path);
+            FileHandler::removeFilesInDir($this->menu_new_cache_path);
             
             // 메뉴 캐시를 돌며 각 메뉴의 모듈 새글 체크
-            $file_list = FileHandler::readDir($menu_cache_path);
+            $file_list = FileHandler::readDir($this->menu_cache_path);
             if (!count($file_list)) return new Object(-1, 'error');
             
             foreach($file_list as $file) {
@@ -63,6 +57,10 @@
             
             // 각 메뉴 아이템의 캐시 재생성
             $this->_procZzz_menu_newAdminRemakeCache($menu->list, $menu_info->site_srl);
+            
+            // 해당 메뉴 캐시에 include 문 추가
+            $oMenuNewController = &getController('zzz_menu_new');
+            $oMenuNewController->procMenuInclude($menu_srl);
         }
         
         /**
@@ -83,7 +81,7 @@
                 // 해당 모듈의 캐시 재생성
                 $obj->module_srl = $module_info->module_srl;
                 $oMenuNewController = &getController('zzz_menu_new');
-                $oMenuNewController->procUpdateNew($obj, true);
+                $oMenuNewController->procUpdateCache($obj, $site_srl);
             }
         }
     }

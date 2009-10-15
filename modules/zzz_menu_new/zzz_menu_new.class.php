@@ -7,6 +7,11 @@
 
     class zzz_menu_new extends ModuleObject {
         
+        function zzz_menu_new() {
+            $this->menu_cache_path = _XE_PATH_.'files/cache/menu';
+            $this->menu_new_cache_path = _XE_PATH_.'files/cache/menu_new';
+        }
+        
         /**
          * @brief 설치시 추가 작업이 필요할시 구현
          **/
