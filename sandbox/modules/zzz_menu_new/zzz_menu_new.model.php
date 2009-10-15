@@ -28,6 +28,16 @@
             if (!$config->duration_new) $config->duration_new = 24;
             if (!$config->up_new)       $config->up_new = 'N';
             if (!$config->text_new)     $config->text_new = 'N';
+            
+            $config->time_check = time() - intVal($config->duration_new) * 60 * 60;
+            
+            // new 이미지 태그
+            if (!empty($config->new_image)) {
+                $config->new_image_tag = sprintf('<img src="%s" alt="new" title="new" style="margin-left:2px;" class="addon_menu_new"/>', $config->new_image);
+            }else{
+                $path = sprintf('%s%s',getUrl(), 'modules/document/tpl/icons/');
+                $config->new_image_tag = sprintf('<img src="%snew.gif" alt="new" title="new" style="margin-left:2px;" class="addon_menu_new"/>', $path);
+            }
 
             return $config;
         }
@@ -39,13 +49,20 @@
             $config = $this->getConfig();
             
             if (!empty($config->new_image)) {
-                $new_image = sprintf('<img src="%s" alt="new" title="new" style="margin-left:2px;" class="addon_menu_new"/>', $addon_info->new_image);
+                $new_image = sprintf('<img src="%s" alt="new" title="new" style="margin-left:2px;" class="addon_menu_new"/>', $config->new_image);
             }else{
                 $path = sprintf('%s%s',getUrl(), 'modules/document/tpl/icons/');
                 $new_image = sprintf('<img src="%snew.gif" alt="new" title="new" style="margin-left:2px;" class="addon_menu_new"/>', $path);
             }
             
             return $new_image;
+        }
+        
+        /**
+         * @brief url에서 mid 추출
+         **/
+        function getMid($url) {
+            return $url;
         }
     }
 ?>
