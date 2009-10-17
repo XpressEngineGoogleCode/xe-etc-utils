@@ -150,6 +150,30 @@
             $cache = sprintf("%s/%d.%s_doc.php", $this->menu_new_cache_path, $site_srl, $mid);
             $buff = sprintf('<? $regdate=%d; ?>', $regdate);
             FileHandler::writeFile($cache, $buff);
+
+            // 플래닛
+            if ($module_info->module == 'planet') {
+                // 플래닛 mid
+                $oPlanetModel = &getModel('planet');
+                $planet_config = $oPlanetModel->getPlanetConfig();
+                $planet_mid = $planet_config->mid;
+
+                // 플래닛의 마지막 글을 구한다.
+                $args->order = 'asc';
+                $output = executeQuery('planet.getPlanetNewestContentList', $args);
+                if (!$output->toBool()) return;
+
+                if (count($output->data)){ foreach($output->data as $doc){
+                    $regdate = ztime($doc->regdate);
+                }}
+                
+                // planet에 대한 캐시 생성
+                if (!empty($planet_mid)) {
+                    $cache = sprintf("%s/%d.%s_doc.php", $this->menu_new_cache_path, $site_srl, $planet_mid);
+                    $buff = sprintf('<? $regdate=%d; ?>', $regdate);
+                    FileHandler::writeFile($cache, $buff);
+                }
+            }
             
             // 마지막 댓글의 시간을 구한다.
             $output = executeQuery('comment.getNewestCommentList', $args);
