@@ -21,7 +21,6 @@
             
             // module Controller 객체 생성하여 입력
             $oModuleController = &getController('module');
-            //$output = $oModuleController->insertModuleConfig('zzz_menu_new',$config);
             $site_info = Context::get('site_module_info');
             $output = $oModuleController->insertModulePartConfig('zzz_menu_new', $site_info->site_srl, $config);
             if (!$output->toBool()) $output;

@@ -66,7 +66,6 @@
         function procNew(&$menu_list) {
             $oMenuNewModel = &getModel('zzz_menu_new');
             $config = $oMenuNewModel->getConfig();
-            debugPrint($config);
             $site_info = Context::get('site_module_info');
 
             $this->_procNew($menu_list, $config, $site_info->site_srl);
@@ -90,20 +89,20 @@
                 // mid 구하기
                 $oMenuNewModel = &getModel('zzz_menu_new');
                 $mid = $oMenuNewModel->getMid($menu_item['url']);
-                if (empty($mid))    continue;
                 
-                // 현재 메뉴의 마지막 글 시간
-                $cache = sprintf("%s/%d.%s_doc.php", $this->menu_new_cache_path, $site_srl, $mid);
-                @include $cache;
-
-                // 현재 메뉴의 마지막 댓글 시간
-                if ($config->use_comment == 'Y') {
-                    $cache = sprintf("%s/%d.%s_com.php", $this->menu_new_cache_path, $site_srl, $mid);
+                if (!empty($mid)) {
+                    // 현재 메뉴의 마지막 글 시간
+                    $cache = sprintf("%s/%d.%s_doc.php", $this->menu_new_cache_path, $site_srl, $mid);
                     @include $cache;
-
-                    if ($regdate_com > $regdate)    $regdate = $regdate_com;
+    
+                    // 현재 메뉴의 마지막 댓글 시간
+                    if ($config->use_comment == 'Y') {
+                        $cache = sprintf("%s/%d.%s_com.php", $this->menu_new_cache_path, $site_srl, $mid);
+                        @include $cache;
+    
+                        if ($regdate_com > $regdate)    $regdate = $regdate_com;
+                    }
                 }
-                
                 // 설정된 시간 이내 새글/댓글이 있으면 new 이미지 추가
                 if (($config->up_new == 'Y' && $is_sub_new) || intVal($config->time_check) < intVal($regdate)) {
                     if (!empty($menu_item['link']))   $menu_list[$menu_srl]['link'] .= $config->new_image_tag;

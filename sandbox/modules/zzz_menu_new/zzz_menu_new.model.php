@@ -20,7 +20,6 @@
             // 설정 정보를 받아옴 (module model 객체를 이용)
             $oModuleModel = &getModel('module');
             $site_info = Context::get('site_module_info');
-//            $config = $oModuleModel->getModuleConfig('zzz_menu_new');
             $config = $oModuleModel->getModulePartConfig('zzz_menu_new', $site_info->site_srl);
 
             // 기본값

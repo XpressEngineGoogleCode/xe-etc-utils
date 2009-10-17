@@ -20,7 +20,7 @@
     $lang->about_up_new = '새 게시물이 있는 메뉴의 상위 메뉴에도 모두 new 표시합니다.';
     
     $lang->text_new = 'text 변수에도 이미지 표시';
-    $lang->about_text_new = '메뉴의 text 변수에도 이미지를 표시합니다.';
+    $lang->about_text_new = '메뉴의 text 변수에도 이미지를 표시합니다.<br/>XE Official Ver.2 레이아웃, CafeXE 기본 레이아웃, 메뉴 표시 위젯(Navigator)의 기본 스킨은 이 옵션을 사용하셔야 새글 표시가 나타납니다.';
     
     $lang->new_image = 'new 이미지 주소';
     $lang->about_new_image = 'new 이미지 주소를 입력하세요. 비워두면 기본 이미지를 이용합니다.';
