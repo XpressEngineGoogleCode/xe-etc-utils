@@ -66,6 +66,7 @@
         function procNew(&$menu_list) {
             $oMenuNewModel = &getModel('zzz_menu_new');
             $config = $oMenuNewModel->getConfig();
+            debugPrint($config);
             $site_info = Context::get('site_module_info');
 
             $this->_procNew($menu_list, $config, $site_info->site_srl);
