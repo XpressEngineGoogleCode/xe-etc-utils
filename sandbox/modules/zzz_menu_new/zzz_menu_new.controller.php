@@ -79,6 +79,8 @@
             
             $is_new = false;
             foreach($menu_list as $menu_srl => $menu_item) {
+                $regdate = 0;
+                
                 // 하위 메뉴가 있으면 먼저 처리
                 $is_sub_new = false;
                 if (count($menu_item['list']))
