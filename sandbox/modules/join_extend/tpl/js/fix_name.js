@@ -16,6 +16,15 @@ jQuery(function($) {
     }catch(e){}
     
     try{
-        jQuery("input[name="+age_var_name+"]").val(age).attr("disabled", "disabled");
+        jQuery("input[name="+age_var_name+"]").attr("disabled", "disabled");
+        jQuery("input[name="+age_var_name+"]").val(age);
+    }catch(e){}
+
+    try{
+        jQuery("input[name="+recoid_var_name+"]").attr("disabled", "disabled");
+    }catch(e){}
+
+    try{
+        jQuery("input[name="+recoid_var_name2+"]").val(recoid);
     }catch(e){}
 });

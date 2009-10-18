@@ -43,7 +43,7 @@
     $lang->about_man_value = '남성에 대해 설정한 값을 정확히 동일하게 입력하세요.';
     $lang->woman_value = '여성 값';
     $lang->about_woman_value = '여성에 대해 설정한 값을 정확히 동일하게 입력하세요.';
-    $lang->sex_restrictions = '성별제한';
+    $lang->sex_restrictions = '%s성만 가입할 수 있습니다.';
     $lang->sex_restrictions_m = '남성만 가입할 수 있습니다.';
     $lang->sex_restrictions_w = '여성만 가입할 수 있습니다.';
 
@@ -53,8 +53,17 @@
 	$lang->use_age_restrictions = '나이제한 사용';
 	$lang->about_use_age_restrictions = '아래 설정된 나이 이상만 가입을 받습니다.';
 	$lang->age_restrictions = '나이제한';
+	$lang->msg_age_restrictions = '만 %d세 이상만 가입할 수 있습니다.';
 	$lang->msg_junior_join = '나이제한 미만 메시지';
 
+    $lang->recoid_var_name = '추천인 ID 확장 변수명';
+    $lang->about_recoid_var_name = '추천인 ID에 포인트를 지급합니다. <br/>회원 관리 - 가입 폼 관리에 추가된 추천인 ID의 <strong>입력항목 이름</strong>을 입력하세요. <br/>사용하지 않을 경우 비워두세요.';
+    $lang->recoid_point = '추천인 포인트';
+    $lang->about_recoid_point = '추천된 회원에게 지급될 포인트입니다.';
+    $lang->joinid_point = '추천 포인트';
+    $lang->about_joinid_point = '추천인 ID을 작성한 회원에게 지급될 포인트입니다.';
+    $lang->point_fail = '추천인 ID를 이용한 포인트 지급에 실패했습니다. 추천인 ID가 존재하지 않을 수 있습니다.';
+    
     $lang->agree_agreement= '이용약관에 동의 합니다.'; 
     $lang->agree_private_agreement= '개인정보취급방침에 동의 합니다.'; 
 	$lang->agree = '동의';

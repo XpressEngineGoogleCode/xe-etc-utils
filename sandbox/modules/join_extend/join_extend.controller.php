@@ -18,18 +18,23 @@
          **/
         function procJoin_extendAgree() {
             $oJoinExtendModel = &getModel('join_extend');
-
+            $config = $oJoinExtendModel->getConfig();
+            
             // 중복 확인
             $result = $oJoinExtendModel->isDuplicate();
             if ($result)    return $this->stop('jumin_exist');
 
             // 성별 확인
             $result = $oJoinExtendModel->isSex();
-            if (!$result)   return $this->stop('sex_restrictions');
+            if (!$result) {
+                return $this->stop(sprintf(Context::getLang('sex_restrictions'), $config->use_sex_restrictions=='M'?Context::getLang('man'):Context::getLang('woman')));
+            }
             
             // 나이제한 확인
             $result = $oJoinExtendModel->isAge();
-            if (!$result)   return $this->stop('age_restrictions');
+            if (!$result) {
+                return $this->stop(sprintf(Context::getLang('msg_age_restrictions'), $config->age_restrictions));
+            }
 
             // 주민번호 확인
             $result = $oJoinExtendModel->isValid();
@@ -68,6 +73,68 @@
             if (!$output->toBool())  return false;
             
             return true;
+        }
+        
+        /**
+         * @brief 추천인 포인트 지급
+         **/
+        function procJoin_extendRecommender($member_srl) {
+            $oJoinExtendModel = &getModel('join_extend');
+            $config = $oJoinExtendModel->getConfig();
+            if (empty($config->recoid_var_name))    return true;
+            
+            // 포인트 컨트롤러
+            $oPointController = &getController('point');
+            
+            // 추천인
+            $recoid = Context::get($config->recoid_var_name);
+            if (empty($recoid)) return true;
+            
+            $oMemberModel = &getModel('member');
+            $recoid_info = $oMemberModel->getMemberInfoByUserID($recoid);
+            if (!$recoid_info)  return false;
+            
+            // 추천인 포인트 지급
+            if (intVal($config->recoid_point)) {
+                $oPointController->setPoint($recoid_info->member_srl, intVal($config->recoid_point), 'add');
+            }
+            
+            // 본인 포인트 지급
+            if (intVal($config->joinid_point)) {
+                $oPointController->setPoint($member_srl, intVal($config->joinid_point), 'add');
+            }
+            
+            return true;
+        }
+
+        /**
+         * @brief 추천인 포인트 지급
+         **/
+        function triggerInsertMember(&$obj) {
+            $member_srl = $obj->member_srl;
+			$oMemberController = &getController('member');
+			
+			$res = $this->procJoin_extendJuminInsert($member_srl);
+			
+			// 주민번호 입력에 실패하면 회원가입을 취소
+			if (!$res){
+				$oMemberController->deleteMember($member_srl);
+				return new Object(-1, 'insert_fail_jumin');
+			}
+			
+			// 추천인 포인트 지급
+			$res = $this->procJoin_extendRecommender($member_srl);
+			
+			// 포인트 지급에 실패하면 회원가입을 취소
+			if (!$res){
+				$oMemberController->deleteMember($member_srl);
+				return new Object(-1, 'point_fail');
+			}
+			
+			unset($_SESSION['join_extend_authed_act']);
+			unset($_SESSION['join_extend_jumin']);
+			
+			return new Object();
         }
     }
 ?>
