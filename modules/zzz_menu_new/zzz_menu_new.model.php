@@ -19,8 +19,8 @@
         function getConfig() {
             // 설정 정보를 받아옴 (module model 객체를 이용)
             $oModuleModel = &getModel('module');
-
-            $config = $oModuleModel->getModuleConfig('zzz_menu_new');
+            $site_info = Context::get('site_module_info');
+            $config = $oModuleModel->getModulePartConfig('zzz_menu_new', $site_info->site_srl);
 
             // 기본값
             if (!$config->use_menu_new)  $config->use_menu_new = 'Y';
@@ -33,10 +33,10 @@
             
             // new 이미지 태그
             if (!empty($config->new_image)) {
-                $config->new_image_tag = sprintf('<img src="%s" alt="new" title="new" style="margin-left:2px;" class="addon_menu_new"/>', $config->new_image);
+                $config->new_image_tag = sprintf('<img src="%s" alt="new" title="new" style="margin-left:2px;vertical-align: middle;" class="addon_menu_new"/>', $config->new_image);
             }else{
                 $path = sprintf('%s%s',getUrl(), 'modules/document/tpl/icons/');
-                $config->new_image_tag = sprintf('<img src="%snew.gif" alt="new" title="new" style="margin-left:2px;" class="addon_menu_new"/>', $path);
+                $config->new_image_tag = sprintf('<img src="%snew.gif" alt="new" title="new" style="margin-left:2px;vertical-align: middle;" class="addon_menu_new"/>', $path);
             }
 
             return $config;
@@ -49,10 +49,10 @@
             $config = $this->getConfig();
             
             if (!empty($config->new_image)) {
-                $new_image = sprintf('<img src="%s" alt="new" title="new" style="margin-left:2px;" class="addon_menu_new"/>', $config->new_image);
+                $new_image = sprintf('<img src="%s" alt="new" title="new" style="margin-left:2px;vertical-align: middle;" class="addon_menu_new"/>', $config->new_image);
             }else{
                 $path = sprintf('%s%s',getUrl(), 'modules/document/tpl/icons/');
-                $new_image = sprintf('<img src="%snew.gif" alt="new" title="new" style="margin-left:2px;" class="addon_menu_new"/>', $path);
+                $new_image = sprintf('<img src="%snew.gif" alt="new" title="new" style="margin-left:2px;vertical-align: middle;" class="addon_menu_new"/>', $path);
             }
             
             return $new_image;
@@ -62,6 +62,26 @@
          * @brief url에서 mid 추출
          **/
         function getMid($url) {
+            // url 파싱
+            $url_info = @parse_url($url);
+            if (!$url_info) return false;
+
+            // 내부 링크인지 확인
+            if ($url_info['host'] && $url_info['host'] != $_SERVER[HTTP_HOST])   return false;
+
+            // url 쿼리에 mid가 있으면 반환
+            parse_str($url_info['query']);
+            if ($mid)   return $mid;
+            
+            // rewrite 형식
+            $pattern = '/^' .str_replace('/', '\/', getScriptPath()). '([a-zA-Z0-9_]+)\/?$/';
+            preg_match($pattern, $url_info['path'], $matches);
+            if ($matches[1])    return $matches[1];
+            
+            $pattern = '/\.\/([a-zA-Z0-9_]+)\/?$/';
+            preg_match($pattern, $url_info['path'], $matches);
+            if ($matches[1])    return $matches[1];
+            
             return $url;
         }
     }

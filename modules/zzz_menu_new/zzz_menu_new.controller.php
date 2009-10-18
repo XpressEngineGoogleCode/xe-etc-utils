@@ -79,6 +79,8 @@
             
             $is_new = false;
             foreach($menu_list as $menu_srl => $menu_item) {
+                $regdate = 0;
+                
                 // 하위 메뉴가 있으면 먼저 처리
                 $is_sub_new = false;
                 if (count($menu_item['list']))
@@ -87,20 +89,20 @@
                 // mid 구하기
                 $oMenuNewModel = &getModel('zzz_menu_new');
                 $mid = $oMenuNewModel->getMid($menu_item['url']);
-                if (empty($mid))    continue;
                 
-                // 현재 메뉴의 마지막 글 시간
-                $cache = sprintf("%s/%d.%s_doc.php", $this->menu_new_cache_path, $site_srl, $mid);
-                @include $cache;
-
-                // 현재 메뉴의 마지막 댓글 시간
-                if ($config->use_comment == 'Y') {
-                    $cache = sprintf("%s/%d.%s_com.php", $this->menu_new_cache_path, $site_srl, $mid);
+                if (!empty($mid)) {
+                    // 현재 메뉴의 마지막 글 시간
+                    $cache = sprintf("%s/%d.%s_doc.php", $this->menu_new_cache_path, $site_srl, $mid);
                     @include $cache;
-
-                    if ($regdate_com > $regdate)    $regdate = $regdate_com;
+    
+                    // 현재 메뉴의 마지막 댓글 시간
+                    if ($config->use_comment == 'Y') {
+                        $cache = sprintf("%s/%d.%s_com.php", $this->menu_new_cache_path, $site_srl, $mid);
+                        @include $cache;
+    
+                        if ($regdate_com > $regdate)    $regdate = $regdate_com;
+                    }
                 }
-                
                 // 설정된 시간 이내 새글/댓글이 있으면 new 이미지 추가
                 if (($config->up_new == 'Y' && $is_sub_new) || intVal($config->time_check) < intVal($regdate)) {
                     if (!empty($menu_item['link']))   $menu_list[$menu_srl]['link'] .= $config->new_image_tag;
@@ -148,6 +150,30 @@
             $cache = sprintf("%s/%d.%s_doc.php", $this->menu_new_cache_path, $site_srl, $mid);
             $buff = sprintf('<? $regdate=%d; ?>', $regdate);
             FileHandler::writeFile($cache, $buff);
+
+            // 플래닛
+            if ($module_info->module == 'planet') {
+                // 플래닛 mid
+                $oPlanetModel = &getModel('planet');
+                $planet_config = $oPlanetModel->getPlanetConfig();
+                $planet_mid = $planet_config->mid;
+
+                // 플래닛의 마지막 글을 구한다.
+                $args->order = 'asc';
+                $output = executeQuery('planet.getPlanetNewestContentList', $args);
+                if (!$output->toBool()) return;
+
+                if (count($output->data)){ foreach($output->data as $doc){
+                    $regdate = ztime($doc->regdate);
+                }}
+                
+                // planet에 대한 캐시 생성
+                if (!empty($planet_mid)) {
+                    $cache = sprintf("%s/%d.%s_doc.php", $this->menu_new_cache_path, $site_srl, $planet_mid);
+                    $buff = sprintf('<? $regdate=%d; ?>', $regdate);
+                    FileHandler::writeFile($cache, $buff);
+                }
+            }
             
             // 마지막 댓글의 시간을 구한다.
             $output = executeQuery('comment.getNewestCommentList', $args);
