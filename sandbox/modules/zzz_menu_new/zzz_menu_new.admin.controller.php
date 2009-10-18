@@ -76,7 +76,8 @@
                 
                 // 해당 메뉴의 모듈 정보
                 $oModuleModel = &getModel('module');
-                $module_info = $oModuleModel->getModuleInfoByMid($menu_item[url], $site_srl);
+                $oMenuNewModel = &getModel('zzz_menu_new');
+                $module_info = $oModuleModel->getModuleInfoByMid($oMenuNewModel->getMid($menu_item[url]), $site_srl);
                 if (!$module_info->module_srl)  return;
                 
                 // 해당 모듈의 캐시 재생성

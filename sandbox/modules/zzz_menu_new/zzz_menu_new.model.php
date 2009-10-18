@@ -65,13 +65,22 @@
             // url 파싱
             $url_info = @parse_url($url);
             if (!$url_info) return false;
-            
+
             // 내부 링크인지 확인
-            if ($url_inf['host'] && $url_info['host'] != $_SERVER[HTTP_HOST])   return false;
-            
+            if ($url_info['host'] && $url_info['host'] != $_SERVER[HTTP_HOST])   return false;
+
             // url 쿼리에 mid가 있으면 반환
             parse_str($url_info['query']);
             if ($mid)   return $mid;
+            
+            // rewrite 형식
+            $pattern = '/^' .str_replace('/', '\/', getScriptPath()). '([a-zA-Z0-9_]+)\/?$/';
+            preg_match($pattern, $url_info['path'], $matches);
+            if ($matches[1])    return $matches[1];
+            
+            $pattern = '/\.\/([a-zA-Z0-9_]+)\/?$/';
+            preg_match($pattern, $url_info['path'], $matches);
+            if ($matches[1])    return $matches[1];
             
             return $url;
         }
