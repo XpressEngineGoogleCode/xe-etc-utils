@@ -16,6 +16,10 @@
 			$oDB = &DB::getInstance();
 			$oDB->addColumn('member','jumin','varchar',32,'',true);
 			
+			// 회원가입 트리거 추가
+			$oModuleController = &getController('module');
+            $oModuleController->insertTrigger('member.insertMember', 'join_extend', 'controller', 'triggerInsertMember', 'after');
+            
 			return new Object();
 		}
 
@@ -29,6 +33,9 @@
 			// jumin colmn이 있나?
 			if(!$oDB->isColumnExists('member', 'jumin')) return true;
 
+            // 트리거 체크
+            if(!$oModuleModel->getTrigger('member.insertMember', 'join_extend', 'controller', 'triggerInsertMember', 'after'))   return true;
+            
 			return false;
 		}
 
@@ -45,6 +52,10 @@
 				$oDB->addColumn('member','jumin','varchar',32,'',true);
 			}
 
+            // 트리거 추가
+            if(!$oModuleModel->getTrigger('member.insertMember', 'join_extend', 'controller', 'triggerInsertMember', 'after'))
+                $oModuleController->insertTrigger('member.insertMember', 'join_extend', 'controller', 'triggerInsertMember', 'after');
+                
 			return new Object(0, 'success_updated');
 		}
 
