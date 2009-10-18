@@ -21,7 +21,8 @@
             
             // module Controller 객체 생성하여 입력
             $oModuleController = &getController('module');
-            $output = $oModuleController->insertModuleConfig('zzz_menu_new',$config);
+            $site_info = Context::get('site_module_info');
+            $output = $oModuleController->insertModulePartConfig('zzz_menu_new', $site_info->site_srl, $config);
             if (!$output->toBool()) $output;
         }
 
@@ -75,7 +76,8 @@
                 
                 // 해당 메뉴의 모듈 정보
                 $oModuleModel = &getModel('module');
-                $module_info = $oModuleModel->getModuleInfoByMid($menu_item[url], $site_srl);
+                $oMenuNewModel = &getModel('zzz_menu_new');
+                $module_info = $oModuleModel->getModuleInfoByMid($oMenuNewModel->getMid($menu_item[url]), $site_srl);
                 if (!$module_info->module_srl)  return;
                 
                 // 해당 모듈의 캐시 재생성
