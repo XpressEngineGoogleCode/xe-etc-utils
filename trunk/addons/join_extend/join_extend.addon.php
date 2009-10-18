@@ -24,7 +24,17 @@
 			if ($config->use_jumin == "Y") {
 				Context::set('user_name', $_SESSION['join_extend_jumin']['name']);
 			}
+			
+			// 혹시나 있을 나이 변경에 대비
+			if (!empty($config->age_var_name)) {
+				Context::set($config->age_var_name, $_SESSION['join_extend_jumin']['age']);
+			}
 
+			// 혹시나 있을 성별 변경에 대비
+			if (!empty($config->sex_var_name)) {
+				Context::set($config->sex_var_name, $_SESSION['join_extend_jumin']['sex']);
+			}
+			
 		// 회원 정보 수정 시
 		}else if (Context::get('act') == 'procMemberModifyInfo') {
 			// 모듈 옵션
@@ -34,6 +44,16 @@
 			// 혹시나 있을 이름 변경에 대비
 			if ($config->use_jumin == "Y") {
 				Context::set('user_name', $_SESSION['join_extend_jumin']['name']);
+			}
+			
+			// 혹시나 있을 나이 변경에 대비
+			if (!empty($config->age_var_name)) {
+				Context::set($config->age_var_name, $_SESSION['join_extend_jumin']['age']);
+			}
+
+			// 혹시나 있을 성별 변경에 대비
+			if (!empty($config->sex_var_name)) {
+				Context::set($config->sex_var_name, $_SESSION['join_extend_jumin']['sex']);
 			}
 		}
 
@@ -76,11 +96,25 @@
 				$oMJExtendModel = &getModel('join_extend');
 				$config = $oMJExtendModel->getConfig();
 
+                // 추천인 아이디
+                if (!empty($config->recoid_var_name) && Context::get('recoid')) {
+                    Context::addHtmlHeader(sprintf('<script type="text/javascript"> var recoid_var_name2 ="%s"; var recoid = "%s"; </script>', 
+                                                    $config->recoid_var_name,
+					                                Context::get('recoid')));
+                }
+                
                 // 주민번호를 입력받고 성별 정보가 있으면 자동으로 선택한다.
 				if ($config->use_jumin == "Y" && !empty($config->sex_var_name)) {
 				    Context::addHtmlHeader(sprintf('<script type="text/javascript"> var sex_var_name ="%s"; var sex = "%s"; </script>', 
 				                                    $config->sex_var_name,
 					                                $_SESSION['join_extend_jumin']['sex']));
+				}
+				
+				// 주민번호를 입력받고 나이 정보가 있으면 자동으로 입력한다.
+				if ($config->use_jumin == "Y" && !empty($config->age_var_name)){
+				    Context::addHtmlHeader(sprintf('<script type="text/javascript"> var age_var_name ="%s"; var age = "%s"; </script>', 
+				                                    $config->age_var_name,
+					                                $_SESSION['join_extend_jumin']['age']));
 				}
 				
 				// 주민번호를 입력받으면 이름을 고정시킨다.
@@ -96,25 +130,6 @@
                 $_SESSION['join_extend_authed_act'] = true;
             }
 
-		// 회원가입 완료 후 주민번호 입력
-		}else if (Context::get('act') == 'procMemberInsert') {
-			// 회원가입이 안 됐으면 생략
-			if(is_a($output, 'Object') || is_subclass_of($output, 'Object')) return;
-
-			$member_srl = $this->get('member_srl');
-
-			$oMJExtendController = &getController('join_extend');
-			$oMemberController = &getController('member');
-			
-			$res = $oMJExtendController->procJoin_extendJuminInsert($member_srl);
-			
-			// 주민번호 입력에 실패하면 회원가입을 취소
-			if (!$res){
-				Context::loadLang(_XE_PATH_.'modules/join_extend/lang');
-				$oMemberController->deleteMember($logged_info->member_srl);
-				$output = new Object(-1, 'insert_fail_jumin');
-			}
-
 		// 회원 정보 수정 화면 주민번호 사용시 이름 변경 금지!
 		}else if (Context::get('act') == 'dispMemberModifyInfo'){
 				// 모듈 옵션
@@ -122,8 +137,18 @@
 				$config = $oMJExtendModel->getConfig();
 				$member_info = Context::get('member_info');
 				
+				if (!empty($config->recoid_var_name)) {
+				    Context::addHtmlHeader(sprintf('<script type="text/javascript"> var recoid_var_name ="%s"; </script>', $config->recoid_var_name));
+				}
+
+				if (!empty($config->age_var_name)) {
+				    Context::addHtmlHeader(sprintf('<script type="text/javascript"> var age_var_name ="%s"; </script>', $config->age_var_name));
+				    $_SESSION['join_extend_jumin']['age'] = $member_info->{$config->age_var_name};
+				}				
+				
 				if ($config->use_jumin == "Y" && !empty($config->sex_var_name) && !empty($member_info->{$config->sex_var_name})) {
 				    Context::addHtmlHeader(sprintf('<script type="text/javascript"> var sex_var_name ="%s"; </script>', $config->sex_var_name));
+				    $_SESSION['join_extend_jumin']['sex'] = $member_info->{$config->sex_var_name};
 				}
 				
 				if ($config->use_jumin == "Y") {
@@ -131,14 +156,23 @@
 					Context::addJsFile('./modules/join_extend/tpl/js/fix_name.js',false);
 					$_SESSION['join_extend_jumin']['name'] = $member_info->user_name;
 				}
-
-		// 회원가입 벗어나면 주민번호 정보를 필히 삭제
-		// 09.10.10. 핸드폰 인증 문제 해결
-		}else if (( strpos(Context::get('act'), 'procMember') === false ||
-		            in_array(Context::get('act'), array('dispMobilemessageValidation')) ) &&
-		            Context::getResponseMethod() == 'HTML'){
-			unset($_SESSION['join_extend_authed_act']);
-			unset($_SESSION['join_extend_jumin']);
 		}
+	
+	// 회원가입 폼, 추천인 아이디 사용시 설명 문구 변경
+	}else if ($called_position == 'before_display_content' && Context::getResponseMethod() == 'HTML' && in_array(Context::get('act'), array("dispMemberSignUpForm", "dispMemberModifyInfo"))) {
+	    $oMJExtendModel = &getModel('join_extend');
+	    $config = $oMJExtendModel->getConfig();
+	    if (empty($config->recoid_var_name))    return;
+	    
+	    // 추천인 포인트
+	    $output = str_replace('$recoid_point', intVal($config->recoid_point), $output);
+	    
+	    // 추천 포인트
+	    $output = str_replace('$joinid_point', intVal($config->joinid_point), $output);
+	    
+	    // 포인트 단위
+	    $oModuleModel = &getModel('module');
+        $point_config = $oModuleModel->getModuleConfig('point');
+	    $output = str_replace('$point_name', $point_config->point_name, $output);
 	}
 ?>
