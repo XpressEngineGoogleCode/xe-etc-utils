@@ -16,45 +16,17 @@
 				$this->error = "msg_not_permitted";
 			}
 
-			// 모듈 옵션
+            // 세션 체크
 			$oMJExtendModel = &getModel('join_extend');
-			$config = $oMJExtendModel->getConfig();
-
-			// 혹시나 있을 이름 변경에 대비
-			if ($config->use_jumin == "Y") {
-				Context::set('user_name', $_SESSION['join_extend_jumin']['name']);
-			}
-			
-			// 혹시나 있을 나이 변경에 대비
-			if (!empty($config->age_var_name)) {
-				Context::set($config->age_var_name, $_SESSION['join_extend_jumin']['age']);
-			}
-
-			// 혹시나 있을 성별 변경에 대비
-			if (!empty($config->sex_var_name)) {
-				Context::set($config->sex_var_name, $_SESSION['join_extend_jumin']['sex']);
-			}
+			$res = $oMJExtendModel->checkSession();
+			if ($res)   $this->error = $res;
 			
 		// 회원 정보 수정 시
 		}else if (Context::get('act') == 'procMemberModifyInfo') {
-			// 모듈 옵션
+            // 세션 체크
 			$oMJExtendModel = &getModel('join_extend');
-			$config = $oMJExtendModel->getConfig();
-
-			// 혹시나 있을 이름 변경에 대비
-			if ($config->use_jumin == "Y") {
-				Context::set('user_name', $_SESSION['join_extend_jumin']['name']);
-			}
-			
-			// 혹시나 있을 나이 변경에 대비
-			if (!empty($config->age_var_name)) {
-				Context::set($config->age_var_name, $_SESSION['join_extend_jumin']['age']);
-			}
-
-			// 혹시나 있을 성별 변경에 대비
-			if (!empty($config->sex_var_name)) {
-				Context::set($config->sex_var_name, $_SESSION['join_extend_jumin']['sex']);
-			}
+			$oMJExtendModel->checkSession();
+			if ($res)   $this->error = $res;
 		}
 
 	} else if($called_position == 'after_module_proc') {
@@ -156,6 +128,7 @@
 					Context::addJsFile('./modules/join_extend/tpl/js/fix_name.js',false);
 					$_SESSION['join_extend_jumin']['name'] = $member_info->user_name;
 				}
+				
 		}
 	
 	// 회원가입 폼, 추천인 아이디 사용시 설명 문구 변경
