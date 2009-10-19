@@ -164,5 +164,33 @@
                 $_SESSION['join_extend_jumin']['age'] = $age;
             }
         }
+        
+        /**
+         * @brief 세션 체크
+         **/
+        function checkSession() {
+            // 모듈 옵션
+			$config = $this->getConfig();
+
+			// 혹시나 있을 이름 변경에 대비
+			if ($config->use_jumin == "Y") {
+			    if (empty($_SESSION['join_extend_jumin']['name']))  return 'session_problem';
+				Context::set('user_name', $_SESSION['join_extend_jumin']['name']);
+			}
+			
+			// 혹시나 있을 나이 변경에 대비
+			if (!empty($config->age_var_name)) {
+			    if (empty($_SESSION['join_extend_jumin']['age']))  return 'session_problem';
+				Context::set($config->age_var_name, $_SESSION['join_extend_jumin']['age']);
+			}
+
+			// 혹시나 있을 성별 변경에 대비
+			if (!empty($config->sex_var_name)) {
+			    if (empty($_SESSION['join_extend_jumin']['sex']))  return 'session_problem';
+				Context::set($config->sex_var_name, $_SESSION['join_extend_jumin']['sex']);
+			}
+			
+			return false;
+        }
     }
 ?>
