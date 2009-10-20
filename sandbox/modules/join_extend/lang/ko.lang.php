@@ -1,8 +1,8 @@
 <?php
     /**
      * @file   ko.lang.php
-     * @author zero (zero@nzeo.com)
-     * @brief  한국어 언어팩 (기본적인 내용만 수록)
+     * @author 난다날아 (sinsy200@gmail.com)
+     * @brief  한국어 언어팩
      **/
 
 	$lang->join_extend = '회원가입확장';

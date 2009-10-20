@@ -136,5 +136,74 @@
 			
 			return new Object();
         }
+        
+        /**
+         * @brief 메인 홈페이지의 애드온 설정을 모든 가상 사이트에 동기화 시키기 위한 애드온
+         **/
+        function triggerModuleHandlerProc($oModule) {
+            $site_module_info = Context::get('site_module_info');
+
+            // 메인홈페이지에서의 회원가입 확장 애드온 사용 토글에 대한 동작인지 확인
+            if ($oModule->act != 'procAddonAdminToggleActivate' || Context::get('addon') != 'join_extend' || $site_module_info->site_srl != 0)    return new Object();
+            
+            // 활성화 상태 확인
+            $oAddonModel = &getAdminModel('addon');
+            $oAddonAdminController = &getAdminController('addon');
+            $is_active = $oAddonModel->isActivatedAddon('join_extend', 0);
+            
+            // 모든 가상 사이트 목록을 가져온다
+            $output = executeQuery('join_extend.getSiteList');
+            if (!$output->toBool()) return new Object();
+            
+            // 각 가상 사이트를 돌면서 애드온 활성화 상태를 전파
+            if (count($output->data)) {
+                foreach($output->data as $val) {
+                    if (!$val->site_srl) continue;
+                    
+                    // 해당 가상 사이트의 회원가입 확장 애드온 상태 검사후 다르면 토글
+                    if ($oAddonModel->isActivatedAddon('join_extend', $val->site_srl) != $is_active) {
+                        if ($is_active) $oAddonAdminController->doActivate('join_extend', $val->site_srl);
+                        else            $oAddonAdminController->doDeactivate('join_extend', $val->site_srl);
+                        $oAddonAdminController->makeCacheFile($val->site_srl);
+                    }
+                }
+            }
+            
+            return new Object();
+        }
+        
+        /**
+         * @brief 각 카페에서 개별적으로 애드온 설정을 하지 못하도록 하기 위한 트리거
+         **/
+        function triggerModuleHandlerInit($module_info){
+            $site_module_info = Context::get('site_module_info');
+            
+            // 가상 사이트에서의 화원가입 확장 애드온을 사용 토글에 대한 동작인지 확인
+            if (Context::get('act') == 'procAddonAdminToggleActivate' && Context::get('addon') == 'join_extend' && $site_module_info->site_srl != 0) {
+            
+                // XE에서 xml 반환 시켜주지 않는다...
+                //return new Object(-1, 'msg_not_permitted');
+                
+                // 직접 xml 반환
+                header("Content-Type: text/xml; charset=UTF-8");
+    			header("Expires: Mon, 26 Jul 1997 05:00:00 GMT");
+    			header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT");
+    			header("Cache-Control: no-store, no-cache, must-revalidate");
+    			header("Cache-Control: post-check=0, pre-check=0", false);
+    			header("Pragma: no-cache");
+    			printf("<response>\r\n<error>-1</error>\r\n<message>%s</message>\r\n</response>", Context::getLang('msg_not_permitted'));
+    
+    			Context::close();
+    			exit();
+			}
+			
+			// 가상 사이트에서의 애드온 설정
+			if (Context::get('act') == 'dispAddonAdminSetup' && Context::get('selected_addon') == 'join_extend' && $site_module_info->site_srl != 0) {
+			    return new Object(-1, 'msg_not_permitted');
+			}
+			
+			return new Object();
+			
+        }
     }
 ?>
