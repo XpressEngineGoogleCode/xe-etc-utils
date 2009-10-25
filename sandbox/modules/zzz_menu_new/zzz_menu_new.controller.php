@@ -67,6 +67,7 @@
             $oMenuNewModel = &getModel('zzz_menu_new');
             $config = $oMenuNewModel->getConfig();
             $site_info = Context::get('site_module_info');
+            if ($config->use_menu_new != 'Y')   return;
 
             $this->_procNew($menu_list, $config, $site_info->site_srl);
         }
@@ -185,6 +186,53 @@
             $cache = sprintf("%s/%d.%s_com.php", $this->menu_new_cache_path, $site_srl, $mid);
             $buff = sprintf('<? $regdate_com=%d; ?>', $regdate);
             FileHandler::writeFile($cache, $buff);
+        }
+        
+        /**
+         * @brief 메뉴 캐시 생성시추가 작업
+         **/
+        function triggerModuleHandlerProc(&$oModule) {
+            $target_act = array(
+                                'procHomepageInsertMenuItem', 
+                                'procHomepageDeleteMenuItem', 
+                                'procHomepageMenuItemMove', 
+                                'procMenuAdminInsertItem', 
+                                'procMenuAdminDeleteItem', 
+                                'procMenuAdminMoveItem', 
+                                'procMenuAdminMakeXmlFile'
+                                );
+                                
+            if (in_array($oModule->act, $target_act)) {
+                $menu_srl = Context::get('menu_srl');
+                if (!$menu_srl)  return new Object();
+        
+                $oMenuNewAdminController = &getAdminController('zzz_menu_new');
+                $oMenuNewAdminController->procZzz_menu_newAdminRemakeCache($menu_srl);
+            }
+            
+            return new Object();
+            
+        }
+        
+        /**
+         * @brief CafeXE 메뉴 설정 화면 추가 작업
+         **/
+        function triggerDisplay(&$output) {
+            if (Context::getResponseMethod() == 'HTML' && Context::get('act') == 'dispHomepageTopMenu') {
+                // 설정 가져오기
+                $oMenuNewModel = &getModel('zzz_menu_new');
+                $config = $oMenuNewModel->getConfig();
+                Context::set('config', $config);
+                
+                // 설정 화면 컴파일
+                $oTemplate = new TemplateHandler();
+                $menu_new = $oTemplate->compile('./modules/zzz_menu_new/tpl', 'menu_new_config.html');
+                
+                // HTML 추가
+                $output = str_replace('</iframe>', "</iframe>$menu_new", $output);
+            }
+            
+            return new Object();
         }
     }
 
