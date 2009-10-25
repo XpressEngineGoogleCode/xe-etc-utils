@@ -91,7 +91,12 @@
                 $oMenuNewModel = &getModel('zzz_menu_new');
                 $mid = $oMenuNewModel->getMid($menu_item['url']);
                 
-                if (!empty($mid)) {
+                // 해당 mid에 새글 표시 사용인지 확인
+                $is_use = in_array($mid, $config->mid_list2);
+                if ($config->select_module_mode == 'out')   $is_use = !$is_use;
+                if (!count($config->mid_list2))    $is_use = true;
+                
+                if (!empty($mid) && $is_use) {
                     // 현재 메뉴의 마지막 글 시간
                     $cache = sprintf("%s/%d.%s_doc.php", $this->menu_new_cache_path, $site_srl, $mid);
                     @include $cache;

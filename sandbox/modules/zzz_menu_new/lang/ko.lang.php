@@ -24,4 +24,10 @@
     
     $lang->new_image = 'new 이미지 주소';
     $lang->about_new_image = 'new 이미지 주소를 입력하세요. 비워두면 기본 이미지를 이용합니다.';
+    
+    $lang->select_module = '모듈 선택';
+    $lang->about_select_module = '아래 선택한 모듈은 새글을 ';
+    $lang->select_module_in = '표시합니다.';
+    $lang->select_module_out = '표시하지 않습니다.';
+    $lang->about_select_module2 = '(하나도 선택하지 않으면 전체 모듈을 대상으로 작동합니다.)';
 ?>
