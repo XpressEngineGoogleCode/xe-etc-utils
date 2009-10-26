@@ -71,4 +71,5 @@
 	$lang->senior = '%d세 미만';
 
 	$lang->msg_check_agree = '약관에 동의가 필요합니다.';
+	$lang->session_problem = '세션 에러! 다시 시도해 보세요!';
 ?>
