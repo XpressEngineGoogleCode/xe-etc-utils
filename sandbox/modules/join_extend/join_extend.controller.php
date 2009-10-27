@@ -108,6 +108,38 @@
         }
 
         /**
+         * @brief 가입 환영 쪽지 발송
+         **/
+        function procSendWelcomeMessage($member_srl) {
+//            $oCommunicationController = &getController('communication');
+//            $oCommunicationController->sendMessage($sender_member_srl, $receiver_srl, $title, $content, false);
+
+            $oJoinExtendModel = &getModel('join_extend');
+            $config = $oJoinExtendModel->getConfig();
+            
+            // 쪽지가 가든 말든 일단 보내고 본다!
+            $receiver_args->message_srl = getNextSequence();
+            $receiver_args->related_srl = 0;
+            $receiver_args->list_order = $receiver_args->message_srl*-1;
+            $receiver_args->sender_srl = $member_srl;
+            $receiver_args->receiver_srl = $member_srl;
+            $receiver_args->message_type = 'R';
+            $receiver_args->title = cut_str($config->welcome, 20);
+            $receiver_args->content = $config->welcome;
+            $receiver_args->readed = 'N';
+            $receiver_args->regdate = date("YmdHis");
+            
+            executeQuery('communication.sendMessage', $receiver_args);
+            
+            // 받는 회원의 쪽지 발송 플래그 생성 (파일로 생성)
+            $flag_path = './files/member_extra_info/new_message_flags/'.getNumberingPath($member_srl);
+            FileHandler::makeDir($flag_path);
+            $flag_file = sprintf('%s%s', $flag_path, $member_srl);
+			$flag_count = FileHandler::readFile($flag_file);
+            FileHandler::writeFile($flag_file, ++$flag_count);
+        }
+        
+        /**
          * @brief 회원 DB 추가 후 트리거
          **/
         function triggerInsertMember(&$obj) {
@@ -134,6 +166,9 @@
 				$oMemberController->deleteMember($member_srl);
 				return new Object(-1, 'point_fail');
 			}
+			
+			// 회원 가입 환영 쪽지
+			$this->procSendWelcomeMessage($member_srl);
 			
 			unset($_SESSION['join_extend_authed_act']);
 			unset($_SESSION['join_extend_jumin']);

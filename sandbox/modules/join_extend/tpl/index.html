@@ -4,6 +4,8 @@
 <h3 class="xeAdmin">{$lang->join_extend} <span class="gray">{$lang->cmd_management}</span></h3>
 
 <form action="./" method="post" onsubmit="return procFilter(this, insert_config)">
+    <input type="hidden" name="welcome" value="{htmlspecialchars($config->welcome)}" />
+    
     <table cellspacing="0" class="rowTable">
     <tr>
         <th scope="col"><div>{$lang->use_join_extend}</div></th>
@@ -157,6 +159,22 @@
         <td>
             <input type="text" name="joinid_point" value="{$config->joinid_point}"  class="inputTypeText w100" />
             <p>{$lang->about_joinid_point}</p>
+        </td>
+    </tr>
+    <tr>
+        <th scope="row"><div>{$lang->use_welcome}</div></th>
+        <td>
+            <select name="use_welcome">
+				<option value="N"<!--@if($config->use_welcome=='N')--> selected="selected"<!--@end-->>{$lang->notuse}</option>
+                <option value="Y"<!--@if($config->use_welcome=='Y')--> selected="selected"<!--@end-->>{$lang->use}</option>
+            </select>
+            <p>{$lang->about_use_welcome}</p>
+        </td>
+    </tr>
+    <tr>
+        <th scope="row"><div>{$lang->welcome}</div></th>
+        <td>
+            {$editor_welcome}
         </td>
     </tr>
     <tr>

@@ -21,6 +21,21 @@
             $config = $oJoinExtendModel->getConfig();
             Context::set('config',$config);
 
+            // 에디터 공통 설정
+            $oEditorModel = &getModel('editor');
+            $option->primary_key_name = 'temp_srl';
+            $option->allow_fileupload = false;
+            $option->enable_autosave = false;
+            $option->enable_default_component = true;
+            $option->enable_component = true;
+            $option->resizable = true;
+            $option->height = 300;
+
+            // 가입 환영 쪽지 에디터
+            $option->content_key_name = 'welcome';
+            $editor_welcome = $oEditorModel->getEditor(0, $option);
+            Context::set('editor_welcome', $editor_welcome);
+            
 			// 스킨 목록을 구해옴
 			$oModuleModel = &getModel('module');
 			$skin_list = $oModuleModel->getSkins($this->module_path);

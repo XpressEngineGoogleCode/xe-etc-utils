@@ -67,6 +67,10 @@
     $lang->about_joinid_point = '추천인 ID을 작성한 회원에게 지급될 포인트입니다.';
     $lang->point_fail = '추천인 ID를 이용한 포인트 지급에 실패했습니다. 추천인 ID가 존재하지 않을 수 있습니다.';
     
+    $lang->welcome = '가입 환영 쪽지 내용';
+    $lang->use_welcome = '가입 환영 쪽지';
+    $lang->about_use_welcome = '가입한 회원에게 환영 쪽지를 보냅니다.';
+    
     $lang->agree_agreement= '이용약관에 동의 합니다.'; 
     $lang->agree_private_agreement= '개인정보취급방침에 동의 합니다.'; 
 	$lang->agree = '동의';
