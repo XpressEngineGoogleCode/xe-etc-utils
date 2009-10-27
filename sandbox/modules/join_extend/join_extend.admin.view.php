@@ -136,6 +136,25 @@
             $this->setTemplateFile('jumin_config');
 		}
 		
+		/**
+		 * @brief 정보입력 설정 화면
+		 **/
+		function dispJoin_extendAdminInputConfig() {
+		    $oJoinExtendModel = &getModel('join_extend');
+            $config = $oJoinExtendModel->getConfig();
+            Context::set('config',$config);
+            
+            // 가입폼의 추가 변수 가져오기
+            $oMemberModel = &getModel('member');
+            $extend_list = $oMemberModel->getJoinFormList();
+            if (!count($extend_list))   $extend_list = array();
+            Context::set('extend_list', $extend_list);
+            
+            // 템플릿 지정
+            $this->setTemplatePath($this->module_path.'tpl');
+            $this->setTemplateFile('input_config');
+		}
+		
 		
 		/**
          * @brief 특정 스킨에 속한 컬러셋 목록을 return

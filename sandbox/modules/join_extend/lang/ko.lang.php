@@ -14,6 +14,13 @@
     $lang->restrictions_config = '가입제한 설정';
     $lang->after_config = '가입후 처리';
     $lang->jumin_config = '주민등록번호 설정';
+
+    $lang->input_config = '정보입력 설정';
+    $lang->about_input_config = '회원 정보 입력 항목의 필수여부, 수정금지, 길이 제한 등을 할 수 있습니다. <br />확장 변수의 필수여부는 [회원관리]-[가입 폼 관리]에서 직접 설정하시기 바랍니다.<br/>확장변수 연동에 설정한 항목은 이곳의 설정과 상관없이 수정이 금지됩니다.';
+    $lang->length = '길이';
+    $lang->great_than = '이상';
+    $lang->less_than = '이하';
+    $lang->no_modification = '수정금지';
     
     $lang->use_join_extend = '회원가입 확장 사용';
     $lang->about_use_join_extend = '회원가입 확장 기능 사용 여부를 선택합니다.';
