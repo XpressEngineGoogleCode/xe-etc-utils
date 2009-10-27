@@ -1,0 +1,16 @@
+<!--%import("js/join_extend_admin.js")-->
+<!--%import("filter/insert_config.xml")-->
+
+<h3 class="xeAdmin">{$lang->join_extend} <span class="gray">{$lang->cmd_management}</span></h3>
+
+<div class="header4">
+    <ul class="localNavigation">
+        <li <!--@if($act=='dispJoin_extendAdminIndex')-->class="on"<!--@end-->><a href="{getUrl('act','dispJoin_extendAdminIndex')}">{$lang->basic_config}</a></li>
+        <li <!--@if($act=='dispJoin_extendAdminJuminConfig')-->class="on"<!--@end-->><a href="{getUrl('act','dispJoin_extendAdminJuminConfig')}">{$lang->jumin_config}</a></li>
+        <li <!--@if($act=='dispJoin_extendAdminAgreeConfig')-->class="on"<!--@end-->><a href="{getUrl('act','dispJoin_extendAdminAgreeConfig')}">{$lang->agree_config}</a></li>
+        <li <!--@if($act=='dispJoin_extendAdminExtendVarConfig')-->class="on"<!--@end-->><a href="{getUrl('act','dispJoin_extendAdminExtendVarConfig')}">{$lang->extend_var_config}</a></li>
+        <li <!--@if($act=='dispJoin_extendAdminRestrictionsConfig')-->class="on"<!--@end-->><a href="{getUrl('act','dispJoin_extendAdminRestrictionsConfig')}">{$lang->restrictions_config}</a></li>
+        <li <!--@if($act=='dispJoin_extendAdminAfterConfig')-->class="on"<!--@end-->><a href="{getUrl('act','dispJoin_extendAdminAfterConfig')}">{$lang->after_config}</a></li>
+    </ul>
+</div>
+

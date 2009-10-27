@@ -8,6 +8,13 @@
 	$lang->join_extend = '회원가입확장';
 	$lang->join_extend_title = '회원 가입을 위한 약관 동의 절차'; 
 
+    $lang->basic_config = '기본 설정';
+    $lang->agree_config = '약관 설정';
+    $lang->extend_var_config = '확장변수 연동';
+    $lang->restrictions_config = '가입제한 설정';
+    $lang->after_config = '가입후 처리';
+    $lang->jumin_config = '주민등록번호 설정';
+    
     $lang->use_join_extend = '회원가입 확장 사용';
     $lang->about_use_join_extend = '회원가입 확장 기능 사용 여부를 선택합니다.';
     

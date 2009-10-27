@@ -20,10 +20,92 @@
 			$oJoinExtendModel = &getModel('join_extend');
             $config = $oJoinExtendModel->getConfig();
             Context::set('config',$config);
+            
+			// 스킨 목록을 구해옴
+			$oModuleModel = &getModel('module');
+			$skin_list = $oModuleModel->getSkins($this->module_path);
+			Context::set('skin_list',$skin_list);
 
+			// 템플릿 지정
+            $this->setTemplatePath($this->module_path.'tpl');
+            $this->setTemplateFile('index');
+		}
+		
+		/**
+		 * @brief 약관 설정 화면
+		 **/
+		function dispJoin_extendAdminAgreeConfig() {
+		    $oJoinExtendModel = &getModel('join_extend');
+            $config = $oJoinExtendModel->getConfig();
+            Context::set('config',$config);
+            
             // 에디터 공통 설정
             $oEditorModel = &getModel('editor');
-            $option->primary_key_name = 'temp_srl';
+            
+            $option->allow_fileupload = false;
+            $option->enable_autosave = false;
+            $option->enable_default_component = true;
+            $option->enable_component = true;
+            $option->resizable = true;
+            $option->height = 300;
+            
+            // 이용약관 에디터
+            $option->content_key_name = 'agreement';
+            $editor_agreement = $oEditorModel->getEditor(0, $option);
+            Context::set('editor_agreement', $editor_agreement);
+            
+            // 개인정보취급방침 에디터
+            $option->content_key_name = 'private_agreement';
+            $editor_private_agreement = $oEditorModel->getEditor(0, $option);
+            Context::set('editor_private_agreement', $editor_private_agreement);
+            
+            // 개인정보 수집 및 이용 에디터
+            $option->content_key_name = 'private_gathering_agreement';
+            $editor_private_gathering_agreement = $oEditorModel->getEditor(0, $option);
+            Context::set('editor_private_gathering_agreement', $editor_private_gathering_agreement);
+            
+            // 템플릿 지정
+            $this->setTemplatePath($this->module_path.'tpl');
+            $this->setTemplateFile('agree_config');
+		}
+
+		/**
+		 * @brief 확장변수 연동 설정 화면
+		 **/
+		function dispJoin_extendAdminExtendVarConfig() {
+		    $oJoinExtendModel = &getModel('join_extend');
+            $config = $oJoinExtendModel->getConfig();
+            Context::set('config',$config);
+            
+            // 템플릿 지정
+            $this->setTemplatePath($this->module_path.'tpl');
+            $this->setTemplateFile('extend_var_config');
+		}
+		
+		/**
+		 * @brief 가입 제한 설정 화면
+		 **/
+		function dispJoin_extendAdminRestrictionsConfig() {
+		    $oJoinExtendModel = &getModel('join_extend');
+            $config = $oJoinExtendModel->getConfig();
+            Context::set('config',$config);
+            
+            // 템플릿 지정
+            $this->setTemplatePath($this->module_path.'tpl');
+            $this->setTemplateFile('restrictions_config');
+		}
+		
+		/**
+		 * @brief 가입후 처리 설정 화면
+		 **/
+		function dispJoin_extendAdminAfterConfig() {
+		    $oJoinExtendModel = &getModel('join_extend');
+            $config = $oJoinExtendModel->getConfig();
+            Context::set('config',$config);
+            
+            // 에디터 공통 설정
+            $oEditorModel = &getModel('editor');
+            
             $option->allow_fileupload = false;
             $option->enable_autosave = false;
             $option->enable_default_component = true;
@@ -36,15 +118,24 @@
             $editor_welcome = $oEditorModel->getEditor(0, $option);
             Context::set('editor_welcome', $editor_welcome);
             
-			// 스킨 목록을 구해옴
-			$oModuleModel = &getModel('module');
-			$skin_list = $oModuleModel->getSkins($this->module_path);
-			Context::set('skin_list',$skin_list);
-
-			// 템플릿 지정
+            // 템플릿 지정
             $this->setTemplatePath($this->module_path.'tpl');
-            $this->setTemplateFile('index');
+            $this->setTemplateFile('after_config');
 		}
+		
+		/**
+		 * @brief 주민등록번호 설정 화면
+		 **/
+		function dispJoin_extendAdminJuminConfig() {
+		    $oJoinExtendModel = &getModel('join_extend');
+            $config = $oJoinExtendModel->getConfig();
+            Context::set('config',$config);
+            
+            // 템플릿 지정
+            $this->setTemplatePath($this->module_path.'tpl');
+            $this->setTemplateFile('jumin_config');
+		}
+		
 		
 		/**
          * @brief 특정 스킨에 속한 컬러셋 목록을 return
