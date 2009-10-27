@@ -23,7 +23,7 @@
             // 애드온 없이 단독 작동하기 위한 트리거(2009-10-20)
             $oModuleController->insertTrigger('moduleHandler.init', 'join_extend', 'controller', 'triggerModuleHandlerInit', 'after');
             $oModuleController->insertTrigger('moduleHandler.proc', 'join_extend', 'controller', 'triggerModuleHandlerProc', 'after');
-            $oModuleController->insertTrigger('display', 'zzz_menu_new', 'controller', 'triggerDisplay', 'before');
+            $oModuleController->insertTrigger('display', 'join_extend', 'controller', 'triggerDisplay', 'before');
 			return new Object();
 		}
 
@@ -41,7 +41,7 @@
             if(!$oModuleModel->getTrigger('member.insertMember', 'join_extend', 'controller', 'triggerInsertMember', 'after'))   return true;
             if(!$oModuleModel->getTrigger('moduleHandler.init', 'join_extend', 'controller', 'triggerModuleHandlerInit', 'after'))   return true;
             if(!$oModuleModel->getTrigger('moduleHandler.proc', 'join_extend', 'controller', 'triggerModuleHandlerProc', 'after'))   return true;
-            if(!$oModuleModel->getTrigger('display', 'zzz_menu_new', 'controller', 'triggerDisplay', 'before'))   return true;
+            if(!$oModuleModel->getTrigger('display', 'join_extend', 'controller', 'triggerDisplay', 'before'))   return true;
             
 			return false;
 		}

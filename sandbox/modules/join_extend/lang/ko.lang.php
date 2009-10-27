@@ -8,6 +8,9 @@
 	$lang->join_extend = '회원가입확장';
 	$lang->join_extend_title = '회원 가입을 위한 약관 동의 절차'; 
 
+    $lang->use_join_extend = '회원가입 확장 사용';
+    $lang->about_use_join_extend = '회원가입 확장 기능 사용 여부를 선택합니다.';
+    
 	$lang->use_agreement = '이용약관 표시';
 	$lang->about_use_agreement = '이용약관을 표시 및 동의를 받습니다.';
 	$lang->agreement = '이용약관';
@@ -31,7 +34,7 @@
     $lang->jumin_exist = '입력한 주민등록번호는 이미 가입되어 있습니다.';
     
     $lang->save_jumin = '주민등록번호 저장하기';
-    $lang->about_save_jumin = '입력받은 주민등록번호를 저장할지 여부를 선택합니다. 저장할 경우 MD5 해시를 이용하여 암호화되어 저장되며 주민등록번호를 이용하여 중복가입을 막을 수 있습니다. 저장하지 않을 경우 주민등록번호 유효성 검사만 수행하며 중복가입을 막을 수는 없습니다.';
+    $lang->about_save_jumin = '입력받은 주민등록번호를 저장할지 여부를 선택합니다.<br/>저장할 경우 MD5 해시를 이용하여 암호화되어 저장되며 주민등록번호를 이용하여 중복가입을 막을 수 있습니다. <br/>저장하지 않을 경우 주민등록번호 유효성 검사만 수행하며 중복가입을 막을 수는 없습니다.';
 
     $lang->use_sex_restrictions = '성별 제한 사용';
     $lang->about_use_sex_restrictions = '설정된 성별만 가입을 받습니다.';

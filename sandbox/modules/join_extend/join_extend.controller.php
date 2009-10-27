@@ -111,6 +111,10 @@
          * @brief 회원 DB 추가 후 트리거
          **/
         function triggerInsertMember(&$obj) {
+            $oJoinExtendModel = &getModel('join_extend');
+            $config = $oJoinExtendModel->getConfig();
+            if ($config->use_join_extend != 'Y')    return new Object();
+            
             $member_srl = $obj->member_srl;
 			$oMemberController = &getController('member');
 			
@@ -141,6 +145,10 @@
          * @brief 모듈핸들러 실행 후 트리거 (애드온의 after_module_proc에 대응)
          **/
         function triggerModuleHandlerProc(&$oModule) {
+            $oJoinExtendModel = &getModel('join_extend');
+            $config = $oJoinExtendModel->getConfig();
+            if ($config->use_join_extend != 'Y')    return new Object();
+            
             if(Context::get('act') == "dispMemberSignUpForm"){
     			if(!$_SESSION['join_extend_authed']){
     
@@ -245,7 +253,11 @@
         /**
          * @brief 모듈 핸들러 초기화 후 트리거 (애드온의 before_module_proc에 대응)
          **/
-        function triggerModuleHandlerInit(&$module_info){			
+        function triggerModuleHandlerInit(&$module_info){
+            $oJoinExtendModel = &getModel('join_extend');
+            $config = $oJoinExtendModel->getConfig();
+            if ($config->use_join_extend != 'Y')    return new Object();
+            
 			// 실제 가입시 체크
     		if(Context::get('act')=='procMemberInsert'){
     			// session 체크
@@ -275,6 +287,10 @@
          * @brief 출력 전 트리거 (애드온의 before_display_content에 대응)
          **/
         function triggerDisplay(&$output){
+            $oJoinExtendModel = &getModel('join_extend');
+            $config = $oJoinExtendModel->getConfig();
+            if ($config->use_join_extend != 'Y')    return new Object();
+            
             if (Context::getResponseMethod() == 'HTML' && in_array(Context::get('act'), array("dispMemberSignUpForm", "dispMemberModifyInfo"))) {
         	    $oMJExtendModel = &getModel('join_extend');
         	    $config = $oMJExtendModel->getConfig();

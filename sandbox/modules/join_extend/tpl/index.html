@@ -6,6 +6,16 @@
 <form action="./" method="post" onsubmit="return procFilter(this, insert_config)">
     <table cellspacing="0" class="rowTable">
     <tr>
+        <th scope="col"><div>{$lang->use_join_extend}</div></th>
+        <td>
+            <select name="use_join_extend">
+				<option value="N"<!--@if($config->use_join_extend=='N')--> selected="selected"<!--@end-->>{$lang->notuse}</option>
+                <option value="Y"<!--@if($config->use_join_extend=='Y')--> selected="selected"<!--@end-->>{$lang->use}</option>
+            </select>
+            <p>{$lang->about_use_join_extend}</p>
+        </td>
+    </tr>
+    <tr>
         <th scope="col"><div>{$lang->use_agreement}</div></th>
         <td>
             <select name="use_agreement">
