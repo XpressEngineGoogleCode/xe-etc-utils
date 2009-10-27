@@ -37,6 +37,11 @@
 				</tr>
 				<tr>
 				    <td colspan="2">
+			            <!--@if($config->save_jumin == "Y")-->
+			                ※ {$lang->msg_save_jumin}
+			            <!--@else-->
+			                ※ {$lang->msg_not_save_jumin}
+			            <!--@end-->
                         <!--@if ($config->use_sex_restrictions == "M")-->
         				    ※ {$lang->sex_restrictions_m}
         				<!--@end-->
