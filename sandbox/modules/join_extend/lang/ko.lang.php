@@ -38,7 +38,7 @@
 	$lang->about_use_jumin = '주민등록번호를 받습니다.';
     $lang->jumin = '주민등록번호';
 	$lang->name = '이름';
-	$lang->msg_empty = '%s을 입력하세요.';
+	$lang->msg_empty = '%s의 값을 입력하세요.';
 	$lang->jumin_check = '실명확인';
     $lang->about_jumin = '주민등록번호는 중복가입을 막기 위해 사용됩니다.';
     $lang->jumin1 = '주민등록번호 앞부분';
