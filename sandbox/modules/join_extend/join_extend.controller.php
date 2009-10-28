@@ -194,6 +194,10 @@
     				// 모듈 옵션
     				$oMJExtendModel = &getModel('join_extend');
     				$config = $oMJExtendModel->getConfig();
+    				
+    				// 약관, 개인정보, 주민번호 모두 사용하지 않으면 1단계 화면은 생략
+    				if ($config->use_jumin != "Y" && $config->use_agreement != "Y" && $config->use_private_agreement != "Y") return;
+    				
     				Context::set('config', $config);
     
     				Context::addHtmlHeader(sprintf('<script type="text/javascript"> var msg_junior_join ="%s"; var msg_check_agree ="%s"; var msg_empty_name = "%s"; var msg_empty_jumin1 = "%s"; var msg_empty_jumin2 = "%s"; var use_jumin = "%s"; var about_user_name = "%s"; </script>',

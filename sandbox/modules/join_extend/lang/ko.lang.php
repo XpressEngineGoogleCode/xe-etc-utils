@@ -6,7 +6,7 @@
      **/
 
 	$lang->join_extend = '회원가입확장';
-	$lang->join_extend_title = '회원 가입을 위한 약관 동의 절차'; 
+	$lang->join_extend_title = '회원 가입 1단계'; 
 
     $lang->basic_config = '기본 설정';
     $lang->agree_config = '약관 설정';
