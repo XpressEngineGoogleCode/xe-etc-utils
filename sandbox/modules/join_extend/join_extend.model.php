@@ -7,19 +7,32 @@
 
     class join_extendModel extends join_extend {
 
+        var $config;
+        var $config_with_input_config;
+        
         /**
          * @brief 초기화
          **/
-        function init() {
+        function join_extendModel() {
+            $this->config_with_input_config = $this->_getConfig();
+            $this->config = $this->_getConfig(false);
         }
 
         /**
          * @brief 설정을 받아옴
          **/
         function getConfig($input_config = true) {
+            if ($input_config)  return $this->config_with_input_config;
+            else                return $this->config;
+        }
+        
+        /**
+         * @brief 설정을 받아옴
+         **/
+        function _getConfig($input_config = true) {
             $oModuleModel = &getModel('module');
             $config = $oModuleModel->getModuleConfig('join_extend');
-            
+
             // 기본값
             if (!$config->skin) $config->skin = 'default';
             
@@ -125,6 +138,7 @@
         function isAge()
         {
             $config = $this->getConfig();
+
             if ($config->use_age_restrictions != "Y")   return true;
             if ($config->use_jumin != "Y")  return true;
 
@@ -132,9 +146,12 @@
             $birthYear += intVal(substr(Context::get('jumin1'), 0, 2));
 
             $now = intVal(date('Y'));
-
-            if ($now - $birthYear < intVal($config->age_restrictions))  return false;
-
+            $age = $now - $birthYear;
+            $low = intVal($config->age_restrictions);
+            $up = intVal($config->age_upper_restrictions);
+            if (!$upper)   $upper = 999;
+            if ($age < $low || $age > $up)  return false;
+            
             return true;
         }
 

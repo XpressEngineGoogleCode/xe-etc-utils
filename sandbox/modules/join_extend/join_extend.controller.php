@@ -29,11 +29,14 @@
             if (!$result) {
                 return $this->stop(sprintf(Context::getLang('sex_restrictions'), $config->use_sex_restrictions=='M'?Context::getLang('man'):Context::getLang('woman')));
             }
-            
+
             // 나이제한 확인
             $result = $oJoinExtendModel->isAge();
             if (!$result) {
-                return $this->stop(sprintf(Context::getLang('msg_age_restrictions'), $config->age_restrictions));
+                if (empty($config->msg_junior_join))
+                    return $this->stop(sprintf(Context::getLang('msg_age_restrictions'), $config->age_restrictions, $config->age_upper_restrictions));
+                else
+                    return $this->stop($config->msg_junior_join);
             }
 
             // 주민번호 확인

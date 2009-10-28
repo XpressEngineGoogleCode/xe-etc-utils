@@ -55,12 +55,7 @@
 			<!--@end-->
 
 			<div class="joinButtonArea">
-			<!--@if($config->use_age_restrictions == 'Y')-->
-				<span class="joinButton"><input name="" class="member_join_agree" type="submit" value="{sprintf($lang->junior, $config->age_restrictions)}" /></span>
-				<span class="joinButton"><input type="button" class="junior_join" value="{sprintf($lang->senior, $config->age_restrictions)}" /></span>
-			<!--@else-->
-				<span class="joinButton"><input name="" class="member_join_agree" type="submit" value="{$lang->agree}" /></span>
-			<!--@end-->
+				<span class="joinButton"><input name="" class="member_join_agree" type="submit" value="{$lang->cmd_next}" /></span>
 			</div>
 		</fieldset>
 	</form>

@@ -26,7 +26,8 @@
 	<tr>
         <th scope="row"><div>{$lang->age_restrictions}</div></th>
         <td>
-            <input type="text" name="age_restrictions" value="{$config->age_restrictions}"  class="inputTypeText w100" />
+            <input type="text" name="age_restrictions" value="{$config->age_restrictions}"  class="inputTypeText w40" /> {$lang->great_than}
+            <input type="text" name="age_upper_restrictions" value="{$config->age_upper_restrictions}"  class="inputTypeText w40" /> {$lang->less_than}
         </td>
     </tr>
 	<tr>
