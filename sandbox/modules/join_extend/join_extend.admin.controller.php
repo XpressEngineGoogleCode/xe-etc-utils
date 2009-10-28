@@ -12,7 +12,16 @@
 		 **/
 		function procJoin_extendAdminInsertConfig() {
 		    $oJoinExtendModel = &getModel('join_extend');
-            $config = $oJoinExtendModel->getConfig();
+            $config = $oJoinExtendModel->getConfig(false);
+            
+            // 입력항목 설정 값은 초기화
+            $config_list = get_object_vars($config);
+            if (count($config_list)) {
+                foreach($config_list as $var_name => $val) {
+                    if (strpos($var_name, '_required') || strpos($var_name, '_no_mod') || strpos($var_name, '_lower_length') || strpos($var_name, '_upper_length') || strpos($var_name, '_type'))
+                        unset($config->{$var_name});
+                }
+            }
             
 			$new_config = Context::getRequestVars();
 

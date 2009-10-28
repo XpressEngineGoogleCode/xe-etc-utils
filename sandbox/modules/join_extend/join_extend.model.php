@@ -16,41 +16,45 @@
         /**
          * @brief 설정을 받아옴
          **/
-        function getConfig() {
+        function getConfig($input_config = true) {
             $oModuleModel = &getModel('module');
             $config = $oModuleModel->getModuleConfig('join_extend');
             
-            // 정보입력 설정을 적당히 가공한다.
-            $array_config = get_object_vars($config);
-            if (count($array_config)) {
-                foreach($array_config as $name => $val) {
-                    // 필수항목
-                    $res = preg_match("/^(.+)_required$/", $name, $matches);
-                    if ($res)   $required[$matches[1]] = $val;
-                    
-                    // 수정금지
-                    $res = preg_match("/^(.+)_no_mod$/", $name, $matches);
-                    if ($res)   $no_mod[$matches[1]] = $val;
-                    
-                    // 최소길이
-                    $res = preg_match("/^(.+)_lower_length$/", $name, $matches);
-                    if ($res)   $lower_length[$matches[1]] = $val;
-                    
-                    // 최대 길이
-                    $res = preg_match("/^(.+)_upper_length$/", $name, $matches);
-                    if ($res)   $upper_length[$matches[1]] = $val;
-                    
-                    // 종류
-                    $res = preg_match("/^(.+)_type$/", $name, $matches);
-                    if ($res)   $type[$matches[1]] = $val;
-                }
-            }
-            $config->input_config->required = $required;
-            $config->input_config->no_mod = $no_mod;
-            $config->input_config->lower_length = $lower_length;
-            $config->input_config->upper_length = $upper_length;
-            $config->input_config->type = $type;
+            // 기본값
+            if (!$config->skin) $config->skin = 'default';
             
+            // 정보입력 설정을 적당히 가공한다.
+            if ($input_config) {
+                $array_config = get_object_vars($config);
+                if (is_array($array_config)) {
+                    foreach($array_config as $name => $val) {
+                        // 필수항목
+                        $res = preg_match("/^(.+)_required$/", $name, $matches);
+                        if ($res)   $required[$matches[1]] = $val;
+                        
+                        // 수정금지
+                        $res = preg_match("/^(.+)_no_mod$/", $name, $matches);
+                        if ($res)   $no_mod[$matches[1]] = $val;
+                        
+                        // 최소길이
+                        $res = preg_match("/^(.+)_lower_length$/", $name, $matches);
+                        if ($res)   $lower_length[$matches[1]] = $val;
+                        
+                        // 최대 길이
+                        $res = preg_match("/^(.+)_upper_length$/", $name, $matches);
+                        if ($res)   $upper_length[$matches[1]] = $val;
+                        
+                        // 종류
+                        $res = preg_match("/^(.+)_type$/", $name, $matches);
+                        if ($res)   $type[$matches[1]] = $val;
+                    }
+                }
+                $config->input_config->required = $required;
+                $config->input_config->no_mod = $no_mod;
+                $config->input_config->lower_length = $lower_length;
+                $config->input_config->upper_length = $upper_length;
+                $config->input_config->type = $type;
+            }
             return $config;
         }
 
@@ -227,13 +231,6 @@
         }
         
         /**
-         * @brief 변수 길이 체크
-         **/
-        function checkLength($var_name, $lower_length, $upper_length) {
-            return false;
-        }
-        
-        /**
          * @brief 입력항목체크
          **/
         function checkInput() {
@@ -272,10 +269,12 @@
             if (!count($_SESSION['join_extend_no_mod']))    return new Object();
 
             $config = $this->getConfig();
+            $request_vars = Context::getRequestVars();
             if (count($config->input_config->no_mod)) {
                 foreach($config->input_config->no_mod as $var_name => $val) {
                     if ($val != "Y") continue;
 
+                    if (!isset($request_vars->{$var_name}))                     continue;
                     if (!isset($_SESSION['join_extend_no_mod'][$var_name]))     return new Object(-1, 'session_problem');
                     if (empty($_SESSION['join_extend_no_mod'][$var_name]))      continue;
                     if (is_array($_SESSION['join_extend_no_mod'][$var_name]))   $_SESSION['join_extend_no_mod'][$var_name] = implode('|@|', $_SESSION['join_extend_no_mod'][$var_name]);

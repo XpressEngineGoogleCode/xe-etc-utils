@@ -116,6 +116,7 @@
 
             $oJoinExtendModel = &getModel('join_extend');
             $config = $oJoinExtendModel->getConfig();
+            if ($config->use_welcome != "Y")    return;
             
             // 쪽지가 가든 말든 일단 보내고 본다!
             $receiver_args->message_srl = getNextSequence();
@@ -288,6 +289,7 @@
     				        if ($val != "Y")    continue;
     				        $js_str .= "no_mod[$i] = '$var_name';";
     				        $js_str .= "no_mod_type[$i] = '{$config->input_config->type[$var_name]}';";
+    				        if (!$member_info->{$var_name}) $member_info->{$var_name} = '';
     				        $_SESSION['join_extend_no_mod'][$var_name] = $member_info->{$var_name};
     				        $i++;
     				    }
