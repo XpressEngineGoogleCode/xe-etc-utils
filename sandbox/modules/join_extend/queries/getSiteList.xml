@@ -1,8 +1,0 @@
-<query id="getSiteList" action="select">
-    <tables>
-        <table name="sites" />
-    </tables>
-    <columns>
-        <column name="site_srl" />
-    </columns>
-</query>
