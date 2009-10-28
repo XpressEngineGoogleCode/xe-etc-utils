@@ -280,6 +280,20 @@
     					$_SESSION['join_extend_jumin']['name'] = $member_info->user_name;
     				}
     				
+    				// 수정금지
+    				unset($_SESSION['join_extend_no_mod']);
+    				if (count($config->input_config->no_mod)) {
+    				    $i = 0;
+    				    foreach($config->input_config->no_mod as $var_name => $val) {
+    				        if ($val != "Y")    continue;
+    				        $js_str .= "no_mod[$i] = '$var_name';";
+    				        $js_str .= "no_mod_type[$i] = '{$config->input_config->type[$var_name]}';";
+    				        $_SESSION['join_extend_no_mod'][$var_name] = $member_info->{$var_name};
+    				        $i++;
+    				    }
+    				}
+    				Context::addHtmlHeader(sprintf('<script type="text/javascript"> var no_mod = new Array(); var no_mod_type = new Array(); %s </script>', $js_str));
+    				Context::addJsFile('./modules/join_extend/tpl/js/no_mod.js',false);
     		}
 		
             return new Object();
@@ -306,12 +320,24 @@
 
     			if ($res)   $this->xmlMessage($res);
     			
+    			// 입력 항목 체크
+    			$output = $oMJExtendModel->checkInput();
+    			if (!$output->toBool())  $this->xmlMessage($output->message);
+    			
     		// 회원 정보 수정 시
     		}else if (Context::get('act') == 'procMemberModifyInfo') {
                 // 세션 체크
     			$oMJExtendModel = &getModel('join_extend');
     			$res = $oMJExtendModel->checkSession();
     			if ($res)   $this->xmlMessage($res);
+    			
+    			// 입력 항목 체크
+    			$output = $oMJExtendModel->checkInput();
+    			if (!$output->toBool())  $this->xmlMessage($output->message);
+    			
+    			// 입력 항목 수정 체크
+    			$output = $oMJExtendModel->checkInputMod();
+    			if (!$output->toBool())  $this->xmlMessage($output->message);
     		}
     		
 			return new Object();
