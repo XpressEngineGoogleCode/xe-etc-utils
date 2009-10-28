@@ -20,6 +20,10 @@
 			$oModuleController = &getController('module');
             $oModuleController->insertTrigger('member.insertMember', 'join_extend', 'controller', 'triggerInsertMember', 'after');
             
+            // 애드온 없이 단독 작동하기 위한 트리거(2009-10-20)
+            $oModuleController->insertTrigger('moduleHandler.init', 'join_extend', 'controller', 'triggerModuleHandlerInit', 'after');
+            $oModuleController->insertTrigger('moduleHandler.proc', 'join_extend', 'controller', 'triggerModuleHandlerProc', 'after');
+            $oModuleController->insertTrigger('display', 'join_extend', 'controller', 'triggerDisplay', 'before');
 			return new Object();
 		}
 
@@ -35,6 +39,9 @@
 
             // 트리거 체크
             if(!$oModuleModel->getTrigger('member.insertMember', 'join_extend', 'controller', 'triggerInsertMember', 'after'))   return true;
+            if(!$oModuleModel->getTrigger('moduleHandler.init', 'join_extend', 'controller', 'triggerModuleHandlerInit', 'after'))   return true;
+            if(!$oModuleModel->getTrigger('moduleHandler.proc', 'join_extend', 'controller', 'triggerModuleHandlerProc', 'after'))   return true;
+            if(!$oModuleModel->getTrigger('display', 'join_extend', 'controller', 'triggerDisplay', 'before'))   return true;
             
 			return false;
 		}
@@ -55,8 +62,14 @@
             // 트리거 추가
             if(!$oModuleModel->getTrigger('member.insertMember', 'join_extend', 'controller', 'triggerInsertMember', 'after'))
                 $oModuleController->insertTrigger('member.insertMember', 'join_extend', 'controller', 'triggerInsertMember', 'after');
-                
-			return new Object(0, 'success_updated');
+            if(!$oModuleModel->getTrigger('moduleHandler.init', 'join_extend', 'controller', 'triggerModuleHandlerInit', 'after'))
+                $oModuleController->insertTrigger('moduleHandler.init', 'join_extend', 'controller', 'triggerModuleHandlerInit', 'after');
+            if(!$oModuleModel->getTrigger('moduleHandler.proc', 'join_extend', 'controller', 'triggerModuleHandlerProc', 'after'))
+                $oModuleController->insertTrigger('moduleHandler.proc', 'join_extend', 'controller', 'triggerModuleHandlerProc', 'after');
+            if(!$oModuleModel->getTrigger('display', 'join_extend', 'controller', 'triggerDisplay', 'before'))
+                $oModuleController->insertTrigger('display', 'join_extend', 'controller', 'triggerDisplay', 'before');
+            
+            return new Object(0, 'success_updated');
 		}
 
 		/**
