@@ -1,152 +1,15 @@
-<!--%import("filter/insert_config.xml")-->
-<!--%import("js/join_extend_admin.js")-->
-
-<h3 class="xeAdmin">{$lang->join_extend} <span class="gray">{$lang->cmd_management}</span></h3>
+<!--#include("header.html")-->
 
 <form action="./" method="post" onsubmit="return procFilter(this, insert_config)">
     <table cellspacing="0" class="rowTable">
     <tr>
-        <th scope="col"><div>{$lang->use_agreement}</div></th>
+        <th scope="col"><div>{$lang->use_join_extend}</div></th>
         <td>
-            <select name="use_agreement">
-				<option value="N"<!--@if($config->use_agreement=='N')--> selected="selected"<!--@end-->>{$lang->notuse}</option>
-                <option value="Y"<!--@if($config->use_agreement=='Y')--> selected="selected"<!--@end-->>{$lang->use}</option>
+            <select name="use_join_extend">
+				<option value="N"<!--@if($config->use_join_extend=='N')--> selected="selected"<!--@end-->>{$lang->notuse}</option>
+                <option value="Y"<!--@if($config->use_join_extend=='Y')--> selected="selected"<!--@end-->>{$lang->use}</option>
             </select>
-            <p>{$lang->about_use_agreement}</p>
-        </td>
-    </tr>
-	<tr>
-        <th scope="col"><div>{$lang->agreement}</div></th>
-        <td>
-            <textarea name="agreement" class="inputTypeTextArea fullWidth" id="agreement">{htmlspecialchars($config->agreement)}</textarea>
-            <a href="{getUrl('','module','module','act','dispModuleAdminLangcode','target','agreement')}" onclick="popopen(this.href);return false;" class="buttonSet buttonSetting"><span>{$lang->cmd_find_langcode}</span></a>
-        </td>
-    </tr>
-    <tr>
-        <th scope="col"><div>{$lang->use_private_agreement}</div></th>
-        <td>
-            <select name="use_private_agreement">
-				<option value="N"<!--@if($config->use_private_agreement=='N')--> selected="selected"<!--@end-->>{$lang->notuse}</option>
-                <option value="Y"<!--@if($config->use_private_agreement=='Y')--> selected="selected"<!--@end-->>{$lang->use}</option>
-            </select>
-            <p>{$lang->about_use_private_agreement}</p>
-        </td>
-    </tr>
-	<tr>
-        <th scope="col"><div>{$lang->private_agreement}</div></th>
-        <td>
-            <textarea name="private_agreement" class="inputTypeTextArea fullWidth" id="private_agreement">{htmlspecialchars($config->private_agreement)}</textarea>
-            <a href="{getUrl('','module','module','act','dispModuleAdminLangcode','target','private_agreement')}" onclick="popopen(this.href);return false;" class="buttonSet buttonSetting"><span>{$lang->cmd_find_langcode}</span></a>
-        </td>
-    </tr>
-	<tr>
-        <th scope="col"><div>{$lang->private_gathering_agreement}</div></th>
-        <td>
-            <textarea name="private_gathering_agreement" class="inputTypeTextArea fullWidth" id="private_gathering_agreement">{htmlspecialchars($config->private_gathering_agreement)}</textarea>
-            <a href="{getUrl('','module','module','act','dispModuleAdminLangcode','target','private_gathering_agreement')}" onclick="popopen(this.href);return false;" class="buttonSet buttonSetting"><span>{$lang->cmd_find_langcode}</span></a>
-        </td>
-    </tr>
-    <tr>
-        <th scope="col"><div>{$lang->use_jumin}</div></th>
-        <td>
-            <select name="use_jumin">
-				<option value="N"<!--@if($config->use_jumin=='N')--> selected="selected"<!--@end-->>{$lang->notuse}</option>
-                <option value="Y"<!--@if($config->use_jumin=='Y')--> selected="selected"<!--@end-->>{$lang->use}</option>
-            </select>
-            <p>{$lang->about_use_jumin}</p>
-        </td>
-    </tr>
-    <tr>
-        <th scope="col"><div>{$lang->save_jumin}</div></th>
-        <td>
-            <select name="save_jumin">
-				<option value="N"<!--@if($config->save_jumin=='N')--> selected="selected"<!--@end-->>{$lang->notuse}</option>
-                <option value="Y"<!--@if($config->save_jumin=='Y')--> selected="selected"<!--@end-->>{$lang->use}</option>
-            </select>
-            <p>{$lang->about_save_jumin}</p>
-        </td>
-    </tr>
-    <tr>
-        <th scope="col"><div>{$lang->use_sex_restrictions}</div></th>
-        <td>
-            <select name="use_sex_restrictions">
-				<option value="N"<!--@if($config->use_sex_restrictions=='N')--> selected="selected"<!--@end-->>{$lang->notuse}</option>
-                <option value="M"<!--@if($config->use_sex_restrictions=='M')--> selected="selected"<!--@end-->>{$lang->man}</option>
-                <option value="W"<!--@if($config->use_sex_restrictions=='W')--> selected="selected"<!--@end-->>{$lang->woman}</option>
-            </select>
-            <p>{$lang->about_use_sex_restrictions}</p>
-        </td>
-    </tr>
-    <tr>
-        <th scope="col"><div>{$lang->sex_var_name}</div></th>
-        <td>
-            <input type="text" name="sex_var_name" value="{$config->sex_var_name}"  class="inputTypeText w100" />
-            <p>{$lang->about_sex_var_name}</p>
-        </td>
-    </tr>
-    <tr>
-        <th scope="col"><div>{$lang->man_value}</div></th>
-        <td>
-            <input type="text" name="man_value" value="{$config->man_value}"  class="inputTypeText w100" />
-            <p>{$lang->about_man_value}</p>
-        </td>
-    </tr>
-    <tr>
-        <th scope="col"><div>{$lang->woman_value}</div></th>
-        <td>
-            <input type="text" name="woman_value" value="{$config->woman_value}"  class="inputTypeText w100" />
-            <p>{$lang->about_woman_value}</p>
-        </td>
-    </tr>
-    <tr>
-        <th scope="col"><div>{$lang->age_var_name}</div></th>
-        <td>
-            <input type="text" name="age_var_name" value="{$config->age_var_name}"  class="inputTypeText w100" />
-            <p>{$lang->about_age_var_name}</p>
-        </td>
-    </tr>
-    <tr>
-        <th scope="col"><div>{$lang->use_age_restrictions}</div></th>
-        <td>
-            <select name="use_age_restrictions">
-				<option value="N"<!--@if($config->use_age_restrictions=='N')--> selected="selected"<!--@end-->>{$lang->notuse}</option>
-                <option value="Y"<!--@if($config->use_age_restrictions=='Y')--> selected="selected"<!--@end-->>{$lang->use}</option>
-            </select>
-            <p>{$lang->about_use_age_restrictions}</p>
-        </td>
-    </tr>
-	<tr>
-        <th scope="row"><div>{$lang->age_restrictions}</div></th>
-        <td>
-            <input type="text" name="age_restrictions" value="{$config->age_restrictions}"  class="inputTypeText w100" />
-        </td>
-    </tr>
-	<tr>
-        <th scope="col"><div>{$lang->msg_junior_join}</div></th>
-        <td>
-            <input type="text" name="msg_junior_join" class="inputTypeText w400" id="msg_junior_join" value="{htmlspecialchars($config->msg_junior_join)}" />
-            <a href="{getUrl('','module','module','act','dispModuleAdminLangcode','target','msg_junior_join')}" onclick="popopen(this.href);return false;" class="buttonSet buttonSetting"><span>{$lang->cmd_find_langcode}</span></a>
-        </td>
-    </tr>
-    <tr>
-        <th scope="col"><div>{$lang->recoid_var_name}</div></th>
-        <td>
-            <input type="text" name="recoid_var_name" value="{$config->recoid_var_name}"  class="inputTypeText w100" />
-            <p>{$lang->about_recoid_var_name}</p>
-        </td>
-    </tr>
-    <tr>
-        <th scope="row"><div>{$lang->recoid_point}</div></th>
-        <td>
-            <input type="text" name="recoid_point" value="{$config->recoid_point}"  class="inputTypeText w100" />
-            <p>{$lang->about_recoid_point}</p>
-        </td>
-    </tr>
-    <tr>
-        <th scope="row"><div>{$lang->joinid_point}</div></th>
-        <td>
-            <input type="text" name="joinid_point" value="{$config->joinid_point}"  class="inputTypeText w100" />
-            <p>{$lang->about_joinid_point}</p>
+            <p>{$lang->about_use_join_extend}</p>
         </td>
     </tr>
     <tr>
