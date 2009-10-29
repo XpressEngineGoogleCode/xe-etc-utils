@@ -128,7 +128,7 @@
             $receiver_args->sender_srl = $member_srl;
             $receiver_args->receiver_srl = $member_srl;
             $receiver_args->message_type = 'R';
-            $receiver_args->title = cut_str($config->welcome, 20);
+            $receiver_args->title = cut_str(html_entity_decode(strip_tags($config->welcome), ENT_QUOTES, 'UTF-8'), 40);
             $receiver_args->content = $config->welcome;
             $receiver_args->readed = 'N';
             $receiver_args->regdate = date("YmdHis");
