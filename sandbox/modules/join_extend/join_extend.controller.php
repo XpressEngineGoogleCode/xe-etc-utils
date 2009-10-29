@@ -270,15 +270,19 @@
     				
     				if (!empty($config->recoid_var_name)) {
     				    Context::addHtmlHeader(sprintf('<script type="text/javascript"> var recoid_var_name ="%s"; </script>', $config->recoid_var_name));
+    				    if (!$member_info->{$config->recoid_var_name}) $member_info->{$config->recoid_var_name} = '';
+    				    $_SESSION['join_extend_jumin']['recoid'] = $member_info->{$config->recoid_var_name};
     				}
     
-    				if (!empty($config->age_var_name)) {
+    				if ($config->use_jumin == "Y" && !empty($config->age_var_name)) {
     				    Context::addHtmlHeader(sprintf('<script type="text/javascript"> var age_var_name ="%s"; </script>', $config->age_var_name));
+    				    if (!$member_info->{$config->age_var_name}) $member_info->{$config->age_var_name} = '';
     				    $_SESSION['join_extend_jumin']['age'] = $member_info->{$config->age_var_name};
     				}				
     				
-    				if ($config->use_jumin == "Y" && !empty($config->sex_var_name) && !empty($member_info->{$config->sex_var_name})) {
+    				if ($config->use_jumin == "Y" && !empty($config->sex_var_name)) {
     				    Context::addHtmlHeader(sprintf('<script type="text/javascript"> var sex_var_name ="%s"; </script>', $config->sex_var_name));
+    				    if (!$member_info->{$config->sex_var_name}) $member_info->{$config->sex_var_name} = '';
     				    $_SESSION['join_extend_jumin']['sex'] = $member_info->{$config->sex_var_name};
     				}
     				
