@@ -196,7 +196,10 @@
     				$config = $oMJExtendModel->getConfig();
     				
     				// 약관, 개인정보, 주민번호 모두 사용하지 않으면 1단계 화면은 생략
-    				if ($config->use_jumin != "Y" && $config->use_agreement != "Y" && $config->use_private_agreement != "Y") return;
+    				if ($config->use_jumin != "Y" && $config->use_agreement != "Y" && $config->use_private_agreement != "Y") {
+    				    $_SESSION['join_extend_authed_act'] = true;
+    				    return;
+    				}
     				
     				Context::set('config', $config);
     
