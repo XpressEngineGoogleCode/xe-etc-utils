@@ -128,7 +128,7 @@
             $receiver_args->sender_srl = $member_srl;
             $receiver_args->receiver_srl = $member_srl;
             $receiver_args->message_type = 'R';
-            $receiver_args->title = cut_str($config->welcome, 20);
+            $receiver_args->title = cut_str(html_entity_decode(strip_tags($config->welcome), ENT_QUOTES, 'UTF-8'), 40);
             $receiver_args->content = $config->welcome;
             $receiver_args->readed = 'N';
             $receiver_args->regdate = date("YmdHis");
@@ -196,7 +196,10 @@
     				$config = $oMJExtendModel->getConfig();
     				
     				// 약관, 개인정보, 주민번호 모두 사용하지 않으면 1단계 화면은 생략
-    				if ($config->use_jumin != "Y" && $config->use_agreement != "Y" && $config->use_private_agreement != "Y") return;
+    				if ($config->use_jumin != "Y" && $config->use_agreement != "Y" && $config->use_private_agreement != "Y") {
+    				    $_SESSION['join_extend_authed_act'] = true;
+    				    return;
+    				}
     				
     				Context::set('config', $config);
     
@@ -270,15 +273,19 @@
     				
     				if (!empty($config->recoid_var_name)) {
     				    Context::addHtmlHeader(sprintf('<script type="text/javascript"> var recoid_var_name ="%s"; </script>', $config->recoid_var_name));
+    				    if (!$member_info->{$config->recoid_var_name}) $member_info->{$config->recoid_var_name} = '';
+    				    $_SESSION['join_extend_jumin']['recoid'] = $member_info->{$config->recoid_var_name};
     				}
     
-    				if (!empty($config->age_var_name)) {
+    				if ($config->use_jumin == "Y" && !empty($config->age_var_name)) {
     				    Context::addHtmlHeader(sprintf('<script type="text/javascript"> var age_var_name ="%s"; </script>', $config->age_var_name));
+    				    if (!$member_info->{$config->age_var_name}) $member_info->{$config->age_var_name} = '';
     				    $_SESSION['join_extend_jumin']['age'] = $member_info->{$config->age_var_name};
     				}				
     				
-    				if ($config->use_jumin == "Y" && !empty($config->sex_var_name) && !empty($member_info->{$config->sex_var_name})) {
+    				if ($config->use_jumin == "Y" && !empty($config->sex_var_name)) {
     				    Context::addHtmlHeader(sprintf('<script type="text/javascript"> var sex_var_name ="%s"; </script>', $config->sex_var_name));
+    				    if (!$member_info->{$config->sex_var_name}) $member_info->{$config->sex_var_name} = '';
     				    $_SESSION['join_extend_jumin']['sex'] = $member_info->{$config->sex_var_name};
     				}
     				

@@ -149,7 +149,7 @@
             $age = $now - $birthYear;
             $low = intVal($config->age_restrictions);
             $up = intVal($config->age_upper_restrictions);
-            if (!$upper)   $upper = 999;
+            if (!$up)   $up = 999;
             if ($age < $low || $age > $up)  return false;
             
             return true;
@@ -228,19 +228,19 @@
 
 			// 혹시나 있을 이름 변경에 대비
 			if ($config->use_jumin == "Y") {
-			    if (empty($_SESSION['join_extend_jumin']['name']))  return 'session_problem';
+			    if (!isset($_SESSION['join_extend_jumin']['name']))  return 'session_problem';
 				Context::set('user_name', $_SESSION['join_extend_jumin']['name'], true);
 			}
 			
 			// 혹시나 있을 나이 변경에 대비
 			if ($config->use_jumin == "Y" && !empty($config->age_var_name)) {
-			    if (empty($_SESSION['join_extend_jumin']['age']))  return 'session_problem';
+			    if (!isset($_SESSION['join_extend_jumin']['age']))  return 'session_problem';
 				Context::set($config->age_var_name, $_SESSION['join_extend_jumin']['age'], true);
 			}
 
 			// 혹시나 있을 성별 변경에 대비
 			if ($config->use_jumin == "Y" && !empty($config->sex_var_name)) {
-			    if (empty($_SESSION['join_extend_jumin']['sex']))  return 'session_problem';
+			    if (!isset($_SESSION['join_extend_jumin']['sex']))  return 'session_problem';
 				Context::set($config->sex_var_name, $_SESSION['join_extend_jumin']['sex'], true);
 			}
 			
@@ -286,6 +286,7 @@
             if (!count($_SESSION['join_extend_no_mod']))    return new Object();
 
             $config = $this->getConfig();
+
             $request_vars = Context::getRequestVars();
             if (count($config->input_config->no_mod)) {
                 foreach($config->input_config->no_mod as $var_name => $val) {
@@ -300,6 +301,12 @@
                 }
             }
 
+			// 추천인 ID 변경 대비
+			if (!empty($config->recoid_var_name)) {
+                if (!isset($_SESSION['join_extend_jumin']['recoid']))  return 'session_problem';
+				Context::set($config->recoid_var_name, $_SESSION['join_extend_jumin']['recoid'], true);
+			}
+			
             return new Object();
         }
     }
