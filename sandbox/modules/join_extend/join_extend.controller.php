@@ -128,7 +128,7 @@
             $receiver_args->sender_srl = $member_srl;
             $receiver_args->receiver_srl = $member_srl;
             $receiver_args->message_type = 'R';
-            $receiver_args->title = cut_str(html_entity_decode(strip_tags($config->welcome), ENT_QUOTES, 'UTF-8'), 40);
+            $receiver_args->title = cut_str($this->unhtmlentities(strip_tags($config->welcome)), 40);
             $receiver_args->content = $config->welcome;
             $receiver_args->readed = 'N';
             $receiver_args->regdate = date("YmdHis");
@@ -402,6 +402,20 @@
 
 			Context::close();
 			exit();
+        }
+        
+        /**
+         * @brief html_entity_docode 대체 함수
+         **/
+        function unhtmlentities($string)
+        {
+            $string = str_replace('&nbsp;', '', $string);
+            // 숫자 엔티티 치환
+            $string = preg_replace('~&#x([0-9a-f]+);~ei', 'chr(hexdec("\\1"))', $string);
+            // 문자 엔티티 치환
+            $trans_tbl = get_html_translation_table(HTML_ENTITIES);
+            $trans_tbl = array_flip($trans_tbl);
+            return strtr($string, $trans_tbl);
         }
     }
 ?>
