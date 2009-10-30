@@ -12,10 +12,6 @@
 		 **/
 		function moduleInstall() {
 			
-			// member table에 주민등록번호를 받을 jumin column을 추가
-			$oDB = &DB::getInstance();
-			$oDB->addColumn('member','jumin','varchar',32,'',true);
-			
 			// 회원가입 트리거 추가
 			$oModuleController = &getController('module');
             $oModuleController->insertTrigger('member.insertMember', 'join_extend', 'controller', 'triggerInsertMember', 'after');
@@ -34,14 +30,14 @@
 			$oDB = &DB::getInstance();
 			$oModuleModel = &getModel('module');
 
-			// jumin colmn이 있나?
-			if(!$oDB->isColumnExists('member', 'jumin')) return true;
-
             // 트리거 체크
             if(!$oModuleModel->getTrigger('member.insertMember', 'join_extend', 'controller', 'triggerInsertMember', 'after'))   return true;
             if(!$oModuleModel->getTrigger('moduleHandler.init', 'join_extend', 'controller', 'triggerModuleHandlerInit', 'after'))   return true;
             if(!$oModuleModel->getTrigger('moduleHandler.proc', 'join_extend', 'controller', 'triggerModuleHandlerProc', 'after'))   return true;
             if(!$oModuleModel->getTrigger('display', 'join_extend', 'controller', 'triggerDisplay', 'before'))   return true;
+            
+            // 기존 member 테이블의 jumin 필드를 join_extend의 jumin 필드로 이동(2009-10-30)
+            if($oDB->isColumnExists("member","jumin"))  return true;
             
 			return false;
 		}
@@ -53,11 +49,6 @@
 			$oDB = &DB::getInstance();
 			$oModuleModel = &getModel('module');
 			$oModuleController = &getController('module');
-	
-			// jumin colimn을 추가
-			if(!$oDB->isColumnExists('member', 'jumin')) {
-				$oDB->addColumn('member','jumin','varchar',32,'',true);
-			}
 
             // 트리거 추가
             if(!$oModuleModel->getTrigger('member.insertMember', 'join_extend', 'controller', 'triggerInsertMember', 'after'))
@@ -68,6 +59,9 @@
                 $oModuleController->insertTrigger('moduleHandler.proc', 'join_extend', 'controller', 'triggerModuleHandlerProc', 'after');
             if(!$oModuleModel->getTrigger('display', 'join_extend', 'controller', 'triggerDisplay', 'before'))
                 $oModuleController->insertTrigger('display', 'join_extend', 'controller', 'triggerDisplay', 'before');
+            
+            // 기존 member 테이블의 jumin 필드를 join_extend의 jumin 필드로 이동(2009-10-30)
+            if($oDB->isColumnExists("member","jumin")) return new Object(-1, 'run_update');
             
             return new Object(0, 'success_updated');
 		}
