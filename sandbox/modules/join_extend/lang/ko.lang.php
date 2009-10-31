@@ -6,7 +6,7 @@
      **/
 
 	$lang->join_extend = '회원가입확장';
-	$lang->run_update = '회원가입 확장 설정으로 가서 테이블 업데이트를 실행하세요.';
+	$lang->run_update = '업데이트 되었습니다. 추가로 회원가입 확장 설정으로 가서 테이블 업데이트를 실행하세요.';
 	$lang->request_update_table = '회원 DB 업데이트가 필요하여 가입이 제한되었습니다. 관리자에게 요청하세요';
 	$lang->admin_request_update_table = '회원 DB 업데이트가 필요합니다.';
 	

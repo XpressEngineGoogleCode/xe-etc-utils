@@ -188,6 +188,20 @@
         }
         
         /**
+         * @brief 회원 DB 삭제 전 트리거
+         **/
+        function triggerDeleteMember(&$obj) {
+            $member_srl = $obj->member_srl;
+
+            // join_extend 테이블에서 회원정보 삭제
+            $args->member_srl = $member_srl;
+            $output = executeQuery('join_extend.deleteMemberInfo', $args);
+            if (!$output->toBool()) return $output;
+			
+			return new Object();
+        }
+        
+        /**
          * @brief 모듈핸들러 실행 후 트리거 (애드온의 after_module_proc에 대응)
          **/
         function triggerModuleHandlerProc(&$oModule) {

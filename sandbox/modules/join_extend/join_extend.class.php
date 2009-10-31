@@ -20,6 +20,10 @@
             $oModuleController->insertTrigger('moduleHandler.init', 'join_extend', 'controller', 'triggerModuleHandlerInit', 'after');
             $oModuleController->insertTrigger('moduleHandler.proc', 'join_extend', 'controller', 'triggerModuleHandlerProc', 'after');
             $oModuleController->insertTrigger('display', 'join_extend', 'controller', 'triggerDisplay', 'before');
+            
+            // 회원탈퇴 트리거 추가(2009-10-31)
+            $oModuleController->insertTrigger('member.deleteMember', 'join_extend', 'controller', 'triggerDeleteMember', 'before');
+            
 			return new Object();
 		}
 
@@ -35,6 +39,7 @@
             if(!$oModuleModel->getTrigger('moduleHandler.init', 'join_extend', 'controller', 'triggerModuleHandlerInit', 'after'))   return true;
             if(!$oModuleModel->getTrigger('moduleHandler.proc', 'join_extend', 'controller', 'triggerModuleHandlerProc', 'after'))   return true;
             if(!$oModuleModel->getTrigger('display', 'join_extend', 'controller', 'triggerDisplay', 'before'))   return true;
+            if(!$oModuleModel->getTrigger('member.deleteMember', 'join_extend', 'controller', 'triggerDeleteMember', 'before'))   return true;
             
             // 기존 member 테이블의 jumin 필드를 join_extend의 jumin 필드로 이동(2009-10-30)
             if($oDB->isColumnExists("member","jumin"))  return true;
@@ -59,6 +64,8 @@
                 $oModuleController->insertTrigger('moduleHandler.proc', 'join_extend', 'controller', 'triggerModuleHandlerProc', 'after');
             if(!$oModuleModel->getTrigger('display', 'join_extend', 'controller', 'triggerDisplay', 'before'))
                 $oModuleController->insertTrigger('display', 'join_extend', 'controller', 'triggerDisplay', 'before');
+            if(!$oModuleModel->getTrigger('member.deleteMember', 'join_extend', 'controller', 'triggerDeleteMember', 'before'))
+                $oModuleController->insertTrigger('member.deleteMember', 'join_extend', 'controller', 'triggerDeleteMember', 'before');
             
             // 기존 member 테이블의 jumin 필드를 join_extend의 jumin 필드로 이동(2009-10-30)
             if($oDB->isColumnExists("member","jumin")) return new Object(-1, 'run_update');
