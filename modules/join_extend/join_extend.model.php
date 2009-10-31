@@ -309,5 +309,16 @@
 			
             return new Object();
         }
+        
+        /**
+         * @brief 주민등록번호 테이블 이전 되었는지 확인
+         **/
+        function isUpdateTable() {
+            $oDB = &DB::getInstance();
+            
+            if($oDB->isColumnExists("member","jumin")) return false;
+            
+            return true;
+        }
     }
 ?>

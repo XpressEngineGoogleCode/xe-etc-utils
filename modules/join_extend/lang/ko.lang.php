@@ -6,6 +6,14 @@
      **/
 
 	$lang->join_extend = '회원가입확장';
+	$lang->run_update = '업데이트 되었습니다. 추가로 회원가입 확장 설정으로 가서 테이블 업데이트를 실행하세요.';
+	$lang->request_update_table = '회원 DB 업데이트가 필요하여 가입이 제한되었습니다. 관리자에게 요청하세요';
+	$lang->admin_request_update_table = '회원 DB 업데이트가 필요합니다.';
+	
+	$lang->update_table = '테이블 업데이트';
+	$lang->about_update_table = 'Ver. 0.4.2부터 회원가입 확장을 위한 별도의 테이블을 이용합니다.<br/>테이블 업데이트를 클릭하면 기존 member 테이블에 있는 주민등록번호 정보를 새로운 테이블로 옮깁니다.<br/>데이터는 단계적으로 처리됩니다. 완료가 될때까지 기다리세요.<br/><span style="color: red"><strong>반드시 회원 DB 백업 후 실행하세요.</strong></span>';
+	$lang->complete_update_table = '회원 DB 업데이트가 완료되었습니다.';
+	
 	$lang->join_extend_title = '회원 가입 1단계'; 
 
     $lang->basic_config = '기본 설정';
