@@ -19,7 +19,9 @@
 		function dispJoin_extendAdminIndex() {
 			$oJoinExtendModel = &getModel('join_extend');
             $config = $oJoinExtendModel->getConfig();
+            $is_update_table = $oJoinExtendModel->isUpdateTable();
             Context::set('config',$config);
+            Context::set('is_update_table',$is_update_table);
             
 			// 스킨 목록을 구해옴
 			$oModuleModel = &getModel('module');

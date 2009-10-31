@@ -1,6 +1,6 @@
 <query id="isDuplicate" action="select">
     <tables>
-        <table name="member" />
+        <table name="join_extend" />
     </tables>
     <columns>
         <column name="count(*)" alias="count"/>

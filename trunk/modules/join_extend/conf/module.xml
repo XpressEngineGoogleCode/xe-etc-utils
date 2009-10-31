@@ -11,6 +11,7 @@
 		<action name="dispJoin_extendAdminInputConfig" type="view" standalone="true" />
 		
 		<action name="getJoin_extendAdminColorset" type="view" standalone="true" />
+		<action name="procJoin_extendAdminUpdateTable" type="controller" />
 		<action name="procJoin_extendAdminInsertConfig" type="controller"  />
 		<action name="procJoin_extendAgree" type="controller"  />
     </actions>
