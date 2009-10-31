@@ -4,6 +4,6 @@
     </tables>
     <columns>
         <column name="member_srl" var="member_srl" />
-        <column name="jumin" var="jumin" />
+        <column name="jumin" var="jumin" default="null" />
     </columns>
 </query>

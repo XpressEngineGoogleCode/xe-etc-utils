@@ -71,7 +71,6 @@
             if (!$member_srl) return false;
             $args->jumin = $_SESSION['join_extend_jumin']['jumin'];
             $args->member_srl = $member_srl;
-
             $output = executeQuery('join_extend.insertJumin', $args);
             if (!$output->toBool())  return false;
             
@@ -153,9 +152,17 @@
             
             $member_srl = $obj->member_srl;
 			$oMemberController = &getController('member');
-			
-			$res = $this->procJoin_extendJuminInsert($member_srl);
 
+            // join_extend 테이블에 회원정보 추가[주민번호 이동 쿼리가 어차피 동일하니 사용한다.]
+            $args->member_srl = $member_srl;
+            $output = executeQuery('join_extend.insertJuminToNewTable', $args);
+            if (!$output->toBool()) {
+                $oMemberController->deleteMember($member_srl);
+                 return $output;
+            }
+            
+            $res = $this->procJoin_extendJuminInsert($member_srl);
+            
 			// 주민번호 입력에 실패하면 회원가입을 취소
 			if (!$res){
 				$oMemberController->deleteMember($member_srl);
@@ -330,7 +337,7 @@
 			// 실제 가입시 체크
     		if(Context::get('act')=='procMemberInsert'){
     		    // 회원 DB 업데이트 되었는지 확인
-    		    $is_update_table = $oMJExtendModel->isUpdateTable();
+    		    $is_update_table = $oJoinExtendModel->isUpdateTable();
     			if (!$is_update_table)   return new Object(-1, 'request_update_table');
     				
     			// session 체크

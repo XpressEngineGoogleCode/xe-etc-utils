@@ -63,6 +63,8 @@ function completeProcessing(ret_obj, response_tags){
     // 진행표시
     jQuery("#progress_bar").width( 200 * percent );
     jQuery("#start_idx").val(next_idx);
+    jQuery("#percent").html( parseInt(percent * 100) + '%' );
+    if (percent >= 0.5)  jQuery("#percent").css("color", "white");
     
     // 다음 진행
     if (percent < 1) {
