@@ -41,7 +41,8 @@
             }
             
             // mid 목록
-            $config->mid_list2 = explode('|@|', $config->mid_list);
+            if (empty($config->mid_list))   $config->mid_list2 = array();
+            else                            $config->mid_list2 = explode('|@|', $config->mid_list);
 
             return $config;
         }
