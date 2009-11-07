@@ -229,6 +229,13 @@
                 $config = $oMenuNewModel->getConfig();
                 Context::set('config', $config);
                 
+                // 현재 사이트의 mid 목록
+                $oModuleModel = &getModel('module');
+                $site_info = Context::get('site_module_info');
+                $args->site_srl = $site_info->site_srl;
+                $mid_list = $oModuleModel->getMidList($args);
+                Context::set('mid_list',$mid_list);
+                
                 // 설정 화면 컴파일
                 $oTemplate = new TemplateHandler();
                 $menu_new = $oTemplate->compile('./modules/zzz_menu_new/tpl', 'menu_new_config.html');
