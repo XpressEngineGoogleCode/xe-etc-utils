@@ -67,6 +67,7 @@
             $oMenuNewModel = &getModel('zzz_menu_new');
             $config = $oMenuNewModel->getConfig();
             $site_info = Context::get('site_module_info');
+            if ($config->use_menu_new != 'Y')   return;
 
             $this->_procNew($menu_list, $config, $site_info->site_srl);
         }
@@ -90,7 +91,12 @@
                 $oMenuNewModel = &getModel('zzz_menu_new');
                 $mid = $oMenuNewModel->getMid($menu_item['url']);
                 
-                if (!empty($mid)) {
+                // 해당 mid에 새글 표시 사용인지 확인
+                $is_use = in_array($mid, $config->mid_list2);
+                if ($config->select_module_mode == 'out')   $is_use = !$is_use;
+                if (!count($config->mid_list2))    $is_use = true;
+                
+                if (!empty($mid) && $is_use) {
                     // 현재 메뉴의 마지막 글 시간
                     $cache = sprintf("%s/%d.%s_doc.php", $this->menu_new_cache_path, $site_srl, $mid);
                     @include $cache;
@@ -185,6 +191,53 @@
             $cache = sprintf("%s/%d.%s_com.php", $this->menu_new_cache_path, $site_srl, $mid);
             $buff = sprintf('<? $regdate_com=%d; ?>', $regdate);
             FileHandler::writeFile($cache, $buff);
+        }
+        
+        /**
+         * @brief 메뉴 캐시 생성시추가 작업
+         **/
+        function triggerModuleHandlerProc(&$oModule) {
+            $target_act = array(
+                                'procHomepageInsertMenuItem', 
+                                'procHomepageDeleteMenuItem', 
+                                'procHomepageMenuItemMove', 
+                                'procMenuAdminInsertItem', 
+                                'procMenuAdminDeleteItem', 
+                                'procMenuAdminMoveItem', 
+                                'procMenuAdminMakeXmlFile'
+                                );
+                                
+            if (in_array($oModule->act, $target_act)) {
+                $menu_srl = Context::get('menu_srl');
+                if (!$menu_srl)  return new Object();
+        
+                $oMenuNewAdminController = &getAdminController('zzz_menu_new');
+                $oMenuNewAdminController->procZzz_menu_newAdminRemakeCache($menu_srl);
+            }
+            
+            return new Object();
+            
+        }
+        
+        /**
+         * @brief CafeXE 메뉴 설정 화면 추가 작업
+         **/
+        function triggerDisplay(&$output) {
+            if (Context::getResponseMethod() == 'HTML' && Context::get('act') == 'dispHomepageTopMenu') {
+                // 설정 가져오기
+                $oMenuNewModel = &getModel('zzz_menu_new');
+                $config = $oMenuNewModel->getConfig();
+                Context::set('config', $config);
+                
+                // 설정 화면 컴파일
+                $oTemplate = new TemplateHandler();
+                $menu_new = $oTemplate->compile('./modules/zzz_menu_new/tpl', 'menu_new_config.html');
+                
+                // HTML 추가
+                $output = str_replace('</iframe>', "</iframe>$menu_new", $output);
+            }
+            
+            return new Object();
         }
     }
 
