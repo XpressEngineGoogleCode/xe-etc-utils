@@ -9,7 +9,7 @@
 <form action="./" method="get" onsubmit="return procFilter(this, insert_config)">
     <table cellspacing="0" class="rowTable">
     <tr class="row2">
-        <th scope="col"><div>{$lang->use_menu_new}</div></th>
+        <th scope="row"><div>{$lang->use_menu_new}</div></th>
         <td>
             <select name="use_menu_new">
                 <option value="Y"<!--@if($config->use_menu_new=='Y')--> selected="selected"<!--@end-->>{$lang->use}</option>
@@ -19,7 +19,7 @@
         </td>
     </tr>
     <tr class="row2">
-        <th scope="col"><div>{$lang->use_comment}</div></th>
+        <th scope="row"><div>{$lang->use_comment}</div></th>
         <td>
             <select name="use_comment">
                 <option value="Y"<!--@if($config->use_comment=='Y')--> selected="selected"<!--@end-->>{$lang->use}</option>
@@ -29,14 +29,14 @@
         </td>
     </tr>
     <tr class="row2">
-        <th scope="col"><div>{$lang->duration_new}</div></th>
+        <th scope="row"><div>{$lang->duration_new}</div></th>
         <td>
             <input type="text" name="duration_new" value="{$config->duration_new}" class="inputTypeText" />
             <p>{$lang->about_duration_new}</p>
         </td>
     </tr>
     <tr class="row2">
-        <th scope="col"><div>{$lang->up_new}</div></th>
+        <th scope="row"><div>{$lang->up_new}</div></th>
         <td>
             <select name="up_new">
                 <option value="Y"<!--@if($config->up_new=='Y')--> selected="selected"<!--@end-->>{$lang->use}</option>
@@ -46,7 +46,7 @@
         </td>
     </tr>
     <tr class="row2">
-        <th scope="col"><div>{$lang->text_new}</div></th>
+        <th scope="row"><div>{$lang->text_new}</div></th>
         <td>
             <select name="text_new">
                 <option value="Y"<!--@if($config->text_new=='Y')--> selected="selected"<!--@end-->>{$lang->use}</option>
@@ -56,10 +56,34 @@
         </td>
     </tr>
     <tr class="row2">
-        <th scope="col"><div>{$lang->new_image}</div></th>
+        <th scope="row"><div>{$lang->new_image}</div></th>
         <td>
             <input type="text" name="new_image" value="{$config->new_image}" class="inputTypeText w400" />
             <p>{$lang->about_new_image}</p>
+        </td>
+    </tr>
+    <tr class="row2">
+        <th scope="row"><div>{$lang->select_module}</div></th>
+        <td>
+            <p>
+                {$lang->about_select_module}
+                <select name="select_module_mode">
+                    <option value="in"<!--@if($config->select_module_mode=='in')--> selected="selected"<!--@end-->>{$lang->select_module_in}</option>
+                    <option value="out"<!--@if($config->select_module_mode=='out')--> selected="selected"<!--@end-->>{$lang->select_module_out}</option>
+                </select>
+                {$lang->about_select_module2}
+            </p>
+            <p>
+                <ul>
+                <!--@foreach($mid_list as $val)-->
+                    <li>
+                        <label>
+                        <input type="checkbox" name="mid_list" value="{$val->mid}" <!--@if(in_array($val->mid, $config->mid_list2))-->checked="checked"<!--@end--> />
+                        <strong>{$val->browser_title}</strong> (mid: {$val->mid}, module: {$val->module})
+                        </label>
+                <!--@end-->
+                </ul>
+            </p>
         </td>
     </tr>
     <tr>

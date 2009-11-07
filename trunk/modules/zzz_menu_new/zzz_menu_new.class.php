@@ -27,6 +27,10 @@
             
             $oModuleController->insertTrigger('document.deleteDocument', 'zzz_menu_new', 'controller', 'triggerDeleteDocument', 'after');
             $oModuleController->insertTrigger('comment.deleteComment', 'zzz_menu_new', 'controller', 'triggerDeleteComment', 'after');
+            
+            // 메뉴 캐시 생성시, CafeXE 메뉴 설정시 추가작업을 위한 트리거 추가 (09.10.25)
+            $oModuleController->insertTrigger('moduleHandler.proc', 'zzz_menu_new', 'controller', 'triggerModuleHandlerProc', 'after');
+            $oModuleController->insertTrigger('display', 'zzz_menu_new', 'controller', 'triggerDisplay', 'before');
 
             return new Object();
         }
@@ -42,6 +46,8 @@
             if(!$oModuleModel->getTrigger('comment.insertComment', 'zzz_menu_new', 'controller', 'triggerInsertComment', 'after'))      return true;
             if(!$oModuleModel->getTrigger('document.deleteDocument', 'zzz_menu_new', 'controller', 'triggerDeleteDocument', 'after'))   return true;
             if(!$oModuleModel->getTrigger('comment.deleteComment', 'zzz_menu_new', 'controller', 'triggerDeleteComment', 'after'))      return true;
+            if(!$oModuleModel->getTrigger('moduleHandler.proc', 'zzz_menu_new', 'controller', 'triggerModuleHandlerProc', 'after'))      return true;
+            if(!$oModuleModel->getTrigger('display', 'zzz_menu_new', 'controller', 'triggerDisplay', 'before'))      return true;
             
             return false;
         }
@@ -64,6 +70,12 @@
                 
             if(!$oModuleModel->getTrigger('comment.deleteComment', 'zzz_menu_new', 'controller', 'triggerDeleteComment', 'after'))
                 $oModuleController->insertTrigger('comment.deleteComment', 'zzz_menu_new', 'controller', 'triggerDeleteComment', 'after');
+            
+            if(!$oModuleModel->getTrigger('moduleHandler.proc', 'zzz_menu_new', 'controller', 'triggerModuleHandlerProc', 'after'))
+                $oModuleController->insertTrigger('moduleHandler.proc', 'zzz_menu_new', 'controller', 'triggerModuleHandlerProc', 'after');
+            
+            if(!$oModuleModel->getTrigger('display', 'zzz_menu_new', 'controller', 'triggerDisplay', 'before'))
+                $oModuleController->insertTrigger('display', 'zzz_menu_new', 'controller', 'triggerDisplay', 'before');
             
             return new Object(0, 'success_updated');
         }

@@ -28,6 +28,7 @@
             if (!$config->duration_new) $config->duration_new = 24;
             if (!$config->up_new)       $config->up_new = 'N';
             if (!$config->text_new)     $config->text_new = 'N';
+            if (!$config->select_module_mode)     $config->select_module_mode = 'in';
             
             $config->time_check = time() - intVal($config->duration_new) * 60 * 60;
             
@@ -38,6 +39,9 @@
                 $path = sprintf('%s%s',getUrl(), 'modules/document/tpl/icons/');
                 $config->new_image_tag = sprintf('<img src="%snew.gif" alt="new" title="new" style="margin-left:2px;vertical-align: middle;" class="addon_menu_new"/>', $path);
             }
+            
+            // mid 목록
+            $config->mid_list2 = explode('|@|', $config->mid_list);
 
             return $config;
         }
