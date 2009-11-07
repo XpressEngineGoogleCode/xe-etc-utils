@@ -69,11 +69,13 @@
             if ($config->save_jumin != "Y") return true;
 
             if (!$member_srl) return false;
-            $args->jumin = $_SESSION['join_extend_jumin']['jumin'];
-            $args->member_srl = $member_srl;
-            $output = executeQuery('join_extend.insertJumin', $args);
-            if (!$output->toBool())  return false;
-            
+            if (!empty($_SESSION['join_extend_jumin']['jumin'])) {
+                $args->jumin = $_SESSION['join_extend_jumin']['jumin'];
+                $args->member_srl = $member_srl;
+                $output = executeQuery('join_extend.insertJumin', $args);
+                if (!$output->toBool())  return false;
+            }
+
             return true;
         }
         
@@ -160,7 +162,7 @@
                 $oMemberController->deleteMember($member_srl);
                  return $output;
             }
-            
+
             $res = $this->procJoin_extendJuminInsert($member_srl);
             
 			// 주민번호 입력에 실패하면 회원가입을 취소
@@ -168,7 +170,7 @@
 				$oMemberController->deleteMember($member_srl);
 				return new Object(-1, 'insert_fail_jumin');
 			}
-			
+
 			// 추천인 포인트 지급
 			$res = $this->procJoin_extendRecommender($member_srl);
 			
@@ -183,7 +185,7 @@
 			
 			unset($_SESSION['join_extend_authed_act']);
 			unset($_SESSION['join_extend_jumin']);
-			
+
 			return new Object();
         }
         
