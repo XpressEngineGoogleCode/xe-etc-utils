@@ -218,12 +218,18 @@
     				$oMJExtendModel = &getModel('join_extend');
     				$config = $oMJExtendModel->getConfig();
     				
+    				// member 모듈 옵션
+    				$oMemberModel = &getModel('member');
+    				$member_config = $oMemberModel->getMemberConfig();
+    				
+    				debugPrint($member_config);
+    				
     				// 회원 DB 업데이트 되었는지 확인
     				$is_update_table = $oMJExtendModel->isUpdateTable();
     				if (!$is_update_table)   return new Object(-1, 'request_update_table');
     				
-    				// 약관, 개인정보, 주민번호 모두 사용하지 않으면 1단계 화면은 생략
-    				if ($config->use_jumin != "Y" && $config->use_agreement != "Y" && $config->use_private_agreement != "Y") {
+    				// 약관, 개인정보, 주민번호 모두 사용하지 않거나 회원가입 허용되어 있지 않으면 1단계 화면은 생략
+    				if (($config->use_jumin != "Y" && $config->use_agreement != "Y" && $config->use_private_agreement != "Y") || $member_config->enable_join != "Y") {
     				    $_SESSION['join_extend_authed_act'] = true;
     				    return new Object();
     				}
