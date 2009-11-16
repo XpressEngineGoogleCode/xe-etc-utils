@@ -222,8 +222,6 @@
     				$oMemberModel = &getModel('member');
     				$member_config = $oMemberModel->getMemberConfig();
     				
-    				debugPrint($member_config);
-    				
     				// 회원 DB 업데이트 되었는지 확인
     				$is_update_table = $oMJExtendModel->isUpdateTable();
     				if (!$is_update_table)   return new Object(-1, 'request_update_table');
