@@ -20,6 +20,11 @@
             $oJoinExtendModel = &getModel('join_extend');
             $config = $oJoinExtendModel->getConfig();
             
+            // 이름 길이 확인
+            Context::set('user_name', Context::get('name'), true);
+            $result = $oJoinExtendModel->checkInput();
+            if (!$result->toBool()) return $result;
+            
             // 중복 확인
             $result = $oJoinExtendModel->isDuplicate();
             if ($result)    return $this->stop('jumin_exist');
