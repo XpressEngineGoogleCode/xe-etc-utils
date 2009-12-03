@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<addon version="0.2">
+    <title xml:lang="ko">AddThis 애드온</title>
+    <description xml:lang="ko">
+        본문에 AddThis 버튼을 추가합니다.
+    </description>
+    <version>0.1</version>
+    <date>2009-11-16</date>
+
+    <author email_address="sinsy200@gmail.com" link="http://etcutils.xpressengine.net">
+        <name xml:lang="ko">난다날아</name>
+    </author>
+    
+    <extra_vars>
+        <var name="type" type="select">
+            <title xml:lang="ko">버튼 형태</title>
+            <description xml:lang="ko"><![CDATA[<ul><li>1. <img src="//s7.addthis.com/static/btn/v2/lg-share-en.gif" width="125" height="16" border="0" alt="Share" style="vertical-align: middle"/></li><li>2. <img src="//s7.addthis.com/static/btn/v2/lg-bookmark-en.gif" width="125" height="16" border="0" alt="Bookmark" style="vertical-align: middle" /></li><li>3. <img src="//s7.addthis.com/static/btn/sm-share-en.gif" width="83" height="16" border="0" alt="Share" style="vertical-align: middle"/></li><li>4. <img src="//s7.addthis.com/static/btn/sm-bookmark-en.gif" width="83" height="16" border="0" alt="Bookmark" style="vertical-align: middle"/></li></ul>]]></description>
+            <options value="">
+                <title xml:lang="ko">1</title>
+            </options>
+            <options value="1">
+                <title xml:lang="ko">2</title>
+            </options>
+            <options value="2">
+                <title xml:lang="ko">3</title>
+            </options>
+            <options value="3">
+                <title xml:lang="ko">4</title>
+            </options>
+        </var>
+    </extra_vars>
+</addon>
