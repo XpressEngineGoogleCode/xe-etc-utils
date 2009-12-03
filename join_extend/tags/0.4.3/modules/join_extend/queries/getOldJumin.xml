@@ -1,0 +1,15 @@
+<query id="getOldJumin" action="select">
+    <tables>
+        <table name="member" />
+    </tables>
+    <columns>
+        <column name="member_srl" />
+        <column name="jumin" />
+    </columns>
+    <navigation>
+        <index var="sort_index" default="member_srl" order="order_type" />
+        <list_count var="list_count" default="20" />
+        <page_count var="page_count" default="10" />
+        <page var="page" default="1" />
+    </navigation>
+</query>
