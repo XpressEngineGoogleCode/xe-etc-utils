@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<addon version="0.2">
+    <title xml:lang="ko">새 댓글 표시 애드온</title>
+    <description xml:lang="ko">
+        새 댓글을 표시합니다.
+    </description>
+    <version>1.1.0</version>
+    <date>2009-10-18</date>
+
+    <author email_address="sinsy200@gmail.com" link="http://etcutils.xpressengine.net">
+        <name xml:lang="ko">난다날아</name>
+    </author>
+	<extra_vars>
+        <var name="position" type="select">
+            <title xml:lang="ko">새 댓글 표시 위치</title>
+            <description xml:lang="ko">새 댓글 표시를 댓글 전/후 중 어디에 표시할지 선택합니다.</description>
+            <options value="">
+                <title xml:lang="ko">댓글 전</title>
+            </options>
+            <options value="1">
+                <title xml:lang="ko">댓글 후</title>
+            </options>
+        </var>
+    	<var name="new_image">
+	    	<title xml:lang="ko">new 이미지 주소</title>
+		    <description xml:lang="ko">new 이미지 주소를 입력하세요. 비워두면 기본 이미지를 이용합니다.</description>
+    	</var>
+	    <var name="duration_new">
+		    <title xml:lang="ko">new 표시 시간(hours)</title>
+    		<description xml:lang="ko">새로 등록된 댓글의 new 표시시간을 정할 수 있습니다. (기본 24시간)</description>
+	    </var>
+	</extra_vars>
+</addon>
