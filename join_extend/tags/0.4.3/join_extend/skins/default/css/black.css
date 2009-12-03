@@ -1,8 +1,0 @@
-@charset "utf-8";
-/* NHN > UIT Center > Open UI Technology Team > Jeong Chan Myeong(dece24@nhncorp.com) */
-.joinContent label{ color: #999; }
-.joinContent .joinAgreement{ border-color: #222; background:#333; color:#999;}
-.joinContent .joinButton{ border-color: #222; background:#333; color: #999;}
-.joinContent .joinButton:hover{ background:#444; }
-.joinContent .joinButton input { color: #999; }
-.joinContent table input { border-color: #222; background:#444; color: #999;}
