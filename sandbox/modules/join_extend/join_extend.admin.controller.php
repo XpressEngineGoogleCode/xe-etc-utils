@@ -25,6 +25,13 @@
                     }
                 }
             }
+            unset($config->input_config);
+            
+            // 에디터 내용 없앰
+            unset($config->agreement);
+            unset($config->private_agreement);
+            unset($config->private_gathering_agreement);
+            unset($config->welcome);
 
             // 새 설정을 기존 설정과 합친다.
             $config_list = get_object_vars($new_config);
@@ -37,6 +44,33 @@
 			// module Controller 객체 생성하여 입력
 			$oModuleController = &getController('module');
 			$output = $oModuleController->insertModuleConfig('join_extend',$config);
+			return $output;
+		}
+		
+		/**
+		 * @brief 에디터 설정 저장
+		 **/
+		function procJoin_extendAdminInsertEditor() {
+		    $type = Context::get('type');
+		    
+		    switch ($type) {
+		        case 'agreement':
+		            $content = Context::get('agreement');
+		            break;
+		        case 'private_agreement':
+		            $content = Context::get('private_agreement');
+		            break;
+		        case 'private_gathering_agreement':
+    		        $content = Context::get('private_gathering_agreement');
+    		        break;
+    		    case 'welcome':
+  		            $content = Context::get('welcome');
+  		            break;
+		    }
+            
+			// module Controller 객체 생성하여 입력
+			$oModuleController = &getController('module');
+			$output = $oModuleController->insertModuleConfig('join_extend_editor_'.$type, $content);
 			return $output;
 		}
 		

@@ -36,6 +36,12 @@
             // 기본값
             if (!$config->skin) $config->skin = 'default';
             
+            // 에디터 내용을 가져온다.
+            $config->agreement = $oModuleModel->getModuleConfig('join_extend_editor_agreement');
+            $config->private_agreement = $oModuleModel->getModuleConfig('join_extend_editor_private_agreement');
+            $config->private_gathering_agreement = $oModuleModel->getModuleConfig('join_extend_editor_private_gathering_agreement');
+            $config->welcome = $oModuleModel->getModuleConfig('join_extend_editor_welcome');
+            
             // 정보입력 설정을 적당히 가공한다.
             if ($input_config) {
                 $array_config = get_object_vars($config);

@@ -1,10 +1,10 @@
 <!--#include("header.html")-->
+<!--%import("filter/insert_editor.xml")-->
 
 <form action="./" method="post" onsubmit="return procFilter(this, insert_config)">
-    <input type="hidden" name="welcome" value="{htmlspecialchars($config->welcome)}" />
     <table cellspacing="0" class="rowTable">
     <tr>
-        <th scope="row"><div>{$lang->use_welcome}</div></th>
+        <th scope="row" class="w150"><div>{$lang->use_welcome}</div></th>
         <td>
             <select name="use_welcome">
 				<option value="N"<!--@if($config->use_welcome=='N')--> selected="selected"<!--@end-->>{$lang->notuse}</option>
@@ -14,14 +14,26 @@
         </td>
     </tr>
     <tr>
-        <th scope="row"><div>{$lang->welcome}</div></th>
+        <th colspan="2" class="button">
+            <span class="button black strong"><input type="submit" value="{$lang->cmd_registration}" /></span>
+        </th>
+    </tr>
+    </table>
+</form>
+
+<form action="./" method="post" onsubmit="return procFilter(this, insert_editor)">
+    <input type="hidden" name="type" value="welcome" />
+    <input type="hidden" name="welcome" value="{htmlspecialchars($config->welcome)}" />
+    <table cellspacing="0" class="rowTable">
+    <tr>
+        <th scope="row" class="w150"><div>{$lang->welcome}</div></th>
         <td>
             {$editor_welcome}
         </td>
     </tr>
     <tr>
         <th colspan="2" class="button">
-            <span class="button black strong"><input type="submit" value="{$lang->cmd_registration}" accesskey="s" /></span>
+            <span class="button black strong"><input type="submit" value="{$lang->cmd_registration}" /></span>
         </th>
     </tr>
     </table>
