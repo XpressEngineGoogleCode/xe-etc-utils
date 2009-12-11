@@ -103,6 +103,9 @@
             $recoid_info = $oMemberModel->getMemberInfoByUserID($recoid);
             if (!$recoid_info)  return false;
             
+            // 가입한 본인 아이디인지 확인
+            if ($recoid_info->member_srl == $member_srl)    return false;
+            
             // 추천인 포인트 지급
             if (intVal($config->recoid_point)) {
                 $oPointController->setPoint($recoid_info->member_srl, intVal($config->recoid_point), 'add');
