@@ -19,8 +19,8 @@
          * @brief 설정을 받아옴
          **/
         function getConfig($input_config = true) {
-            if ($input_config)  return clone $GLOBALS['__join_extend__']['config_with_input_config'];
-            else                return clone $GLOBALS['__join_extend__']['config'];
+            if ($input_config)  return clone($GLOBALS['__join_extend__']['config_with_input_config']);
+            else                return clone($GLOBALS['__join_extend__']['config']);
         }
         
         /**
@@ -28,7 +28,7 @@
          **/
         function _getConfig($input_config = true, $editor_config = true) {
             $oModuleModel = &getModel('module');
-            $config = clone $oModuleModel->getModuleConfig('join_extend');
+            $config = clone($oModuleModel->getModuleConfig('join_extend'));
 
             // 기본값
             if (!$config->skin) $config->skin = 'default';
@@ -73,7 +73,7 @@
                 $config->input_config->upper_length = $upper_length;
                 $config->input_config->type = $type;
             }
-            return clone $config;
+            return clone($config);
         }
 
         /**
