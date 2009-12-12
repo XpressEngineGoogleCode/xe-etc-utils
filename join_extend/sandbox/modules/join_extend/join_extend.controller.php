@@ -103,6 +103,9 @@
             $recoid_info = $oMemberModel->getMemberInfoByUserID($recoid);
             if (!$recoid_info)  return false;
             
+            // 가입한 본인 아이디인지 확인
+            if ($recoid_info->member_srl == $member_srl)    return false;
+            
             // 추천인 포인트 지급
             if (intVal($config->recoid_point)) {
                 $oPointController->setPoint($recoid_info->member_srl, intVal($config->recoid_point), 'add');
@@ -218,17 +221,12 @@
             
             if(Context::get('act') == "dispMemberSignUpForm"){
     			if(!$_SESSION['join_extend_authed']){
-    
-    				// 모듈 옵션
-    				$oMJExtendModel = &getModel('join_extend');
-    				$config = $oMJExtendModel->getConfig();
-    				
     				// member 모듈 옵션
     				$oMemberModel = &getModel('member');
     				$member_config = $oMemberModel->getMemberConfig();
     				
     				// 회원 DB 업데이트 되었는지 확인
-    				$is_update_table = $oMJExtendModel->isUpdateTable();
+    				$is_update_table = $oJoinExtendModel->isUpdateTable();
     				if (!$is_update_table)   return new Object(-1, 'request_update_table');
     				
     				// 약관, 개인정보, 주민번호 모두 사용하지 않거나 회원가입 허용되어 있지 않으면 1단계 화면은 생략
@@ -262,10 +260,6 @@
 
     				unset($_SESSION['join_extend_jumin']);
     			}else{
-    				// 모듈 옵션
-    				$oMJExtendModel = &getModel('join_extend');
-    				$config = $oMJExtendModel->getConfig();
-    
                     // 추천인 아이디
                     if (!empty($config->recoid_var_name) && Context::get('recoid')) {
                         Context::addHtmlHeader(sprintf('<script type="text/javascript"> var recoid_var_name2 ="%s"; var recoid = "%s"; </script>', 
@@ -302,9 +296,6 @@
     
     		// 회원 정보 수정 화면 주민번호 사용시 이름 변경 금지!
     		}else if (Context::get('act') == 'dispMemberModifyInfo'){
-    				// 모듈 옵션
-    				$oMJExtendModel = &getModel('join_extend');
-    				$config = $oMJExtendModel->getConfig();
     				$member_info = Context::get('member_info');
     				
     				if (!empty($config->recoid_var_name)) {
@@ -371,28 +362,26 @@
     			}
     
                 // 세션 체크
-    			$oMJExtendModel = &getModel('join_extend');
-    			$res = $oMJExtendModel->checkSession();
+    			$res = $oJoinExtendModel->checkSession();
 
     			if ($res)   $this->xmlMessage($res);
     			
     			// 입력 항목 체크
-    			$output = $oMJExtendModel->checkInput();
+    			$output = $oJoinExtendModel->checkInput();
     			if (!$output->toBool())  $this->xmlMessage($output->message);
     			
     		// 회원 정보 수정 시
     		}else if (Context::get('act') == 'procMemberModifyInfo') {
                 // 세션 체크
-    			$oMJExtendModel = &getModel('join_extend');
-    			$res = $oMJExtendModel->checkSession();
+    			$res = $oJoinExtendModel->checkSession();
     			if ($res)   $this->xmlMessage($res);
     			
     			// 입력 항목 체크
-    			$output = $oMJExtendModel->checkInput();
+    			$output = $oJoinExtendModel->checkInput();
     			if (!$output->toBool())  $this->xmlMessage($output->message);
     			
     			// 입력 항목 수정 체크
-    			$output = $oMJExtendModel->checkInputMod();
+    			$output = $oJoinExtendModel->checkInputMod();
     			if (!$output->toBool())  $this->xmlMessage($output->message);
     		}
     		
@@ -409,8 +398,6 @@
             if ($config->use_join_extend != 'Y')    return new Object();
             
             if (Context::getResponseMethod() == 'HTML' && in_array(Context::get('act'), array("dispMemberSignUpForm", "dispMemberModifyInfo"))) {
-        	    $oMJExtendModel = &getModel('join_extend');
-        	    $config = $oMJExtendModel->getConfig();
         	    if (empty($config->recoid_var_name))    return new Object();
         	    
         	    // 추천인 포인트

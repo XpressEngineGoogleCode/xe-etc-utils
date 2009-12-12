@@ -6,38 +6,43 @@
      **/
 
     class join_extendModel extends join_extend {
-
-        var $config;
-        var $config_with_input_config;
         
         /**
          * @brief 초기화
          **/
         function join_extendModel() {
-            $this->config_with_input_config = $this->_getConfig();
-            $this->config = $this->_getConfig(false);
+            $GLOBALS['__join_extend__']['config_with_input_config'] = $this->_getConfig();
+            $GLOBALS['__join_extend__']['config'] = $this->_getConfig(false);
         }
 
         /**
          * @brief 설정을 받아옴
          **/
         function getConfig($input_config = true) {
-            if ($input_config)  return $this->config_with_input_config;
-            else                return $this->config;
+            if ($input_config)  return clone $GLOBALS['__join_extend__']['config_with_input_config'];
+            else                return clone $GLOBALS['__join_extend__']['config'];
         }
         
         /**
          * @brief 설정을 받아옴
          **/
-        function _getConfig($input_config = true) {
+        function _getConfig($input_config = true, $editor_config = true) {
             $oModuleModel = &getModel('module');
-            $config = $oModuleModel->getModuleConfig('join_extend');
+            $config = clone $oModuleModel->getModuleConfig('join_extend');
 
             // 기본값
             if (!$config->skin) $config->skin = 'default';
             
+            // 에디터 내용을 가져온다.
+            if ($editor_config == true) {
+                $config->agreement = $oModuleModel->getModuleConfig('join_extend_editor_agreement');
+                $config->private_agreement = $oModuleModel->getModuleConfig('join_extend_editor_private_agreement');
+                $config->private_gathering_agreement = $oModuleModel->getModuleConfig('join_extend_editor_private_gathering_agreement');
+                $config->welcome = $oModuleModel->getModuleConfig('join_extend_editor_welcome');
+            }
+            
             // 정보입력 설정을 적당히 가공한다.
-            if ($input_config) {
+            if ($input_config == true) {
                 $array_config = get_object_vars($config);
                 if (is_array($array_config)) {
                     foreach($array_config as $name => $val) {
@@ -68,7 +73,7 @@
                 $config->input_config->upper_length = $upper_length;
                 $config->input_config->type = $type;
             }
-            return $config;
+            return clone $config;
         }
 
         /**
@@ -317,6 +322,20 @@
             $oDB = &DB::getInstance();
             
             if($oDB->isColumnExists("member","jumin")) return false;
+            
+            return true;
+        }
+        
+        /**
+         * @brief 에디터 내용 이전 되었는지 확인
+         **/
+        function isUpdateEditor() {
+            $config = $this->_getConfig(false, false);
+            
+            if( isset($config->agreement) || 
+                isset($config->private_agreement) || 
+                isset($config->private_gathering_agreement) || 
+                isset($config->welcome)) return false;
             
             return true;
         }
