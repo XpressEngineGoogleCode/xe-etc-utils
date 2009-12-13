@@ -295,8 +295,11 @@
             $request_vars = Context::getRequestVars();
             if (count($config->input_config->no_mod)) {
                 foreach($config->input_config->no_mod as $var_name => $val) {
-                    if ($val != "Y") continue;
+                    if (!($val == "Y" || $val == "Y2")) continue;
 
+                    // 생일이고, 회원가입시 수정할 수 있도록 했으면 생략
+                    if ($var_name == 'birthday' && Context::get('act') == 'procMemberInsert' && $val == "Y")    continue;
+                    
                     if (!isset($request_vars->{$var_name}))                     continue;
                     if (!isset($_SESSION['join_extend_no_mod'][$var_name]))     return new Object(-1, 'session_problem');
                     if (empty($_SESSION['join_extend_no_mod'][$var_name]))      continue;

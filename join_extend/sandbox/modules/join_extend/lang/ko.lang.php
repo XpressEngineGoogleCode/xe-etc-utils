@@ -29,6 +29,8 @@
     $lang->great_than = '이상';
     $lang->less_than = '이하';
     $lang->no_modification = '수정금지';
+    $lang->birthday_no_mod_op1 = '수정금지(가입시 가능)';
+    $lang->birthday_no_mod_op2 = '수정금지';
     
     $lang->use_join_extend = '회원가입 확장 사용';
     $lang->about_use_join_extend = '회원가입 확장 기능 사용 여부를 선택합니다.';

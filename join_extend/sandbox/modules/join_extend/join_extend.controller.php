@@ -288,6 +288,15 @@
     					                                $_SESSION['join_extend_jumin']['birthday'],
     					                                $_SESSION['join_extend_jumin']['birthday2']));
     					Context::addJsFile('./modules/join_extend/tpl/js/fix_name.js',false);
+    					
+    					// 가입화면에서도 생일 수정금지일 때
+    					if ($config->input_config->birthday_no_mod == "Y2") {
+        					unset($_SESSION['join_extend_no_mod']);
+        					$_SESSION['join_extend_no_mod']['birthday'] = $_SESSION['join_extend_jumin']['birthday'];
+        					
+            				Context::addHtmlHeader('<script type="text/javascript"> var no_mod = new Array(); var no_mod_type = new Array(); no_mod[0] = "birthday"; no_mod_type[0] = "date"; </script>');
+            				Context::addJsFile('./modules/join_extend/tpl/js/no_mod.js',false);
+        				}
     				}
     
         			unset($_SESSION['join_extend_authed']);
@@ -327,7 +336,7 @@
     				if (count($config->input_config->no_mod)) {
     				    $i = 0;
     				    foreach($config->input_config->no_mod as $var_name => $val) {
-    				        if ($val != "Y")    continue;
+    				        if (!($val == "Y" || $val == "Y2"))    continue;
     				        $js_str .= "no_mod[$i] = '$var_name';";
     				        $js_str .= "no_mod_type[$i] = '{$config->input_config->type[$var_name]}';";
     				        if (!$member_info->{$var_name}) $member_info->{$var_name} = '';
@@ -368,6 +377,10 @@
     			
     			// 입력 항목 체크
     			$output = $oJoinExtendModel->checkInput();
+    			if (!$output->toBool())  $this->xmlMessage($output->message);
+    			
+    			// 입력 항목 수정 체크
+    			$output = $oJoinExtendModel->checkInputMod();
     			if (!$output->toBool())  $this->xmlMessage($output->message);
     			
     		// 회원 정보 수정 시

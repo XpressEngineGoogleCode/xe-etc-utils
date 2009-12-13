@@ -68,7 +68,13 @@
     <tr>
         <th scope="col">{$lang->birthday} <input type="hidden" name="birthday_type" value="date" /></th>
         <td><input type="checkbox" name="birthday_required" value="Y" <!--@if($config->birthday_required=="Y")-->checked="checked"<!--@end--> /></td>
-        <td><input type="checkbox" name="birthday_no_mod" value="Y" <!--@if($config->birthday_no_mod=="Y")-->checked="checked"<!--@end--> /></td>
+        <td>
+            <select name="birthday_no_mod">
+                <option value="">{$lang->notuse}</option>
+                <option value="Y" <!--@if($config->birthday_no_mod=="Y")-->selected="selected"<!--@end-->>{$lang->birthday_no_mod_op1}</option>
+                <option value="Y2" <!--@if($config->birthday_no_mod=="Y2")-->selected="selected"<!--@end-->>{$lang->birthday_no_mod_op2}</option>
+            </select>
+        </td>
         <td>-</td>
     </tr>
     {@$array_config = get_object_vars($config)}
