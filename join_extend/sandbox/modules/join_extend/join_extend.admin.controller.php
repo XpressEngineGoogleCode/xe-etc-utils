@@ -66,6 +66,9 @@
     		    case 'welcome':
   		            $content = Context::get('welcome');
   		            break;
+  		        case 'welcome_email':
+  		            $content = Context::get('welcome_email');
+  		            break;
 		    }
             
 			// module Controller 객체 생성하여 입력

@@ -132,11 +132,26 @@
             $admin_info = $oMemberModel->getMemberInfoByUserID($config->admin_id);
             $admin_member_srl = $admin_info->member_srl;
             
+            // 가입자 정보
+            $member_info = $oMemberModel->getMemberInfoByMemberSrl($member_srl);
+            
             // 쪽지 발송
             $title = cut_str($this->unhtmlentities(strip_tags($config->welcome)), 40);
             $content = $config->welcome;
             $oCommunicationController = &getController('communication');
             $oCommunicationController->sendMessage($admin_member_srl, $member_srl, $title, $content, false);
+            
+            // 메일 발송
+            if ($config->use_welcome_email != "Y")  return;
+            
+            $title = $config->welcome_email_title;
+            $content = $config->welcome_email;
+            $oMail = new Mail();
+            $oMail->setTitle($title);
+            $oMail->setContent($content);
+            $oMail->setSender($admin_info->user_name, $admin_info->email_address);
+            $oMail->setReceiptor($member_info->user_name, $member_info->email_address);
+            $oMail->send();
             
 //            // 쪽지가 가든 말든 일단 보내고 본다!
 //            $receiver_args->message_srl = getNextSequence();

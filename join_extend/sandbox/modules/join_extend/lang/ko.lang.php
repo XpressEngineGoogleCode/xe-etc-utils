@@ -97,6 +97,11 @@
     $lang->welcome = '가입 환영 쪽지 내용';
     $lang->use_welcome = '가입 환영 쪽지';
     $lang->about_use_welcome = '가입한 회원에게 환영 쪽지를 보냅니다.';
+    $lang->welcome_email = '가입 환영 메일 내용';
+    $lang->welcome_email_title = '가입 환영 메일 제목';
+    $lang->about_welcome_email_title = '가입 환영 메일 제목을 입력하세요. 내용은 아래에서 별로도 작성하세요.';
+    $lang->use_welcome_email = '가입 환영 메일';
+    $lang->about_use_welcome_email = '가입한 회원에게 환영 메일를 보냅니다.';
     
     $lang->agree_agreement= '이용약관에 동의 합니다.'; 
     $lang->agree_private_agreement= '개인정보취급방침에 동의 합니다.'; 

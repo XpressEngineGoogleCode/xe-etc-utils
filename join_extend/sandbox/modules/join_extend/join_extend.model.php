@@ -39,6 +39,7 @@
                 $config->private_agreement = $oModuleModel->getModuleConfig('join_extend_editor_private_agreement');
                 $config->private_gathering_agreement = $oModuleModel->getModuleConfig('join_extend_editor_private_gathering_agreement');
                 $config->welcome = $oModuleModel->getModuleConfig('join_extend_editor_welcome');
+                $config->welcome_email = $oModuleModel->getModuleConfig('join_extend_editor_welcome_email');
             }
             
             // 정보입력 설정을 적당히 가공한다.

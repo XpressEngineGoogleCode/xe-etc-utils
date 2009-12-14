@@ -120,6 +120,11 @@
             $editor_welcome = $oEditorModel->getEditor(0, $option);
             Context::set('editor_welcome', $editor_welcome);
             
+            // 가입 환영 메일 에디터
+            $option->content_key_name = 'welcome_email';
+            $editor_welcome_email = $oEditorModel->getEditor(0, $option);
+            Context::set('editor_welcome_email', $editor_welcome_email);
+            
             // 템플릿 지정
             $this->setTemplatePath($this->module_path.'tpl');
             $this->setTemplateFile('after_config');
