@@ -34,6 +34,7 @@
     
     $lang->use_join_extend = '회원가입 확장 사용';
     $lang->about_use_join_extend = '회원가입 확장 기능 사용 여부를 선택합니다.';
+    $lang->about_admin_id_2 = '이곳에 설정한 관리자 아이디가 환영 쪽지 등의 발송자로 사용됩니다.';
     
 	$lang->use_agreement = '이용약관 표시';
 	$lang->about_use_agreement = '이용약관을 표시 및 동의를 받습니다.';

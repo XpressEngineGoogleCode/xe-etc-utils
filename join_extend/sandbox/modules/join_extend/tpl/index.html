@@ -36,6 +36,13 @@
         </td>
     </tr>
     <tr>
+        <th scope="col"><div>{$lang->admin_id}</div></th>
+        <td>
+            <input type="text" name="admin_id" value="{$config->admin_id}" class="inputText w100" />
+            <p>{$lang->about_admin_id_2}</p>
+        </td>
+    </tr>
+    <tr>
         <th scope="row"><div>{$lang->skin}</div></th>
         <td>
             <select name="skin" onchange="doGetSkinColorset(this.options[this.selectedIndex].value);return false;">
