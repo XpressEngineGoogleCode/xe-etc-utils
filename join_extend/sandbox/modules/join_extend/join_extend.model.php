@@ -188,6 +188,7 @@
         function createSession()
         {
             $_SESSION['join_extend_authed'] = true;
+            $_SESSION['join_extend_invitation'] = true;
             
             $config = $this->getConfig();
             if ($config->use_jumin != "Y")  return;
@@ -248,6 +249,11 @@
 			if ($config->use_jumin == "Y" && !empty($config->sex_var_name)) {
 			    if (!isset($_SESSION['join_extend_jumin']['sex']))  return 'session_problem';
 				Context::set($config->sex_var_name, $_SESSION['join_extend_jumin']['sex'], true);
+			}
+			
+			// 초대장 세션 체크
+			if ($config->use_invitation == "Y") {
+			    if (!isset($_SESSION['join_extend_invitation_srl']))  return 'session_problem';
 			}
 			
 			return false;

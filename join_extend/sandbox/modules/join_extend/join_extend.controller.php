@@ -14,6 +14,26 @@
         }
 
         /**
+         * @brief 초대장 확인
+         **/
+        function procJoin_extendInvitation() {
+            $args->invitation_code = str_replace('-', '', Context::get('invitation_code'));
+            if (empty($args->invitation_code))    return $this->stop('msg_empty_invitation_code');
+            
+            // 해당 초대장이 있는지 확인
+            $output = executeQuery('join_extend.getInvitation', $args);
+            if (!$output->toBool()) return $output;
+            if (!$output->data) return $this->stop('msg_incorrect_invitation');
+            
+            // 해당 초대장이 사용된 것인지 확인
+            if ($output->data->joindate != "0") return $this->stop('msg_used_invitation');
+            
+            // 초대장 번호 저장
+            $_SESSION['join_extend_invitation'] = true;
+            $_SESSION['join_extend_invitation_srl'] = $output->data->invitation_srl;
+        }
+        
+        /**
          * @brief 동의
          **/
         function procJoin_extendAgree() {
@@ -64,6 +84,26 @@
             exit();
         }
 
+        /**
+         * @brief 초대장 사용
+         **/
+        function procJoin_extendInvitationUse($member_srl) {
+            $oJoinExtendModel = &getModel('join_extend');
+            $config = $oJoinExtendModel->getConfig();
+            if ($config->use_invitation != "Y") return true;
+            if (!$member_srl)   return false;
+            
+            if (!empty($_SESSION['join_extend_invitation_srl'])) {
+                $args->invitation_srl = $_SESSION['join_extend_invitation_srl'];
+                $args->member_srl = $member_srl;
+                $args->joindate = date("YmdHis");
+                $output = executeQuery('join_extend.updateInvitation', $args);
+                if (!$output->toBool()) return false;
+            }
+            
+            return true;
+        }
+        
         /**
          * @brief 주민번호 입력
          **/
@@ -202,6 +242,13 @@
 				return new Object(-1, 'insert_fail_jumin');
 			}
 
+            // 초대장
+            $res = $this->procJoin_extendInvitationUse($member_srl);
+			if (!$res){
+				$oMemberController->deleteMember($member_srl);
+				return new Object(-1, 'insert_fail_invitation');
+			}
+			
 			// 추천인 포인트 지급
 			$res = $this->procJoin_extendRecommender($member_srl);
 			
@@ -238,19 +285,52 @@
          * @brief 모듈핸들러 실행 후 트리거 (애드온의 after_module_proc에 대응)
          **/
         function triggerModuleHandlerProc(&$oModule) {
-            $oJoinExtendModel = &getModel('join_extend');
+        	// member 모듈 옵션
+			$oMemberModel = &getModel('member');
+			$member_config = $oMemberModel->getMemberConfig();
+    		
+    		// 모듈 설정
+    		$oJoinExtendModel = &getModel('join_extend');
             $config = $oJoinExtendModel->getConfig();
             if ($config->use_join_extend != 'Y')    return new Object();
             
+            // 회원가입시
             if(Context::get('act') == "dispMemberSignUpForm"){
-    			if(!$_SESSION['join_extend_authed']){
-    				// member 모듈 옵션
-    				$oMemberModel = &getModel('member');
-    				$member_config = $oMemberModel->getMemberConfig();
+                // 회원 DB 업데이트 되었는지 확인
+				$is_update_table = $oJoinExtendModel->isUpdateTable();
+				if (!$is_update_table)   return new Object(-1, 'request_update_table');
+
+                // 초대장
+                // 회원가입 허용되어 있지 않거나 초대장 기능 사용안하면 생략
+                if (!Context::get('logged_info') && $member_config->enable_join == "Y" && $config->use_invitation == "Y") {
+                    if (!$_SESSION['join_extend_invitation']){
+                        
+                        Context::addHtmlHeader(sprintf('<script type="text/javascript"> var msg_empty_invitation_code ="%s"; </script>', Context::getLang('msg_empty_invitation_code')));
     				
-    				// 회원 DB 업데이트 되었는지 확인
-    				$is_update_table = $oJoinExtendModel->isUpdateTable();
-    				if (!$is_update_table)   return new Object(-1, 'request_update_table');
+                        // change module template
+                        Context::addJsFile('./modules/join_extend/tpl/js/invitation.js',false);
+        				if ($config->skin)
+        					$addon_tpl_path = sprintf('./modules/join_extend/skins/%s/', $config->skin);
+        				else
+        					$addon_tpl_path = './modules/join_extend/skins/default/';
+        
+        				$addon_tpl_file = 'invitation.html';
+        				
+        				// 템플릿파일 존재하는지 확인(기존 스킨 호환을 위해 존재하지 않으면 기본 스킨의 템플릿 사용)
+        				if (!file_exists($addon_tpl_path. $addon_tpl_file))
+        				    $addon_tpl_path = './modules/join_extend/skins/default/';
+        				    
+        				$oModule->setTemplatePath($addon_tpl_path);
+        				$oModule->setTemplateFile($addon_tpl_file);
+        				
+        				unset($_SESSION['join_extend_authed']);
+        				
+        				return new Object();
+        			}
+                }
+    			
+                // 회원가입 1단계
+    			if(!$_SESSION['join_extend_authed']){
     				
     				// 로그인 상태이거나 약관, 개인정보, 주민번호 모두 사용하지 않거나 회원가입 허용되어 있지 않으면 1단계 화면은 생략
     				if ((Context::get('logged_info') || $config->use_jumin != "Y" && $config->use_agreement != "Y" && $config->use_private_agreement != "Y") || $member_config->enable_join != "Y") {
@@ -282,6 +362,9 @@
     				$oModule->setTemplateFile($addon_tpl_file);
 
     				unset($_SESSION['join_extend_jumin']);
+    				unset($_SESSION['join_extend_invitation']);
+    				
+    			// 회원가입 2단계
     			}else{
                     // 추천인 아이디
                     if (!empty($config->recoid_var_name) && Context::get('recoid')) {
@@ -323,6 +406,7 @@
     				}
     
         			unset($_SESSION['join_extend_authed']);
+        			unset($_SESSION['join_extend_invitation']);
                     $_SESSION['join_extend_authed_act'] = true;
                 }
     
