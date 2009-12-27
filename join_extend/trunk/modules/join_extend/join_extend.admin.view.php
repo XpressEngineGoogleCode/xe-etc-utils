@@ -210,6 +210,7 @@
                         if ($member_info)   $val->join_id = $member_info->user_id;
                         else                $val->join_id = Context::getLang('deleted_member');
                     }
+                    if ($val->joindate == "-")  $val->joindate = 0;
                     $val->code = substr($val->code, 0, 8) .'-'. substr($val->code, 8, 8) .'-'. substr($val->code, 16, 8) .'-'. substr($val->code, 24, 8);
                 }
             }

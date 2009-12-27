@@ -43,7 +43,7 @@
     <input type="hidden" name="act" value="{$act}" />
     <select name="joindate">
         <option value="">{$lang->view_all}</option>
-        <option value="0" <!--@if($joindate=="0")-->selected="selected"<!--@end-->>{$lang->view_not_use}</option>
+        <option value="-" <!--@if($joindate=="-")-->selected="selected"<!--@end-->>{$lang->view_not_use}</option>
     </select>
     <span class="button green"><input type="submit" value="{$lang->view}" /></span>
     <table cellspacing="0" class="rowTable">

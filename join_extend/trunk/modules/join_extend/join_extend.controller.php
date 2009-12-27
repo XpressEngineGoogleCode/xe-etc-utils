@@ -26,7 +26,7 @@
             if (!$output->data) return $this->stop('msg_incorrect_invitation');
             
             // 해당 초대장이 사용된 것인지 확인
-            if ($output->data->joindate != "0") return $this->stop('msg_used_invitation');
+            if ($output->data->joindate != "-") return $this->stop('msg_used_invitation');
             
             // 초대장 번호 저장
             $_SESSION['join_extend_invitation'] = true;
