@@ -33,6 +33,7 @@
 		function checkUpdate() {
 			$oDB = &DB::getInstance();
 			$oModuleModel = &getModel('module');
+			$oJoinExtendModel = &getModel('join_extend');
 
             // 트리거 체크
             if(!$oModuleModel->getTrigger('member.insertMember', 'join_extend', 'controller', 'triggerInsertMember', 'after'))   return true;
@@ -44,6 +45,9 @@
             // 기존 member 테이블의 jumin 필드를 join_extend의 jumin 필드로 이동(2009-10-30)
             if($oDB->isColumnExists("member","jumin"))  return true;
             
+            // 에디터 내용 이전 (2009-12-12)
+            if(!$oJoinExtendModel->isUpdateEditor())    return true;
+            
 			return false;
 		}
 
@@ -54,6 +58,8 @@
 			$oDB = &DB::getInstance();
 			$oModuleModel = &getModel('module');
 			$oModuleController = &getController('module');
+			$oJoinExtendModel = &getModel('join_extend');
+			$oJoinExtendAdminController = &getAdminController('join_extend');
 
             // 트리거 추가
             if(!$oModuleModel->getTrigger('member.insertMember', 'join_extend', 'controller', 'triggerInsertMember', 'after'))
@@ -69,6 +75,9 @@
             
             // 기존 member 테이블의 jumin 필드를 join_extend의 jumin 필드로 이동(2009-10-30)
             if($oDB->isColumnExists("member","jumin")) return new Object(-1, 'run_update');
+            
+            // 에디터 내용 이전 (2009-12-12)
+            if(!$oJoinExtendModel->isUpdateEditor()) return $oJoinExtendAdminController->updateEditor();
             
             return new Object(0, 'success_updated');
 		}

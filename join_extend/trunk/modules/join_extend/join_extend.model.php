@@ -6,38 +6,44 @@
      **/
 
     class join_extendModel extends join_extend {
-
-        var $config;
-        var $config_with_input_config;
         
         /**
          * @brief 초기화
          **/
         function join_extendModel() {
-            $this->config_with_input_config = $this->_getConfig();
-            $this->config = $this->_getConfig(false);
+            $GLOBALS['__join_extend__']['config_with_input_config'] = $this->_getConfig();
+            $GLOBALS['__join_extend__']['config'] = $this->_getConfig(false);
         }
 
         /**
          * @brief 설정을 받아옴
          **/
         function getConfig($input_config = true) {
-            if ($input_config)  return $this->config_with_input_config;
-            else                return $this->config;
+            if ($input_config)  return clone($GLOBALS['__join_extend__']['config_with_input_config']);
+            else                return clone($GLOBALS['__join_extend__']['config']);
         }
         
         /**
          * @brief 설정을 받아옴
          **/
-        function _getConfig($input_config = true) {
+        function _getConfig($input_config = true, $editor_config = true) {
             $oModuleModel = &getModel('module');
-            $config = $oModuleModel->getModuleConfig('join_extend');
+            $config = clone($oModuleModel->getModuleConfig('join_extend'));
 
             // 기본값
             if (!$config->skin) $config->skin = 'default';
             
+            // 에디터 내용을 가져온다.
+            if ($editor_config == true) {
+                $config->agreement = $oModuleModel->getModuleConfig('join_extend_editor_agreement');
+                $config->private_agreement = $oModuleModel->getModuleConfig('join_extend_editor_private_agreement');
+                $config->private_gathering_agreement = $oModuleModel->getModuleConfig('join_extend_editor_private_gathering_agreement');
+                $config->welcome = $oModuleModel->getModuleConfig('join_extend_editor_welcome');
+                $config->welcome_email = $oModuleModel->getModuleConfig('join_extend_editor_welcome_email');
+            }
+            
             // 정보입력 설정을 적당히 가공한다.
-            if ($input_config) {
+            if ($input_config == true) {
                 $array_config = get_object_vars($config);
                 if (is_array($array_config)) {
                     foreach($array_config as $name => $val) {
@@ -68,7 +74,7 @@
                 $config->input_config->upper_length = $upper_length;
                 $config->input_config->type = $type;
             }
-            return $config;
+            return clone($config);
         }
 
         /**
@@ -182,6 +188,7 @@
         function createSession()
         {
             $_SESSION['join_extend_authed'] = true;
+            $_SESSION['join_extend_invitation'] = true;
             
             $config = $this->getConfig();
             if ($config->use_jumin != "Y")  return;
@@ -244,6 +251,11 @@
 				Context::set($config->sex_var_name, $_SESSION['join_extend_jumin']['sex'], true);
 			}
 			
+			// 초대장 세션 체크
+			if ($config->use_invitation == "Y") {
+			    if (!isset($_SESSION['join_extend_invitation_srl']))  return 'session_problem';
+			}
+			
 			return false;
         }
         
@@ -290,8 +302,11 @@
             $request_vars = Context::getRequestVars();
             if (count($config->input_config->no_mod)) {
                 foreach($config->input_config->no_mod as $var_name => $val) {
-                    if ($val != "Y") continue;
+                    if (!($val == "Y" || $val == "Y2")) continue;
 
+                    // 생일이고, 회원가입시 수정할 수 있도록 했으면 생략
+                    if ($var_name == 'birthday' && Context::get('act') == 'procMemberInsert' && $val == "Y")    continue;
+                    
                     if (!isset($request_vars->{$var_name}))                     continue;
                     if (!isset($_SESSION['join_extend_no_mod'][$var_name]))     return new Object(-1, 'session_problem');
                     if (empty($_SESSION['join_extend_no_mod'][$var_name]))      continue;
@@ -317,6 +332,20 @@
             $oDB = &DB::getInstance();
             
             if($oDB->isColumnExists("member","jumin")) return false;
+            
+            return true;
+        }
+        
+        /**
+         * @brief 에디터 내용 이전 되었는지 확인
+         **/
+        function isUpdateEditor() {
+            $config = $this->_getConfig(false, false);
+            
+            if( isset($config->agreement) || 
+                isset($config->private_agreement) || 
+                isset($config->private_gathering_agreement) || 
+                isset($config->welcome)) return false;
             
             return true;
         }

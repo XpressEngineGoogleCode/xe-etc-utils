@@ -29,9 +29,12 @@
     $lang->great_than = '이상';
     $lang->less_than = '이하';
     $lang->no_modification = '수정금지';
+    $lang->birthday_no_mod_op1 = '수정금지(가입시 가능)';
+    $lang->birthday_no_mod_op2 = '수정금지';
     
     $lang->use_join_extend = '회원가입 확장 사용';
     $lang->about_use_join_extend = '회원가입 확장 기능 사용 여부를 선택합니다.';
+    $lang->about_admin_id_2 = '이곳에 설정한 관리자 아이디가 환영 쪽지 등의 발송자로 사용됩니다.';
     
 	$lang->use_agreement = '이용약관 표시';
 	$lang->about_use_agreement = '이용약관을 표시 및 동의를 받습니다.';
@@ -94,6 +97,11 @@
     $lang->welcome = '가입 환영 쪽지 내용';
     $lang->use_welcome = '가입 환영 쪽지';
     $lang->about_use_welcome = '가입한 회원에게 환영 쪽지를 보냅니다.';
+    $lang->welcome_email = '가입 환영 메일 내용';
+    $lang->welcome_email_title = '가입 환영 메일 제목';
+    $lang->about_welcome_email_title = '가입 환영 메일 제목을 입력하세요. 내용은 아래에서 별로도 작성하세요.';
+    $lang->use_welcome_email = '가입 환영 메일';
+    $lang->about_use_welcome_email = '가입한 회원에게 환영 메일를 보냅니다.';
     
     $lang->agree_agreement= '이용약관에 동의 합니다.'; 
     $lang->agree_private_agreement= '개인정보취급방침에 동의 합니다.'; 
@@ -103,4 +111,25 @@
 
 	$lang->msg_check_agree = '약관에 동의가 필요합니다.';
 	$lang->session_problem = '세션 에러! 다시 시도해 보세요!';
+	
+	$lang->invitation_config = '초대장 설정';
+	$lang->use_invitation = '초대장 기능 사용';
+	$lang->about_use_invitation = '초대장 기능을 사용하면 초대장 번호를 가진 사람만 가입할 수 있습니다.';
+	$lang->unit_number = '개';
+	$lang->generate_invitation = '초대장 생성';
+	$lang->about_generate_invitation = '한번에 생성할 수 있는 초대장의 최대 개수는 100개입니다.';
+	$lang->msg_invitation_incorrect_count = '1~100 사이를 입력해주세요.';
+	$lang->invitation_code = '초대장 번호';
+	$lang->invitation_join_id = '가입 아이디';
+	$lang->invitation_joindate = '가입일';
+	$lang->view = '보기';
+	$lang->view_all = '모두';
+	$lang->view_not_use = '사용안됨';
+	$lang->join_extend_invitation = '초대장 확인';
+	$lang->msg_invitation = '초대장 번호를 입력해주세요';
+	$lang->msg_empty_invitation_code = '초대장 번호를 입력해주세요';
+	$lang->msg_incorrect_invitation = '유효하지 않은 초대장 번호입니다';
+	$lang->msg_used_invitation = '이미 사용된 초대장 번호입니다.';
+	$lang->insert_fail_invitation = '초대장 처리 에러';
+	$lang->deleted_member = '탈퇴한 회원';
 ?>

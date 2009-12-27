@@ -120,6 +120,11 @@
             $editor_welcome = $oEditorModel->getEditor(0, $option);
             Context::set('editor_welcome', $editor_welcome);
             
+            // 가입 환영 메일 에디터
+            $option->content_key_name = 'welcome_email';
+            $editor_welcome_email = $oEditorModel->getEditor(0, $option);
+            Context::set('editor_welcome_email', $editor_welcome_email);
+            
             // 템플릿 지정
             $this->setTemplatePath($this->module_path.'tpl');
             $this->setTemplateFile('after_config');
@@ -180,6 +185,44 @@
             }
 
             $this->add('tpl', $tpl);
+        }
+        
+        /**
+         * @brief 초대장 설정
+         **/
+        function dispJoin_extendAdminInvitationConfig() {
+            $oMemberModel = &getModel('member');
+            $oJoinExtendModel = &getModel('join_extend');
+            $config = $oJoinExtendModel->getConfig();
+            Context::set('config',$config);
+            
+            // 초대장 목록
+            $args->page = Context::get('page');
+            $args->invitation_code = Context::get('code');
+            $args->joindate = Context::get('joindate');
+            $output = executeQuery('join_extend.getInvitationList', $args);
+            if (!$output->toBool()) return $output;
+            
+            if ($output->data) {
+                foreach($output->data as $no => $val){
+                    if ($val->member_srl) {
+                        $member_info = $oMemberModel->getMemberInfoByMemberSrl($val->member_srl);
+                        if ($member_info)   $val->join_id = $member_info->user_id;
+                        else                $val->join_id = Context::getLang('deleted_member');
+                    }
+                    $val->code = substr($val->code, 0, 8) .'-'. substr($val->code, 8, 8) .'-'. substr($val->code, 16, 8) .'-'. substr($val->code, 24, 8);
+                }
+            }
+            
+            Context::set('invitation_list', $output->data);
+            Context::set('total_count', $output->total_count);
+            Context::set('total_page', $output->total_page);
+            Context::set('page', $output->page);
+            Context::set('page_navigation', $output->page_navigation);
+            
+            // 템플릿 지정
+            $this->setTemplatePath($this->module_path.'tpl');
+            $this->setTemplateFile('invitation_config');
         }
 	}
 ?>
