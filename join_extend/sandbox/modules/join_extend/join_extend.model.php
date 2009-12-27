@@ -8,17 +8,14 @@
     class join_extendModel extends join_extend {
         
         /**
-         * @brief 초기화
-         **/
-        function join_extendModel() {
-            $GLOBALS['__join_extend__']['config_with_input_config'] = $this->_getConfig();
-            $GLOBALS['__join_extend__']['config'] = $this->_getConfig(false);
-        }
-
-        /**
          * @brief 설정을 받아옴
          **/
         function getConfig($input_config = true) {
+            if (!isset($GLOBALS['__join_extend__']['config_with_input_config']))
+                $GLOBALS['__join_extend__']['config_with_input_config'] = $this->_getConfig();
+            if (!isset($GLOBALS['__join_extend__']['config']))
+                $GLOBALS['__join_extend__']['config'] = $this->_getConfig(false);
+                
             if ($input_config)  return clone($GLOBALS['__join_extend__']['config_with_input_config']);
             else                return clone($GLOBALS['__join_extend__']['config']);
         }
@@ -28,7 +25,8 @@
          **/
         function _getConfig($input_config = true, $editor_config = true) {
             $oModuleModel = &getModel('module');
-            $config = clone($oModuleModel->getModuleConfig('join_extend'));
+            $_config = $oModuleModel->getModuleConfig('join_extend');
+            if ($_config)   $config = clone($_config);
 
             // 기본값
             if (!$config->skin) $config->skin = 'default';
