@@ -8,7 +8,7 @@
     		}
     				
             var param = {
-        		invitation_code: $('input[name=invitation_code]').val(),
+        		invitation_code: $('input[name=invitation_code]').val()
     		}
     		exec_xml('join_extend','procJoin_extendInvitation',param, function(){ location.reload()});
 		});
