@@ -1,0 +1,80 @@
+<!--#include("header.html")-->
+<!--%import("filter/generate_invitation.xml")-->
+
+<form action="./" method="post" onsubmit="return procFilter(this, insert_config)">
+    <table cellspacing="0" class="rowTable">
+    <tr>
+        <th scope="row" class="w150"><div>{$lang->use_invitation}</div></th>
+        <td>
+            <select name="use_invitation">
+				<option value="N"<!--@if($config->use_invitation=='N')--> selected="selected"<!--@end-->>{$lang->notuse}</option>
+                <option value="Y"<!--@if($config->use_invitation=='Y')--> selected="selected"<!--@end-->>{$lang->use}</option>
+            </select>
+            <p>{$lang->about_use_invitation}</p>
+        </td>
+    </tr>
+    <tr>
+        <th colspan="2" class="button">
+            <span class="button black strong"><input type="submit" value="{$lang->cmd_registration}" accesskey="s" /></span>
+        </th>
+    </tr>
+    </table>
+</form>
+
+<form action="./" method="post" onsubmit="return procFilter(this, generate_invitation)">
+    <table cellspacing="0" class="rowTable">
+    <tr>
+        <th scope="row" class="w150"><div>{$lang->generate_invitation}</div></th>
+        <td>
+            <input type="type=" name="count" class="inputTypeText w40" /> {$lang->unit_number}
+            <p>{$lang->about_generate_invitation}</p>
+        </td>
+    </tr>
+    <tr>
+        <th colspan="2" class="button">
+            <span class="button black strong"><input type="submit" value="{$lang->cmd_make}" accesskey="s" /></span>
+        </th>
+    </tr>
+    </table>
+</form>
+
+<form action="./" method="get">
+    <input type="hidden" name="module" value="admin" />
+    <input type="hidden" name="act" value="{$act}" />
+    <select name="joindate">
+        <option value="">{$lang->view_all}</option>
+        <option value="-" <!--@if($joindate=="-")-->selected="selected"<!--@end-->>{$lang->view_not_use}</option>
+    </select>
+    <span class="button green"><input type="submit" value="{$lang->view}" /></span>
+    <table cellspacing="0" class="rowTable">
+    <tr>
+        <th scope="col"><div>{$lang->no}</div></th>
+        <th scope="col"><div>{$lang->invitation_code}</div></th>
+        <th scope="col"><div>{$lang->regdate}</div></th>
+        <th scope="col"><div>{$lang->invitation_join_id}</div></th>
+        <th scope="col"><div>{$lang->invitation_joindate}</div></th>
+    </tr>
+    <!--@foreach($invitation_list as $no => $val)-->
+    <tr>
+        <td>{$no}</td>
+        <td style="font-family: monospace">{$val->code}</td>
+        <td>{zdate($val->regdate,"Y-m-d")}</td>
+        <td>{$val->join_id}</td>
+        <td>{zdate($val->joindate,"Y-m-d")}</td>
+    </tr>
+    <!--@end-->
+    </table>
+</form>
+
+<!-- 페이지 네비게이션 -->
+<div class="pagination a1">
+    <a href="{getUrl('page','')}" class="prevEnd">{$lang->first_page}</a> 
+    <!--@while($page_no = $page_navigation->getNextPage())-->
+        <!--@if($page == $page_no)-->
+            <strong>{$page_no}</strong> 
+        <!--@else-->
+            <a href="{getUrl('page',$page_no)}">{$page_no}</a> 
+        <!--@end-->
+    <!--@end-->
+    <a href="{getUrl('page',$page_navigation->last_page)}" class="nextEnd">{$lang->last_page}</a>
+</div>
