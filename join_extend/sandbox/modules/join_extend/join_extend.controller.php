@@ -396,7 +396,7 @@
     					Context::addJsFile('./modules/join_extend/tpl/js/fix_name.js',false);
     					
     					// 가입화면에서도 생일 수정금지일 때
-    					if ($config->input_config->birthday_no_mod == "Y2") {
+    					if ($config->input_config->no_mod['birthday'] == "Y2") {
         					unset($_SESSION['join_extend_no_mod']);
         					$_SESSION['join_extend_no_mod']['birthday'] = $_SESSION['join_extend_jumin']['birthday'];
         					

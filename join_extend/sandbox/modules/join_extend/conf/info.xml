@@ -2,7 +2,7 @@
 <module version="0.2">
     <title xml:lang="ko">회원가입 확장</title>
     <description xml:lang="ko">회원가입에 여러 기능을 추가합니다.</description>
-    <version>0.5</version>
+    <version>0.5.1</version>
     <date>2009-12-27</date>
     <category>member</category>
 
