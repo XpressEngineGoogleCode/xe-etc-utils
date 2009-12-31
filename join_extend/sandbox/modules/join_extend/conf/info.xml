@@ -13,7 +13,7 @@
 		<name xml:lang="jp">flysky</name>
     </author>
 	<author>
-        <name xml:lang="ko"><![CDATA[<br/>일어번역 : HIRO]]></name>
-		<name xml:lang="jp"><![CDATA[<br/>Japanese Translate : HIRO]]></name>
+        <name xml:lang="ko"><![CDATA[<span style="font-size: 8pt; color: #999; white-space: nowrap">일어번역 : HIRO</span>]]></name>
+		<name xml:lang="jp"><![CDATA[<span style="font-size: 8pt; color: #999; white-space: nowrap">Japanese Translate : HIRO</span>]]></name>
     </author>
 </module>
