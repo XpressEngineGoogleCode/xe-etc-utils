@@ -40,9 +40,19 @@
             $oJoinExtendModel = &getModel('join_extend');
             $config = $oJoinExtendModel->getConfig();
             
-            // 이름 길이 확인
+            // 이름 확인
             if ($config->use_jumin == "Y") {
-                Context::set('user_name', Context::get('name'), true);
+				$name = Context::get('name');
+				
+				// 한글만 허용
+				$result = preg_match("/^[가-힣]*$/", $name);
+				if (!$result) {
+					$lang_filter = Context::getLang('filter');
+					return $this->stop(sprintf($lang_filter->invalid_korean, Context::getLang('user_name')));
+				}
+				
+				// 길이 확인
+                Context::set('user_name', $name, true);
                 $result = $oJoinExtendModel->checkInput();
                 if (!$result->toBool()) return $result;
             }
