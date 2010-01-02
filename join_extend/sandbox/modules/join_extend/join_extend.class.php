@@ -1,19 +1,19 @@
 <?php
-	/**
-	 * @class  join_extend
-	 * @author 난다날아 (sinsy200@gmail.com)
-	 * @brief  join_extend 모듈의 상위 class
-	 **/
+    /**
+     * @class  join_extend
+     * @author 난다날아 (sinsy200@gmail.com)
+     * @brief  join_extend 모듈의 상위 class
+     **/
 
-	class join_extend extends ModuleObject {
+    class join_extend extends ModuleObject {
 
-		/**
-		 * @brief 설치시 추가 작업이 필요할시 구현
-		 **/
-		function moduleInstall() {
-			
-			// 회원가입 트리거 추가
-			$oModuleController = &getController('module');
+        /**
+         * @brief 설치시 추가 작업이 필요할시 구현
+         **/
+        function moduleInstall() {
+            
+            // 회원가입 트리거 추가
+            $oModuleController = &getController('module');
             $oModuleController->insertTrigger('member.insertMember', 'join_extend', 'controller', 'triggerInsertMember', 'after');
             
             // 애드온 없이 단독 작동하기 위한 트리거(2009-10-20)
@@ -24,16 +24,16 @@
             // 회원탈퇴 트리거 추가(2009-10-31)
             $oModuleController->insertTrigger('member.deleteMember', 'join_extend', 'controller', 'triggerDeleteMember', 'before');
             
-			return new Object();
-		}
+            return new Object();
+        }
 
-		/**
-		 * @brief 설치가 이상이 없는지 체크하는 method
-		 **/
-		function checkUpdate() {
-			$oDB = &DB::getInstance();
-			$oModuleModel = &getModel('module');
-			$oJoinExtendModel = &getModel('join_extend');
+        /**
+         * @brief 설치가 이상이 없는지 체크하는 method
+         **/
+        function checkUpdate() {
+            $oDB = &DB::getInstance();
+            $oModuleModel = &getModel('module');
+            $oJoinExtendModel = &getModel('join_extend');
 
             // 트리거 체크
             if(!$oModuleModel->getTrigger('member.insertMember', 'join_extend', 'controller', 'triggerInsertMember', 'after'))   return true;
@@ -48,18 +48,18 @@
             // 에디터 내용 이전 (2009-12-12)
             if(!$oJoinExtendModel->isUpdateEditor())    return true;
             
-			return false;
-		}
+            return false;
+        }
 
-		/**
-		 * @brief 업데이트 실행
-		 **/
-		function moduleUpdate() {
-			$oDB = &DB::getInstance();
-			$oModuleModel = &getModel('module');
-			$oModuleController = &getController('module');
-			$oJoinExtendModel = &getModel('join_extend');
-			$oJoinExtendAdminController = &getAdminController('join_extend');
+        /**
+         * @brief 업데이트 실행
+         **/
+        function moduleUpdate() {
+            $oDB = &DB::getInstance();
+            $oModuleModel = &getModel('module');
+            $oModuleController = &getController('module');
+            $oJoinExtendModel = &getModel('join_extend');
+            $oJoinExtendAdminController = &getAdminController('join_extend');
 
             // 트리거 추가
             if(!$oModuleModel->getTrigger('member.insertMember', 'join_extend', 'controller', 'triggerInsertMember', 'after'))
@@ -80,12 +80,12 @@
             if(!$oJoinExtendModel->isUpdateEditor()) return $oJoinExtendAdminController->updateEditor();
             
             return new Object(0, 'success_updated');
-		}
+        }
 
-		/**
-		 * @brief 캐시 파일 재생성
-		 **/
-		function recompileCache() {
-		}
-	}
+        /**
+         * @brief 캐시 파일 재생성
+         **/
+        function recompileCache() {
+        }
+    }
 ?>

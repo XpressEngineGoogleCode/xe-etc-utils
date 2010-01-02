@@ -5,16 +5,16 @@
      * @brief  日本語言語パッケージ
      **/
 
-	$lang->join_extend = '会員加入拡張';
-	$lang->run_update = 'アップデートになりました.追加で会員加入拡張設定に行ってテーブルアップデートを行ってください.';
-	$lang->request_update_table = '会員 DB アップデートが必要で加入が制限されました.管理者に要請してください';
-	$lang->admin_request_update_table = '会員 DB アップデートが必要です.';
-	
-	$lang->update_table = 'テーブルアップデート';
-	$lang->about_update_table = 'Ver.0.4.2から会員加入拡張のための別途のテーブルを利用します.<br/>テーブルアップデートをクリックすれば既存 member テーブルにある住民登録番号情報を新しいテーブルで移します.<br/>データは段階的に処理されます.完了になるまでお待ちください.<br/><span style="color: red"><strong>必ず会員 DB バックアップ後行ってください.</strong></span>';
-	$lang->complete_update_table = '会員 DB アップデートが完了しました.';
-	
-	$lang->join_extend_title = '会員加入 1段階'; 
+    $lang->join_extend = '会員加入拡張';
+    $lang->run_update = 'アップデートになりました.追加で会員加入拡張設定に行ってテーブルアップデートを行ってください.';
+    $lang->request_update_table = '会員 DB アップデートが必要で加入が制限されました.管理者に要請してください';
+    $lang->admin_request_update_table = '会員 DB アップデートが必要です.';
+    
+    $lang->update_table = 'テーブルアップデート';
+    $lang->about_update_table = 'Ver.0.4.2から会員加入拡張のための別途のテーブルを利用します.<br/>テーブルアップデートをクリックすれば既存 member テーブルにある住民登録番号情報を新しいテーブルで移します.<br/>データは段階的に処理されます.完了になるまでお待ちください.<br/><span style="color: red"><strong>必ず会員 DB バックアップ後行ってください.</strong></span>';
+    $lang->complete_update_table = '会員 DB アップデートが完了しました.';
+    
+    $lang->join_extend_title = '会員加入 1段階'; 
 
     $lang->basic_config = '基本設定';
     $lang->agree_config = '約款設定';
@@ -36,21 +36,21 @@
     $lang->about_use_join_extend = '会員加入拡張機能使用可否を選択します.';
     $lang->about_admin_id_2 = 'こちらに設定した管理者IDが歓迎メッセージなどの発送者で使われます.';
     
-	$lang->use_agreement = '利用約款表示';
-	$lang->about_use_agreement = '利用約款を表示及び同意を受けます.';
-	$lang->agreement = '利用約款';
+    $lang->use_agreement = '利用約款表示';
+    $lang->about_use_agreement = '利用約款を表示及び同意を受けます.';
+    $lang->agreement = '利用約款';
 
-	$lang->use_private_agreement = '個人情報取り扱い方針表示';
-	$lang->about_use_private_agreement = '個人情報取り扱い方針を表示及び同意を受けます.';
-	$lang->private_agreement = '個人情報取り扱い方針';
-	$lang->private_gathering_agreement = '個人情報収集及び利用';
+    $lang->use_private_agreement = '個人情報取り扱い方針表示';
+    $lang->about_use_private_agreement = '個人情報取り扱い方針を表示及び同意を受けます.';
+    $lang->private_agreement = '個人情報取り扱い方針';
+    $lang->private_gathering_agreement = '個人情報収集及び利用';
 
-	$lang->use_jumin = '住民登録番号受ける<br/>Korea only';
-	$lang->about_use_jumin = '住民登録番号を受けます.';
+    $lang->use_jumin = '住民登録番号受ける<br/>Korea only';
+    $lang->about_use_jumin = '住民登録番号を受けます.';
     $lang->jumin = '住民登録番号';
-	$lang->name = '名前';
-	$lang->msg_empty = '%sの値を入力してください.';
-	$lang->jumin_check = '実名確認';
+    $lang->name = '名前';
+    $lang->msg_empty = '%sの値を入力してください.';
+    $lang->jumin_check = '実名確認';
     $lang->about_jumin = '住民登録番号は重複加入を阻むために使われます.';
     $lang->jumin1 = '住民登録番号前部分';
     $lang->jumin2 = '住民登録番号後部分';
@@ -80,11 +80,11 @@
     $lang->age_var_name = '年齢拡張変数名<br/>Korea only';
     $lang->about_age_var_name = '住民登録番号を利用して年齢情報を自動で入力します. <br/>会員管理 - 加入フォーム管理に追加された年齢情報の <strong>入力項目名前</strong>を入力してください. <br/>使わない場合空にしておいてください.';
         
-	$lang->use_age_restrictions = '年齢制限使用<br/>Korea only';
-	$lang->about_use_age_restrictions = '下の設定された年齢だけ加入を受けます. (万年齢)';
-	$lang->age_restrictions = '年齢制限<br/>Korea only';
-	$lang->msg_age_restrictions = '年齢制限で加入することができます. (万 %s~%s)';
-	$lang->msg_junior_join = '年齢制限メッセージ<br/>Korea only';
+    $lang->use_age_restrictions = '年齢制限使用<br/>Korea only';
+    $lang->about_use_age_restrictions = '下の設定された年齢だけ加入を受けます. (万年齢)';
+    $lang->age_restrictions = '年齢制限<br/>Korea only';
+    $lang->msg_age_restrictions = '年齢制限で加入することができます. (万 %s~%s)';
+    $lang->msg_junior_join = '年齢制限メッセージ<br/>Korea only';
 
     $lang->recoid_var_name = '推薦人 ID 拡張変数名';
     $lang->about_recoid_var_name = '推薦人 IDにポイントを支給します. <br/>会員管理 - 加入フォーム管理に追加された推薦人 IDの <strong>入力項目名前</strong>を入力してください. <br/>使わない場合空にしておいてください.';
@@ -105,31 +105,31 @@
     
     $lang->agree_agreement= '利用約款に同意します.'; 
     $lang->agree_private_agreement= '個人情報取り扱い方針に同意します.'; 
-	$lang->agree = '同意';
-	$lang->junior = '%d歳以上';
-	$lang->senior = '%d歳未満';
+    $lang->agree = '同意';
+    $lang->junior = '%d歳以上';
+    $lang->senior = '%d歳未満';
 
-	$lang->msg_check_agree = '約款に同意が必要です.';
-	$lang->session_problem = 'セッションエラー!また試みて見てください!';
-	
-	$lang->invitation_config = '招待状設定';
-	$lang->use_invitation = '招待状機能使用';
-	$lang->about_use_invitation = '招待状機能を使えば招待状番号を持った人だけ加入することができます.';
-	$lang->unit_number = '個';
-	$lang->generate_invitation = '招待状生成';
-	$lang->about_generate_invitation = '一度に生成することができる招待状の最大個数は 100個です.';
-	$lang->msg_invitation_incorrect_count = '1~100 間を入力してください.';
-	$lang->invitation_code = '招待状番号';
-	$lang->invitation_join_id = '加入ID';
-	$lang->invitation_joindate = '加入日';
-	$lang->view = '表示';
-	$lang->view_all = '全て';
-	$lang->view_not_use = '使用できません';
-	$lang->join_extend_invitation = '招待状確認';
-	$lang->msg_invitation = '招待状番号を入力してください, Ctrl+V使用可能.';
-	$lang->msg_empty_invitation_code = '招待状番号を入力してください';
-	$lang->msg_incorrect_invitation = '有效ではない招待状番号です';
-	$lang->msg_used_invitation = 'すでに使われた招待状番号です.';
-	$lang->insert_fail_invitation = '招待状処理エラー';
-	$lang->deleted_member = '脱退した会員';
+    $lang->msg_check_agree = '約款に同意が必要です.';
+    $lang->session_problem = 'セッションエラー!また試みて見てください!';
+    
+    $lang->invitation_config = '招待状設定';
+    $lang->use_invitation = '招待状機能使用';
+    $lang->about_use_invitation = '招待状機能を使えば招待状番号を持った人だけ加入することができます.';
+    $lang->unit_number = '個';
+    $lang->generate_invitation = '招待状生成';
+    $lang->about_generate_invitation = '一度に生成することができる招待状の最大個数は 100個です.';
+    $lang->msg_invitation_incorrect_count = '1~100 間を入力してください.';
+    $lang->invitation_code = '招待状番号';
+    $lang->invitation_join_id = '加入ID';
+    $lang->invitation_joindate = '加入日';
+    $lang->view = '表示';
+    $lang->view_all = '全て';
+    $lang->view_not_use = '使用できません';
+    $lang->join_extend_invitation = '招待状確認';
+    $lang->msg_invitation = '招待状番号を入力してください, Ctrl+V使用可能.';
+    $lang->msg_empty_invitation_code = '招待状番号を入力してください';
+    $lang->msg_incorrect_invitation = '有效ではない招待状番号です';
+    $lang->msg_used_invitation = 'すでに使われた招待状番号です.';
+    $lang->insert_fail_invitation = '招待状処理エラー';
+    $lang->deleted_member = '脱退した会員';
 ?>

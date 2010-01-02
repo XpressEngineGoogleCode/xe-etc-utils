@@ -7,7 +7,7 @@
         <th scope="row" class="w150"><div>{$lang->use_invitation}</div></th>
         <td>
             <select name="use_invitation">
-				<option value="N"<!--@if($config->use_invitation=='N')--> selected="selected"<!--@end-->>{$lang->notuse}</option>
+                <option value="N"<!--@if($config->use_invitation=='N')--> selected="selected"<!--@end-->>{$lang->notuse}</option>
                 <option value="Y"<!--@if($config->use_invitation=='Y')--> selected="selected"<!--@end-->>{$lang->use}</option>
             </select>
             <p>{$lang->about_use_invitation}</p>
