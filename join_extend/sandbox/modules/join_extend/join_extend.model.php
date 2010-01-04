@@ -302,7 +302,8 @@
                 foreach($config->input_config->no_mod as $var_name => $val) {
                     if (!($val == "Y" || $val == "Y2")) continue;
 
-                    // 생일이고, 회원가입시 수정할 수 있도록 했으면 생략
+                    // 회원가입시라면 생일 수정 금지일 때만 진행
+                    if ($var_name != 'birthday' && Context::get('act') == 'procMemberInsert')   continue;
                     if ($var_name == 'birthday' && Context::get('act') == 'procMemberInsert' && $val == "Y")    continue;
                     
                     if (!isset($request_vars->{$var_name}))                     continue;
