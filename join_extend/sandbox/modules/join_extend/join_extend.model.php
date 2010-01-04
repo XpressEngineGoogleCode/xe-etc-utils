@@ -315,8 +315,8 @@
             }
 
             // 추천인 ID 변경 대비
-            if (!empty($config->recoid_var_name)) {
-                if (!isset($_SESSION['join_extend_jumin']['recoid']))  return 'session_problem';
+            if (Context::get('act') == 'procMemberModifyInfo' && !empty($config->recoid_var_name)) {
+                if (!isset($_SESSION['join_extend_jumin']['recoid']))  return new Object(-1, 'session_problem');
                 Context::set($config->recoid_var_name, $_SESSION['join_extend_jumin']['recoid'], true);
             }
             
