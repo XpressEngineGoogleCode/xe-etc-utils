@@ -1,0 +1,9 @@
+<query id="insertJuminToNewTable" action="insert">
+    <tables>
+        <table name="join_extend" />
+    </tables>
+    <columns>
+        <column name="member_srl" var="member_srl" />
+        <column name="jumin" var="jumin" default="null" />
+    </columns>
+</query>

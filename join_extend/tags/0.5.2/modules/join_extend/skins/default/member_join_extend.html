@@ -1,0 +1,62 @@
+<!--%import("css/white.css")-->
+<!--@if ($config->colorset == "black")-->
+    <!--%import("css/black.css")-->
+<!--@end-->
+
+<div class="joinContent">
+    <h2 class="joinTitle">{$lang->join_extend_title}</h2>
+    <form action="" method="post" onsubmit="return false" class="member_join_extend">
+        <fieldset>
+            <!--@if($config->use_agreement == "Y")-->
+            <h3 class="joinSubTitle">{$lang->agreement}</h3>
+            <div class="joinAgreement">{$config->agreement} </div>
+            <p class="checkAgreement"><input name="" type="checkbox" value="" id="checkAgreement" class="inputCheck" /><label for="checkAgreement">{$lang->agree_agreement}</label></p>
+            <!--@end-->
+
+            <!--@if($config->use_private_agreement == "Y")-->
+            <h3 class="joinSubTitle">{$lang->private_agreement}</h3>
+            <div class="joinAgreement">{$config->private_agreement}</div>
+                <!--@if(trim(strip_tags($config->private_gathering_agreement)))-->
+                <h3 class="joinSubTitle">{$lang->private_gathering_agreement}</h3>
+                <div class="joinAgreement">{$config->private_gathering_agreement}</div>
+                <!--@end-->
+            <p class="checkAgreement"><input name="" type="checkbox" value="" id="checkPrivateAgreement" class="inputCheck" /><label for="checkPrivateAgreement">{$lang->agree_private_agreement}</label></p>
+            <!--@end-->
+
+            <!--@if($config->use_jumin == "Y")-->
+            <h3 class="joinSubTitle">{$lang->jumin_check}</h3>
+            <div class="joinButtonArea">
+                <table class="joinAgreement jumin">
+                <tr>
+                    <th scope="row">{$lang->name}</th>
+                    <td><input type="text" name="name" size="8" /></td>
+                </tr>
+                <tr>
+                    <th scope="row">{$lang->jumin}</th>
+                    <td><input type="text" name="jumin1" size="6" maxlength="6"/> - <input type="password" name="jumin2" size="7" maxlength="7"/></td>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        <!--@if($config->save_jumin == "Y")-->
+                            ※ {$lang->msg_save_jumin}
+                        <!--@else-->
+                            ※ {$lang->msg_not_save_jumin}
+                        <!--@end-->
+                        <!--@if ($config->use_sex_restrictions == "M")-->
+                            ※ {$lang->sex_restrictions_m}
+                        <!--@end-->
+                        <!--@if ($config->use_sex_restrictions == "W")-->
+                            ※ {$lang->sex_restrictions_w}
+                        <!--@end-->
+                    </td>
+                </tr>
+                </table>
+            </div>
+            <!--@end-->
+
+            <div class="joinButtonArea">
+                <span class="joinButton"><input name="" class="member_join_agree" type="submit" value="{$lang->cmd_next}" /></span>
+            </div>
+        </fieldset>
+    </form>
+</div>

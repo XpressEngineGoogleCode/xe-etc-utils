@@ -1,0 +1,31 @@
+<!--#include("header.html")-->
+
+<form action="./" method="post" onsubmit="return procFilter(this, insert_config)">
+    <table cellspacing="0" class="rowTable">
+    <tr>
+        <th scope="col"><div>{$lang->use_jumin}</div></th>
+        <td>
+            <select name="use_jumin">
+                <option value="N"<!--@if($config->use_jumin=='N')--> selected="selected"<!--@end-->>{$lang->notuse}</option>
+                <option value="Y"<!--@if($config->use_jumin=='Y')--> selected="selected"<!--@end-->>{$lang->use}</option>
+            </select>
+            <p>{$lang->about_use_jumin}</p>
+        </td>
+    </tr>
+    <tr>
+        <th scope="col"><div>{$lang->save_jumin}</div></th>
+        <td>
+            <select name="save_jumin">
+                <option value="N"<!--@if($config->save_jumin=='N')--> selected="selected"<!--@end-->>{$lang->notuse}</option>
+                <option value="Y"<!--@if($config->save_jumin=='Y')--> selected="selected"<!--@end-->>{$lang->use}</option>
+            </select>
+            <p>{$lang->about_save_jumin}</p>
+        </td>
+    </tr>
+    <tr>
+        <th colspan="2" class="button">
+            <span class="button black strong"><input type="submit" value="{$lang->cmd_registration}" accesskey="s" /></span>
+        </th>
+    </tr>
+    </table>
+</form>
