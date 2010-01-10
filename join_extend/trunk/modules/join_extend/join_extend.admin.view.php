@@ -1,43 +1,43 @@
 <?php
-	/**
-	 * @class  join_extendAdminView
-	 * @author 난다날아 (sinsy200@gmail.com)
-	 * @brief  join_extend모듈의 admin view class
-	 **/
+    /**
+     * @class  join_extendAdminView
+     * @author 난다날아 (sinsy200@gmail.com)
+     * @brief  join_extend모듈의 admin view class
+     **/
 
-	class join_extendAdminView extends join_extend {
+    class join_extendAdminView extends join_extend {
 
-		/**
-		 * @brief 초기화
-		 **/
-		function init() {
-		}
+        /**
+         * @brief 초기화
+         **/
+        function init() {
+        }
 
-		/**
-		 * @brief 모듈 설정 화면
-		 **/
-		function dispJoin_extendAdminIndex() {
-			$oJoinExtendModel = &getModel('join_extend');
+        /**
+         * @brief 모듈 설정 화면
+         **/
+        function dispJoin_extendAdminIndex() {
+            $oJoinExtendModel = &getModel('join_extend');
             $config = $oJoinExtendModel->getConfig();
             $is_update_table = $oJoinExtendModel->isUpdateTable();
             Context::set('config',$config);
             Context::set('is_update_table',$is_update_table);
             
-			// 스킨 목록을 구해옴
-			$oModuleModel = &getModel('module');
-			$skin_list = $oModuleModel->getSkins($this->module_path);
-			Context::set('skin_list',$skin_list);
+            // 스킨 목록을 구해옴
+            $oModuleModel = &getModel('module');
+            $skin_list = $oModuleModel->getSkins($this->module_path);
+            Context::set('skin_list',$skin_list);
 
-			// 템플릿 지정
+            // 템플릿 지정
             $this->setTemplatePath($this->module_path.'tpl');
             $this->setTemplateFile('index');
-		}
-		
-		/**
-		 * @brief 약관 설정 화면
-		 **/
-		function dispJoin_extendAdminAgreeConfig() {
-		    $oJoinExtendModel = &getModel('join_extend');
+        }
+        
+        /**
+         * @brief 약관 설정 화면
+         **/
+        function dispJoin_extendAdminAgreeConfig() {
+            $oJoinExtendModel = &getModel('join_extend');
             $config = $oJoinExtendModel->getConfig();
             Context::set('config',$config);
             
@@ -69,39 +69,39 @@
             // 템플릿 지정
             $this->setTemplatePath($this->module_path.'tpl');
             $this->setTemplateFile('agree_config');
-		}
+        }
 
-		/**
-		 * @brief 확장변수 연동 설정 화면
-		 **/
-		function dispJoin_extendAdminExtendVarConfig() {
-		    $oJoinExtendModel = &getModel('join_extend');
+        /**
+         * @brief 확장변수 연동 설정 화면
+         **/
+        function dispJoin_extendAdminExtendVarConfig() {
+            $oJoinExtendModel = &getModel('join_extend');
             $config = $oJoinExtendModel->getConfig();
             Context::set('config',$config);
             
             // 템플릿 지정
             $this->setTemplatePath($this->module_path.'tpl');
             $this->setTemplateFile('extend_var_config');
-		}
-		
-		/**
-		 * @brief 가입 제한 설정 화면
-		 **/
-		function dispJoin_extendAdminRestrictionsConfig() {
-		    $oJoinExtendModel = &getModel('join_extend');
+        }
+        
+        /**
+         * @brief 가입 제한 설정 화면
+         **/
+        function dispJoin_extendAdminRestrictionsConfig() {
+            $oJoinExtendModel = &getModel('join_extend');
             $config = $oJoinExtendModel->getConfig();
             Context::set('config',$config);
             
             // 템플릿 지정
             $this->setTemplatePath($this->module_path.'tpl');
             $this->setTemplateFile('restrictions_config');
-		}
-		
-		/**
-		 * @brief 가입후 처리 설정 화면
-		 **/
-		function dispJoin_extendAdminAfterConfig() {
-		    $oJoinExtendModel = &getModel('join_extend');
+        }
+        
+        /**
+         * @brief 가입후 처리 설정 화면
+         **/
+        function dispJoin_extendAdminAfterConfig() {
+            $oJoinExtendModel = &getModel('join_extend');
             $config = $oJoinExtendModel->getConfig();
             Context::set('config',$config);
             
@@ -128,26 +128,26 @@
             // 템플릿 지정
             $this->setTemplatePath($this->module_path.'tpl');
             $this->setTemplateFile('after_config');
-		}
-		
-		/**
-		 * @brief 주민등록번호 설정 화면
-		 **/
-		function dispJoin_extendAdminJuminConfig() {
-		    $oJoinExtendModel = &getModel('join_extend');
+        }
+        
+        /**
+         * @brief 주민등록번호 설정 화면
+         **/
+        function dispJoin_extendAdminJuminConfig() {
+            $oJoinExtendModel = &getModel('join_extend');
             $config = $oJoinExtendModel->getConfig();
             Context::set('config',$config);
             
             // 템플릿 지정
             $this->setTemplatePath($this->module_path.'tpl');
             $this->setTemplateFile('jumin_config');
-		}
-		
-		/**
-		 * @brief 정보입력 설정 화면
-		 **/
-		function dispJoin_extendAdminInputConfig() {
-		    $oJoinExtendModel = &getModel('join_extend');
+        }
+        
+        /**
+         * @brief 정보입력 설정 화면
+         **/
+        function dispJoin_extendAdminInputConfig() {
+            $oJoinExtendModel = &getModel('join_extend');
             $config = $oJoinExtendModel->getConfig();
             Context::set('config',$config);
             
@@ -160,10 +160,10 @@
             // 템플릿 지정
             $this->setTemplatePath($this->module_path.'tpl');
             $this->setTemplateFile('input_config');
-		}
-		
-		
-		/**
+        }
+        
+        
+        /**
          * @brief 특정 스킨에 속한 컬러셋 목록을 return
          **/
         function getJoin_extendAdminColorset() {
@@ -225,5 +225,5 @@
             $this->setTemplatePath($this->module_path.'tpl');
             $this->setTemplateFile('invitation_config');
         }
-	}
+    }
 ?>

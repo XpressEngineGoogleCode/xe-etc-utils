@@ -229,32 +229,32 @@
          **/
         function checkSession() {
             // 모듈 옵션
-			$config = $this->getConfig();
+            $config = $this->getConfig();
 
-			// 혹시나 있을 이름 변경에 대비
-			if ($config->use_jumin == "Y") {
-			    if (!isset($_SESSION['join_extend_jumin']['name']))  return 'session_problem';
-				Context::set('user_name', $_SESSION['join_extend_jumin']['name'], true);
-			}
-			
-			// 혹시나 있을 나이 변경에 대비
-			if ($config->use_jumin == "Y" && !empty($config->age_var_name)) {
-			    if (!isset($_SESSION['join_extend_jumin']['age']))  return 'session_problem';
-				Context::set($config->age_var_name, $_SESSION['join_extend_jumin']['age'], true);
-			}
+            // 혹시나 있을 이름 변경에 대비
+            if ($config->use_jumin == "Y") {
+                if (!isset($_SESSION['join_extend_jumin']['name']))  return 'session_problem';
+                Context::set('user_name', $_SESSION['join_extend_jumin']['name'], true);
+            }
+            
+            // 혹시나 있을 나이 변경에 대비
+            if ($config->use_jumin == "Y" && !empty($config->age_var_name)) {
+                if (!isset($_SESSION['join_extend_jumin']['age']))  return 'session_problem';
+                Context::set($config->age_var_name, $_SESSION['join_extend_jumin']['age'], true);
+            }
 
-			// 혹시나 있을 성별 변경에 대비
-			if ($config->use_jumin == "Y" && !empty($config->sex_var_name)) {
-			    if (!isset($_SESSION['join_extend_jumin']['sex']))  return 'session_problem';
-				Context::set($config->sex_var_name, $_SESSION['join_extend_jumin']['sex'], true);
-			}
-			
-			// 초대장 세션 체크
-			if ($config->use_invitation == "Y") {
-			    if (!isset($_SESSION['join_extend_invitation_srl']))  return 'session_problem';
-			}
-			
-			return false;
+            // 혹시나 있을 성별 변경에 대비
+            if ($config->use_jumin == "Y" && !empty($config->sex_var_name)) {
+                if (!isset($_SESSION['join_extend_jumin']['sex']))  return 'session_problem';
+                Context::set($config->sex_var_name, $_SESSION['join_extend_jumin']['sex'], true);
+            }
+            
+            // 초대장 세션 체크
+            if ($config->use_invitation == "Y") {
+                if (!isset($_SESSION['join_extend_invitation_srl']))  return 'session_problem';
+            }
+            
+            return false;
         }
         
         /**
@@ -302,7 +302,8 @@
                 foreach($config->input_config->no_mod as $var_name => $val) {
                     if (!($val == "Y" || $val == "Y2")) continue;
 
-                    // 생일이고, 회원가입시 수정할 수 있도록 했으면 생략
+                    // 회원가입시라면 생일 수정 금지일 때만 진행
+                    if ($var_name != 'birthday' && Context::get('act') == 'procMemberInsert')   continue;
                     if ($var_name == 'birthday' && Context::get('act') == 'procMemberInsert' && $val == "Y")    continue;
                     
                     if (!isset($request_vars->{$var_name}))                     continue;
@@ -310,16 +311,16 @@
                     if (empty($_SESSION['join_extend_no_mod'][$var_name]))      continue;
                     if (is_array($_SESSION['join_extend_no_mod'][$var_name]))   $_SESSION['join_extend_no_mod'][$var_name] = implode('|@|', $_SESSION['join_extend_no_mod'][$var_name]);
 
-				    Context::set($var_name, $_SESSION['join_extend_no_mod'][$var_name], true);
+                    Context::set($var_name, $_SESSION['join_extend_no_mod'][$var_name], true);
                 }
             }
 
-			// 추천인 ID 변경 대비
-			if (!empty($config->recoid_var_name)) {
-                if (!isset($_SESSION['join_extend_jumin']['recoid']))  return 'session_problem';
-				Context::set($config->recoid_var_name, $_SESSION['join_extend_jumin']['recoid'], true);
-			}
-			
+            // 추천인 ID 변경 대비
+            if (Context::get('act') == 'procMemberModifyInfo' && !empty($config->recoid_var_name)) {
+                if (!isset($_SESSION['join_extend_jumin']['recoid']))  return new Object(-1, 'session_problem');
+                Context::set($config->recoid_var_name, $_SESSION['join_extend_jumin']['recoid'], true);
+            }
+            
             return new Object();
         }
         

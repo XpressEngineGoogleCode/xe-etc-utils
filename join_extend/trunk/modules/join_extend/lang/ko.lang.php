@@ -5,16 +5,16 @@
      * @brief  한국어 언어팩
      **/
 
-	$lang->join_extend = '회원가입확장';
-	$lang->run_update = '업데이트 되었습니다. 추가로 회원가입 확장 설정으로 가서 테이블 업데이트를 실행하세요.';
-	$lang->request_update_table = '회원 DB 업데이트가 필요하여 가입이 제한되었습니다. 관리자에게 요청하세요';
-	$lang->admin_request_update_table = '회원 DB 업데이트가 필요합니다.';
-	
-	$lang->update_table = '테이블 업데이트';
-	$lang->about_update_table = 'Ver. 0.4.2부터 회원가입 확장을 위한 별도의 테이블을 이용합니다.<br/>테이블 업데이트를 클릭하면 기존 member 테이블에 있는 주민등록번호 정보를 새로운 테이블로 옮깁니다.<br/>데이터는 단계적으로 처리됩니다. 완료가 될때까지 기다리세요.<br/><span style="color: red"><strong>반드시 회원 DB 백업 후 실행하세요.</strong></span>';
-	$lang->complete_update_table = '회원 DB 업데이트가 완료되었습니다.';
-	
-	$lang->join_extend_title = '회원 가입 1단계'; 
+    $lang->join_extend = '회원가입확장';
+    $lang->run_update = '업데이트 되었습니다. 추가로 회원가입 확장 설정으로 가서 테이블 업데이트를 실행하세요.';
+    $lang->request_update_table = '회원 DB 업데이트가 필요하여 가입이 제한되었습니다. 관리자에게 요청하세요';
+    $lang->admin_request_update_table = '회원 DB 업데이트가 필요합니다.';
+    
+    $lang->update_table = '테이블 업데이트';
+    $lang->about_update_table = 'Ver. 0.4.2부터 회원가입 확장을 위한 별도의 테이블을 이용합니다.<br/>테이블 업데이트를 클릭하면 기존 member 테이블에 있는 주민등록번호 정보를 새로운 테이블로 옮깁니다.<br/>데이터는 단계적으로 처리됩니다. 완료가 될때까지 기다리세요.<br/><span style="color: red"><strong>반드시 회원 DB 백업 후 실행하세요.</strong></span>';
+    $lang->complete_update_table = '회원 DB 업데이트가 완료되었습니다.';
+    
+    $lang->join_extend_title = '회원 가입 1단계'; 
 
     $lang->basic_config = '기본 설정';
     $lang->agree_config = '약관 설정';
@@ -36,21 +36,21 @@
     $lang->about_use_join_extend = '회원가입 확장 기능 사용 여부를 선택합니다.';
     $lang->about_admin_id_2 = '이곳에 설정한 관리자 아이디가 환영 쪽지 등의 발송자로 사용됩니다.';
     
-	$lang->use_agreement = '이용약관 표시';
-	$lang->about_use_agreement = '이용약관을 표시 및 동의를 받습니다.';
-	$lang->agreement = '이용약관';
+    $lang->use_agreement = '이용약관 표시';
+    $lang->about_use_agreement = '이용약관을 표시 및 동의를 받습니다.';
+    $lang->agreement = '이용약관';
 
-	$lang->use_private_agreement = '개인정보취급방침 표시';
-	$lang->about_use_private_agreement = '개인정보취급방침을 표시 및 동의를 받습니다.';
-	$lang->private_agreement = '개인정보취급방침';
-	$lang->private_gathering_agreement = '개인정보 수집 및 이용';
+    $lang->use_private_agreement = '개인정보취급방침 표시';
+    $lang->about_use_private_agreement = '개인정보취급방침을 표시 및 동의를 받습니다.';
+    $lang->private_agreement = '개인정보취급방침';
+    $lang->private_gathering_agreement = '개인정보 수집 및 이용';
 
-	$lang->use_jumin = '주민등록번호 받기';
-	$lang->about_use_jumin = '주민등록번호를 받습니다.';
+    $lang->use_jumin = '주민등록번호 받기';
+    $lang->about_use_jumin = '주민등록번호를 받습니다.';
     $lang->jumin = '주민등록번호';
-	$lang->name = '이름';
-	$lang->msg_empty = '%s의 값을 입력하세요.';
-	$lang->jumin_check = '실명확인';
+    $lang->name = '이름';
+    $lang->msg_empty = '%s의 값을 입력하세요.';
+    $lang->jumin_check = '실명확인';
     $lang->about_jumin = '주민등록번호는 중복가입을 막기 위해 사용됩니다.';
     $lang->jumin1 = '주민등록번호 앞부분';
     $lang->jumin2 = '주민등록번호 뒷부분';
@@ -80,11 +80,11 @@
     $lang->age_var_name = '나이 확장 변수명';
     $lang->about_age_var_name = '주민등록번호를 이용하여 나이정보를 자동으로 입력합니다. <br/>회원 관리 - 가입 폼 관리에 추가된 나이 정보의 <strong>입력항목 이름</strong>을 입력하세요. <br/>사용하지 않을 경우 비워두세요.';
         
-	$lang->use_age_restrictions = '나이제한 사용';
-	$lang->about_use_age_restrictions = '아래 설정된 나이만 가입을 받습니다. (만나이)';
-	$lang->age_restrictions = '나이제한';
-	$lang->msg_age_restrictions = '나이제한으로 가입할 수 있습니다. (만 %s~%s)';
-	$lang->msg_junior_join = '나이제한 메시지';
+    $lang->use_age_restrictions = '나이제한 사용';
+    $lang->about_use_age_restrictions = '아래 설정된 나이만 가입을 받습니다. (만나이)';
+    $lang->age_restrictions = '나이제한';
+    $lang->msg_age_restrictions = '나이제한으로 가입할 수 있습니다. (만 %s~%s)';
+    $lang->msg_junior_join = '나이제한 메시지';
 
     $lang->recoid_var_name = '추천인 ID 확장 변수명';
     $lang->about_recoid_var_name = '추천인 ID에 포인트를 지급합니다. <br/>회원 관리 - 가입 폼 관리에 추가된 추천인 ID의 <strong>입력항목 이름</strong>을 입력하세요. <br/>사용하지 않을 경우 비워두세요.';
@@ -105,31 +105,31 @@
     
     $lang->agree_agreement= '이용약관에 동의 합니다.'; 
     $lang->agree_private_agreement= '개인정보취급방침에 동의 합니다.'; 
-	$lang->agree = '동의';
-	$lang->junior = '%d세 이상';
-	$lang->senior = '%d세 미만';
+    $lang->agree = '동의';
+    $lang->junior = '%d세 이상';
+    $lang->senior = '%d세 미만';
 
-	$lang->msg_check_agree = '약관에 동의가 필요합니다.';
-	$lang->session_problem = '세션 에러! 다시 시도해 보세요!';
-	
-	$lang->invitation_config = '초대장 설정';
-	$lang->use_invitation = '초대장 기능 사용';
-	$lang->about_use_invitation = '초대장 기능을 사용하면 초대장 번호를 가진 사람만 가입할 수 있습니다.';
-	$lang->unit_number = '개';
-	$lang->generate_invitation = '초대장 생성';
-	$lang->about_generate_invitation = '한번에 생성할 수 있는 초대장의 최대 개수는 100개입니다.';
-	$lang->msg_invitation_incorrect_count = '1~100 사이를 입력해주세요.';
-	$lang->invitation_code = '초대장 번호';
-	$lang->invitation_join_id = '가입 아이디';
-	$lang->invitation_joindate = '가입일';
-	$lang->view = '보기';
-	$lang->view_all = '모두';
-	$lang->view_not_use = '사용안됨';
-	$lang->join_extend_invitation = '초대장 확인';
-	$lang->msg_invitation = '초대장 번호를 입력해주세요';
-	$lang->msg_empty_invitation_code = '초대장 번호를 입력해주세요';
-	$lang->msg_incorrect_invitation = '유효하지 않은 초대장 번호입니다';
-	$lang->msg_used_invitation = '이미 사용된 초대장 번호입니다.';
-	$lang->insert_fail_invitation = '초대장 처리 에러';
-	$lang->deleted_member = '탈퇴한 회원';
+    $lang->msg_check_agree = '약관에 동의가 필요합니다.';
+    $lang->session_problem = '세션 에러! 다시 시도해 보세요!';
+    
+    $lang->invitation_config = '초대장 설정';
+    $lang->use_invitation = '초대장 기능 사용';
+    $lang->about_use_invitation = '초대장 기능을 사용하면 초대장 번호를 가진 사람만 가입할 수 있습니다.';
+    $lang->unit_number = '개';
+    $lang->generate_invitation = '초대장 생성';
+    $lang->about_generate_invitation = '한번에 생성할 수 있는 초대장의 최대 개수는 100개입니다.';
+    $lang->msg_invitation_incorrect_count = '1~100 사이를 입력해주세요.';
+    $lang->invitation_code = '초대장 번호';
+    $lang->invitation_join_id = '가입 아이디';
+    $lang->invitation_joindate = '가입일';
+    $lang->view = '보기';
+    $lang->view_all = '모두';
+    $lang->view_not_use = '사용안됨';
+    $lang->join_extend_invitation = '초대장 확인';
+    $lang->msg_invitation = '초대장 번호를 입력해주세요';
+    $lang->msg_empty_invitation_code = '초대장 번호를 입력해주세요';
+    $lang->msg_incorrect_invitation = '유효하지 않은 초대장 번호입니다';
+    $lang->msg_used_invitation = '이미 사용된 초대장 번호입니다.';
+    $lang->insert_fail_invitation = '초대장 처리 에러';
+    $lang->deleted_member = '탈퇴한 회원';
 ?>
