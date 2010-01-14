@@ -1,0 +1,6 @@
+<table name="join_extend">
+    <column name="member_srl" type="number" size="11" notnull="notnull" primary_key="primary_key" />
+    <column name="jumin" type="varchar" size="32" index="idx_jumin" />
+    <column name="recoid_member_srl" type="number" size="11" />
+    <column name="rocoid_point" type="number" size="11" />
+</table>
