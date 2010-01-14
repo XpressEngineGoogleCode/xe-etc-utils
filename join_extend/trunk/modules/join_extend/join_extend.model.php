@@ -250,7 +250,7 @@
             }
             
             // 초대장 세션 체크
-            if ($config->use_invitation == "Y") {
+            if ($config->use_invitation == "Y" && Context::get('act') == 'procMemberInsert') {
                 if (!isset($_SESSION['join_extend_invitation_srl']))  return 'session_problem';
             }
             
