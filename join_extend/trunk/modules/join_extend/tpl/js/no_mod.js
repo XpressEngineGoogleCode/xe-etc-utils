@@ -6,12 +6,14 @@ jQuery(function($) {
                     jQuery("input[name="+no_mod[i]+"]").attr("readonly", "readonly");
                 break;
             case 'radio': case 'checkbox':
-                if (jQuery("input[name="+no_mod[i]+"]").attr("checked"))
-                    jQuery("input[name="+no_mod[i]+"]").attr("readonly", "readonly");
+                if (jQuery("input[name="+no_mod[i]+"]:checked").length) {
+                    jQuery("input[name="+no_mod[i]+"]").attr("disabled", "disabled")
+                    jQuery("input[name="+no_mod[i]+"]:last").after('<input type="hidden" name="'+no_mod[i]+'" value="dummy" />');
+                }
                 break;
             case 'select':
-                if (jQuery("select[name="+no_mod[i]+"]").val())
-                    jQuery("select[name="+no_mod[i]+"]").attr("readonly", "readonly");
+                if (jQuery("select[name="+no_mod[i]+"] > option[selected=selected]").length)
+                    jQuery("select[name="+no_mod[i]+"]").attr("disabled", "disabled").after('<input type="hidden" name="'+no_mod[i]+'" value="dummy" />');
                 break;
             case 'kr_zip':
                 if (jQuery("input[name="+no_mod[i]+"]").val()) {
