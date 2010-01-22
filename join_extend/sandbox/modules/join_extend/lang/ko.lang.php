@@ -110,13 +110,15 @@
     $lang->notify_admin_period = '관리자 통보 주기';
     $lang->about_notify_admin_period = '관리자 통보 기능의 통보 주기를 선택하세요.';
     $lang->notify_each_time = '매번 통보';
-    $lang->notify_every_hour = '한시간 단위로 모아서 통보';
+    $lang->notify_collect = '모아서 통보';
     $lang->notify_admin_method = '관리자 통보 방법';
     $lang->about_notify_admin_method = '관리자에게 어떤 방법으로 통보할지 선택하세요.';
     $lang->message = '쪽지';
     $lang->email = '이메일';
     $lang->notify_admin_collect_number = '모아서 통보할 개수';
     $lang->about_notify_admin_collect_number = '이곳에 설정한 개수만큼 통보가 쌓이면 모아서 관리자에게 통보합니다. (기본값 10개)';
+    $lang->notify_type = '구분';
+    $lang->notify_title = '가입/탈퇴 통보';
     
     $lang->agree_agreement= '이용약관에 동의 합니다.'; 
     $lang->agree_private_agreement= '개인정보취급방침에 동의 합니다.'; 

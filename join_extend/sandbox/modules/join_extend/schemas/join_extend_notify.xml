@@ -1,0 +1,5 @@
+<table name="join_extend_notify">
+    <column name="mode" type="varchar" size="10" notnull="notnull" />
+    <column name="member_info" type="text" />
+    <column name="regdate" type="date" />
+</table>

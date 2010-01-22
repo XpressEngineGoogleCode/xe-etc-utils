@@ -228,6 +228,101 @@
         }
         
         /**
+         * @brief 관리자 통보 준비
+         **/
+        function procNotifyAdmin($mode, $member_info) {
+            $oJoinExtendModel = &getModel('join_extend');
+            $config = $oJoinExtendModel->getConfig();
+            
+            // 실행 조건 검사
+            if ($mode == 'signin' && !($config->use_notify_admin == 'signin' || $config->use_notify_admin == 'both'))    return;
+            if ($mode == 'signout' && !($config->use_notify_admin == 'signout' || $config->use_notify_admin == 'both'))    return;
+
+            // 통보 주기가 있을 경우 정보를 DB에 추가
+            if ($config->notify_admin_period == 'collect') {
+                $args->mode = $mode;
+                $args->member_info = serialize($member_info);
+                
+                // DB추가(오류는 무시)
+                executeQuery('join_extend.insertNotify', $args);
+                
+                // 통보 개수
+                $output = executeQuery('join_extend.getCountNotify');
+                $count = $output->data->count;
+                
+                // 통보할 개수가 되었으면 통보
+                if (intVal($count) >= intVal($config->notify_admin_collect_number))
+                    $this->procSendNotifyAdmin('DB');
+                    
+                return;
+            }
+
+            // 매번 통보이면 바로 통보
+            $this->procSendNotifyAdmin('member_info', $member_info, $mode);
+        }
+        
+        /**
+         * @brief 관리자 통보
+         **/
+        function procSendNotifyAdmin($mode, $member_info = null, $type = 'signin') {
+            $oJoinExtendModel = &getModel('join_extend');
+            $config = $oJoinExtendModel->getConfig();
+            
+            // DB 정보를 이용
+            if ($mode == 'DB') {
+                // 통보할 정보를 가져온다
+                $output = executeQueryArray('join_extend.getNotify');
+                $member_infos = $output->data;
+                
+                // member_info 일렬화를 해제
+                if (count($member_infos))
+                    foreach($member_infos as &$val) $val->member_info = unserialize($val->member_info);
+            
+                // DB를 비운다
+                executeQuery('join_extend.emptyNotify');
+                
+            // member_info를 이용
+            }else if ($mode == 'member_info' && $member_info) {
+                $member_infos[0]->member_info = $member_info;
+                $member_infos[0]->mode = $type;
+                $member_infos[0]->regdate = date("YmdHis");
+            }
+
+            // 통보할 내용이 있는지 확인
+            if (!count($member_infos))  return;
+            
+            // 템플릿을 컴파일하여 내용을 생성
+            Context::set('member_infos', $member_infos);
+            $oTemplate = &TemplateHandler::getInstance();
+            $tpl = $oTemplate->compile('./modules/join_extend/tpl/', 'notify_email');
+
+            // 관리자 정보
+            $oMemberModel = &getModel('member');
+            $admin_info = $oMemberModel->getMemberInfoByUserID($config->admin_id);
+            $admin_member_srl = $admin_info->member_srl;
+
+            // 설정에 따라 쪽지나 메일을 발송
+            if ($config->notify_admin_method == 'message' || $config->notify_admin_method == 'both') {
+                $title = Context::getLang('notify_title');
+                $content = $tpl;
+                $oCommunicationController = &getController('communication');
+                $oCommunicationController->sendMessage($admin_member_srl, $admin_member_srl, $title, $content, false);
+            }
+            
+            if ($config->notify_admin_method == 'email' || $config->notify_admin_method == 'both') {
+                $title = Context::getLang('notify_title');
+                $content = $tpl;
+                $oMail = new Mail();
+                $oMail->setTitle($title);
+                $oMail->setContent($content);
+                $oMail->setContentType('plain');
+                $oMail->setSender($admin_info->user_name, $admin_info->email_address);
+                $oMail->setReceiptor($admin_info->user_name, $admin_info->email_address);
+                $oMail->send();
+            }
+        }
+        
+        /**
          * @brief 회원 DB 추가 후 트리거
          **/
         function triggerInsertMember(&$obj) {
@@ -273,6 +368,11 @@
             // 회원 가입 환영 쪽지
             $this->procSendWelcomeMessage($member_srl);
             
+            // 관리자 통보
+            $oMemberModel = &getModel('member');
+            $member_info = $oMemberModel->getMemberInfoByMemberSrl($member_srl);
+            $this->procNotifyAdmin('signin', $member_info);
+            
             unset($_SESSION['join_extend_authed_act']);
             unset($_SESSION['join_extend_jumin']);
 
@@ -285,10 +385,17 @@
         function triggerDeleteMember(&$obj) {
             $member_srl = $obj->member_srl;
 
+            // 회원정보
+            $oMemberModel = &getModel('member');
+            $member_info = $oMemberModel->getMemberInfoByMemberSrl($member_srl);
+            
             // join_extend 테이블에서 회원정보 삭제
             $args->member_srl = $member_srl;
             $output = executeQuery('join_extend.deleteMemberInfo', $args);
             if (!$output->toBool()) return $output;
+            
+            // 관리자 통보
+            $this->procNotifyAdmin('signout', $member_info);
             
             return new Object();
         }

@@ -46,8 +46,8 @@
         <th scope="col" class="w150"><div>{$lang->notify_admin_period}</div></th>
         <td>
             <select name="notify_admin_period">
-                <option value="each"<!--@if($config->notify_admin_period=='each')--> selected="selected"<!--@end-->>{$lang->notify_each_time}</option>
                 <option value="collect"<!--@if($config->notify_admin_period=='collect')--> selected="selected"<!--@end-->>{$lang->notify_collect}</option>
+                <option value="each"<!--@if($config->notify_admin_period=='each')--> selected="selected"<!--@end-->>{$lang->notify_each_time}</option>
             </select>
             <p>{$lang->about_notify_admin_period}</p>
         </td>

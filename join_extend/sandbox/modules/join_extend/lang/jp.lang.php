@@ -20,7 +20,7 @@
     $lang->agree_config = '約款設定';
     $lang->extend_var_config = '拡張変数連動';
     $lang->restrictions_config = '加入制限設定';
-    $lang->after_config = '加入後処理';
+    $lang->after_config = '加入と脱退後処理';
     $lang->jumin_config = '住民登録番号設定';
 
     $lang->input_config = '情報入力設定';
@@ -102,21 +102,23 @@
     $lang->about_welcome_email_title = '加入歓迎メール題目を入力してください. 内容は下で別に作成してください.';
     $lang->use_welcome_email = '加入歓迎メール';
     $lang->about_use_welcome_email = '加入した会員に歓迎メールを送ります.';
-    $lang->use_notify_admin = '관리자 통보 기능';
-    $lang->about_use_notify_admin = '이용자가 회원가입이나 회원탈퇴 시 관련 정보를 관리자에게 통보합니다.';
-    $lang->only_signin = '회원가입만';
-    $lang->only_signout = '회원탈퇴만';
-    $lang->both = '모두';
-    $lang->notify_admin_period = '관리자 통보 주기';
-    $lang->about_notify_admin_period = '관리자 통보 기능의 통보 주기를 선택하세요.';
-    $lang->notify_each_time = '매번 통보';
-    $lang->notify_every_hour = '한시간 단위로 모아서 통보';
-    $lang->notify_admin_method = '관리자 통보 방법';
-    $lang->about_notify_admin_method = '관리자에게 어떤 방법으로 통보할지 선택하세요.';
-    $lang->message = '쪽지';
-    $lang->email = '이메일';
-    $lang->notify_admin_collect_number = '모아서 통보할 개수';
-    $lang->about_notify_admin_collect_number = '이곳에 설정한 개수만큼 통보가 쌓이면 모아서 관리자에게 통보합니다. (기본값 10개)';
+    $lang->use_notify_admin = '管理者通報機能';
+    $lang->about_use_notify_admin = '利用者が会員加入や会員脱退の時関連情報を管理者に知らせます.';
+    $lang->only_signin = '会員加入だけ';
+    $lang->only_signout = '会員脱退だけ';
+    $lang->both = '両方';
+    $lang->notify_admin_period = '管理者通報週期';
+    $lang->about_notify_admin_period = '管理者通報機能の通報週期を選択してください.';
+    $lang->notify_each_time = '毎回通報';
+    $lang->notify_collect = '集めて通報';
+    $lang->notify_admin_method = '管理者通報方法';
+    $lang->about_notify_admin_method = '管理者にどんな方法で知らせるか選択してください.';
+    $lang->message = 'メッセージ';
+    $lang->email = '電子メール';
+    $lang->notify_admin_collect_number = '集めて知らせる個数';
+    $lang->about_notify_admin_collect_number = 'こちらに設定した個数位通報が積もれば集めて管理者に知らせます. (基本値 10個)';
+    $lang->notify_type = 'タイプ';
+    $lang->notify_title = '加入と脱退通報';
     
     $lang->agree_agreement= '利用約款に同意します.'; 
     $lang->agree_private_agreement= '個人情報取り扱い方針に同意します.'; 
