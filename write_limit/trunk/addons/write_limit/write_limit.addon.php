@@ -30,6 +30,7 @@
 		$output = executeQuery('addons.write_limit.document_count', $args);
 
 		if (!$output->toBool()) {
+            $error = $output->getMessage();
 			// xml_rpc return
 			header("Content-Type: text/xml; charset=UTF-8");
 			header("Expires: Mon, 26 Jul 1997 05:00:00 GMT");
@@ -37,7 +38,7 @@
 			header("Cache-Control: no-store, no-cache, must-revalidate");
 			header("Cache-Control: post-check=0, pre-check=0", false);
 			header("Pragma: no-cache");
-			print("<response>\r\n<error>-1</error>\r\n<message>SQL Error</message>\r\n</response>");
+			print("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<response>\r\n<error>-1</error>\r\n<message>$error</message>\r\n</response>");
 
 			Context::close();
 			exit();
@@ -52,7 +53,7 @@
 			header("Cache-Control: no-store, no-cache, must-revalidate");
 			header("Cache-Control: post-check=0, pre-check=0", false);
 			header("Pragma: no-cache");
-			printf("<response>\r\n<error>-1</error>\r\n<message>".Context::getLang('msg_limit_document')."</message>\r\n</response>", $addon_info->document_limit);
+			printf("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<response>\r\n<error>-1</error>\r\n<message>".Context::getLang('msg_limit_document')."</message>\r\n</response>", $addon_info->document_limit);
 
 			Context::close();
 			exit();
@@ -87,6 +88,7 @@
 		// 오늘 작성 댓글 개수를 가져온다.
 		$output = executeQuery('addons.write_limit.comment_count', $args);
 		if (!$output->toBool()) {
+            $error = $output->getMessage();
 			// xml_rpc return
 			header("Content-Type: text/xml; charset=UTF-8");
 			header("Expires: Mon, 26 Jul 1997 05:00:00 GMT");
@@ -94,7 +96,7 @@
 			header("Cache-Control: no-store, no-cache, must-revalidate");
 			header("Cache-Control: post-check=0, pre-check=0", false);
 			header("Pragma: no-cache");
-			print("<response>\r\n<error>-1</error>\r\n<message>SQL Error</message>\r\n</response>");
+			print("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<response>\r\n<error>-1</error>\r\n<message>$error</message>\r\n</response>");
 
 			Context::close();
 			exit();
@@ -109,7 +111,7 @@
 			header("Cache-Control: no-store, no-cache, must-revalidate");
 			header("Cache-Control: post-check=0, pre-check=0", false);
 			header("Pragma: no-cache");
-			printf("<response>\r\n<error>-1</error>\r\n<message>".Context::getLang('msg_limit_comment')."</message>\r\n</response>", $addon_info->comment_limit);
+			printf("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<response>\r\n<error>-1</error>\r\n<message>".Context::getLang('msg_limit_comment')."</message>\r\n</response>", $addon_info->comment_limit);
 
 			Context::close();
 			exit();
