@@ -664,7 +664,7 @@
             header("Cache-Control: no-store, no-cache, must-revalidate");
             header("Cache-Control: post-check=0, pre-check=0", false);
             header("Pragma: no-cache");
-            printf("<response>\r\n<error>-1</error>\r\n<message>%s</message>\r\n</response>", Context::getLang($msg));
+            printf("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<response>\r\n<error>-1</error>\r\n<message>%s</message>\r\n</response>", Context::getLang($msg));
 
             Context::close();
             exit();
