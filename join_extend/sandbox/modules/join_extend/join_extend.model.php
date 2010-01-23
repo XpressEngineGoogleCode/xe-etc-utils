@@ -30,6 +30,7 @@
 
             // 기본값
             if (!$config->skin) $config->skin = 'default';
+            if (!$config->notify_admin_collect_number)  $config->notify_admin_collect_number = 10;
             
             // 에디터 내용을 가져온다.
             if ($editor_config == true) {
