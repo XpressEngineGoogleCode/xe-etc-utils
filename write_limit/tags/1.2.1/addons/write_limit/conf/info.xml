@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<addon version="0.2">
+    <title xml:lang="ko">글/댓글 작성수 제한</title>
+    <description xml:lang="ko">
+        하루에 작성할 수 있는 글/댓글을 제한합니다.
+    </description>
+    <version>1.2.1</version>
+    <date>2010-01-23</date>
+
+    <author email_address="sinsy200@gmail.com" link="http://etcutils.xpressengine.net">
+        <name xml:lang="ko">난다날아</name>
+    </author>
+	<extra_vars>
+	<var name="document_limit">
+		<title xml:lang="ko">글 작성 제한 수</title>
+		<description xml:lang="ko">하루에 작성할 수 있는 글의 수입니다. 하루에 이 설정값 이상 글을 작성할 수 없습니다.</description>
+	</var>
+	<var name="comment_limit">
+		<title xml:lang="ko">댓글 작성 제한 수</title>
+		<description xml:lang="ko">하루에 작성할 수 있는 댓글의 수입니다. 하루에 이 설정값 이상 댓글을 작성할 수 없습니다.</description>
+	</var>
+	</extra_vars>
+</addon>

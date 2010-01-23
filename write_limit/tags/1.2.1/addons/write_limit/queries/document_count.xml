@@ -1,0 +1,16 @@
+<query id="document_count" action="select">
+    <tables>
+        <table name="documents" />
+		<table name="modules" />
+    </tables>
+    <columns>
+        <column name="count(*)" alias="count" />
+    </columns>
+    <conditions>
+		<condition operation="equal" column="documents.module_srl" default="modules.module_srl" notnull="notnull" />
+		<condition operation="equal" column="modules.module" default="board" notnull="notnull" pipe="and"/>
+        <condition operation="equal" column="documents.member_srl" var="member_srl" pipe="and"/>
+		<condition operation="equal" column="documents.ipaddress" var="ipaddress" pipe="and" />
+		<condition operation="like_prefix" column="documents.regdate" var="today" notnull="notnull" pipe="and" />
+    </conditions>
+</query>
