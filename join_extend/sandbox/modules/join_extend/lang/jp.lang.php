@@ -95,6 +95,8 @@
     $lang->point_fail = '推薦である IDを利用したポイント支給に失敗しました.推薦人 IDが存在しないこともあります.';
     
     $lang->welcome = '加入歓迎メッセージ内容';
+    $lang->welcome_title = '加入歓迎メッセージ題目';
+    $lang->about_welcome_title = '加入歓迎メッセージ題目を入力してください. 内容は下で別に作成してください.';
     $lang->use_welcome = '加入歓迎メッセージ';
     $lang->about_use_welcome = '加入した会員に歓迎メッセージを送ります.';
     $lang->welcome_email = '加入歓迎メール内容';

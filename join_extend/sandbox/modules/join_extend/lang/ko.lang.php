@@ -95,6 +95,8 @@
     $lang->point_fail = '추천인 ID를 이용한 포인트 지급에 실패했습니다. 추천인 ID가 존재하지 않을 수 있습니다.';
     
     $lang->welcome = '가입 환영 쪽지 내용';
+    $lang->welcome_title = '가입 환영 쪽지 제목';
+    $lang->about_welcome_title = '가입 확영 쪽지 제목을 입력하세요. 내용은 아래에서 별도로 작성하세요.';
     $lang->use_welcome = '가입 환영 쪽지';
     $lang->about_use_welcome = '가입한 회원에게 환영 쪽지를 보냅니다.';
     $lang->welcome_email = '가입 환영 메일 내용';

@@ -188,7 +188,8 @@
             $member_info = $oMemberModel->getMemberInfoByMemberSrl($member_srl);
             
             // 쪽지 발송
-            $title = cut_str($this->unhtmlentities(strip_tags($config->welcome)), 40);
+            if (strlen($config->welcome_title)) $title = $config->welcome_title;
+            else                                $title = cut_str($this->unhtmlentities(strip_tags($config->welcome)), 40);
             $content = $config->welcome;
             $oCommunicationController = &getController('communication');
             $oCommunicationController->sendMessage($admin_member_srl, $member_srl, $title, $content, false);
