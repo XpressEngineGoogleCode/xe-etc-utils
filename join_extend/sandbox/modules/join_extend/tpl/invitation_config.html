@@ -1,5 +1,6 @@
 <!--#include("header.html")-->
 <!--%import("filter/generate_invitation.xml")-->
+<!--%import("filter/delete_invitation.xml")-->
 
 <form action="./" method="post" onsubmit="return procFilter(this, insert_config)">
     <table cellspacing="0" class="rowTable">
@@ -38,33 +39,45 @@
     </table>
 </form>
 
-<form action="./" method="get">
+<!-- 삭제를 위한 임시 form -->
+<form id="fo_invitation" action="./" method="get">
+    <input type="hidden" name="invitation_srls" value="" />
+</form>
+
+<form action="./" method="get" id="invitation_list">
     <input type="hidden" name="module" value="admin" />
     <input type="hidden" name="act" value="{$act}" />
     <select name="joindate">
-        <option value="">{$lang->view_all}</option>
+        <option value="">{$lang->my_view_all}</option>
         <option value="-" <!--@if($joindate=="-")-->selected="selected"<!--@end-->>{$lang->view_not_use}</option>
     </select>
     <span class="button green"><input type="submit" value="{$lang->view}" /></span>
     <table cellspacing="0" class="rowTable">
     <tr>
+        <th scope="col"><div><input type="checkbox" onclick="XE.checkboxToggleAll(); return false;" /></div></th>
         <th scope="col"><div>{$lang->no}</div></th>
         <th scope="col"><div>{$lang->invitation_code}</div></th>
         <th scope="col"><div>{$lang->regdate}</div></th>
         <th scope="col"><div>{$lang->invitation_join_id}</div></th>
         <th scope="col"><div>{$lang->invitation_joindate}</div></th>
+        <th scope="col"><div>&nbsp;</div></th>
     </tr>
     <!--@foreach($invitation_list as $no => $val)-->
     <tr>
+        <td class="center"><input type="checkbox" name="cart" value="{$val->invitation_srl}" /></td>
         <td>{$no}</td>
         <td style="font-family: monospace">{$val->code}</td>
         <td>{zdate($val->regdate,"Y-m-d")}</td>
         <td>{$val->join_id}</td>
         <td>{zdate($val->joindate,"Y-m-d")}</td>
+        <td><a href="#" onclick="doDeleteInvitation('{$val->invitation_srl}');return false;" title="{htmlspecialchars($lang->cmd_delete)}" class="buttonSet buttonDelete"><span>{$lang->cmd_delete}</span></a></td>
     </tr>
     <!--@end-->
     </table>
 </form>
+<div class="fl">
+    <a href="#" onclick="doDeleteInvitations();return false;" class="button red"><span>{$lang->cmd_delete}</span></a>
+</div>
 
 <!-- 페이지 네비게이션 -->
 <div class="pagination a1">

@@ -142,7 +142,7 @@
     $lang->invitation_join_id = '加入ID';
     $lang->invitation_joindate = '加入日';
     $lang->view = '表示';
-    $lang->view_all = '全て';
+    $lang->my_view_all = '全て';
     $lang->view_not_use = '使用できません';
     $lang->join_extend_invitation = '招待状確認';
     $lang->msg_invitation = '招待状番号を入力してください, Ctrl+V使用可能.';

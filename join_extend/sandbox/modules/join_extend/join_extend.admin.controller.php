@@ -175,5 +175,18 @@
             }
             $oDB->commit();
         }
+        
+        /**
+         * @brief 초대장 삭제
+         **/
+        function procJoin_extendAdminDeleteInvitation(){
+            $args->invitation_srls = Context::get('invitation_srls');
+            if (!$args->invitation_srls) return new Object(-1, 'invitaion_srls is missing');
+            
+            $output = executeQuery('join_extend.deleteInvitation', $args);
+            if (!$output->toBool()) return $output;
+            
+            $this->setMessage('success_deleted');
+        }
     }
 ?>

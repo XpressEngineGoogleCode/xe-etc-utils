@@ -73,3 +73,38 @@ function completeProcessing(ret_obj, response_tags){
         alert(message);
     }
 }
+
+// 초대장 개별 삭제
+function doDeleteInvitation(invitation_srl) {
+    var fo_obj = xGetElementById("fo_invitation");
+    if(!fo_obj) return;
+    fo_obj.invitation_srls.value = invitation_srl;
+    procFilter(fo_obj, delete_invitation);
+}
+
+// 초대장 일괄 삭제
+function doDeleteInvitations() {
+    var fo_obj = xGetElementById("invitation_list");
+    var invitation_srl = new Array();
+
+    if(typeof(fo_obj.cart.length)=='undefined') {
+        if(fo_obj.cart.checked) invitation_srl[invitation_srl.length] = fo_obj.cart.value;
+    } else {
+        var length = fo_obj.cart.length;
+        for(var i=0;i<length;i++) {
+            if(fo_obj.cart[i].checked) invitation_srl[invitation_srl.length] = fo_obj.cart[i].value;
+        }
+    }
+
+    if(invitation_srl.length<1) return;
+
+    var fo_form = xGetElementById("fo_invitation");
+    fo_form.invitation_srls.value = invitation_srl.join(',');
+    procFilter(fo_form, delete_invitation);
+}
+
+// 초대장 삭제 후 
+function completeDeleteInvitation(ret_obj) {
+    alert(ret_obj['message']);
+    location.href = current_url;
+} 

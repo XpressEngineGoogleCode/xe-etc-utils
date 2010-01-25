@@ -142,7 +142,7 @@
     $lang->invitation_join_id = '가입 아이디';
     $lang->invitation_joindate = '가입일';
     $lang->view = '보기';
-    $lang->view_all = '모두';
+    $lang->my_view_all = '모두';
     $lang->view_not_use = '사용안됨';
     $lang->join_extend_invitation = '초대장 확인';
     $lang->msg_invitation = '초대장 번호를 입력해주세요';

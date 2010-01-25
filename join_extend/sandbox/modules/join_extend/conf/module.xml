@@ -17,6 +17,7 @@
         <action name="procJoin_extendAdminInsertConfig" type="controller"  />
         <action name="procJoin_extendAdminInsertEditor" type="controller"  />
         <action name="procJoin_extendAdminGenerateInvitation" type="controller"  />
+        <action name="procJoin_extendAdminDeleteInvitation" type="controller"  />
         
         <action name="procJoin_extendAgree" type="controller"  />
         <action name="procJoin_extendInvitation" type="controller"  />
