@@ -406,7 +406,10 @@
             if (!$output->toBool()) return $output;
             
             // 관리자 통보
-            $this->procNotifyAdmin('signout', $member_info);
+            // 회원확장 모듈에서 회원가입 중단시에도
+            // deleteMember를 실행하지만 이때는 통보하지 않는다.
+            if (Context::get('act') != 'procMemberInsert')
+                $this->procNotifyAdmin('signout', $member_info);
             
             return new Object();
         }
