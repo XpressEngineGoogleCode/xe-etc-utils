@@ -102,18 +102,30 @@
         function procJoin_extendInvitationUse($member_srl) {
             $oJoinExtendModel = &getModel('join_extend');
             $config = $oJoinExtendModel->getConfig();
-            if ($config->use_invitation != "Y") return true;
-            if (!$member_srl)   return false;
+            if ($config->use_invitation != "Y") return new Object(0);
+            if (!$member_srl)   return new Object(-1, 'member_srl is missing');
             
             if (!empty($_SESSION['join_extend_invitation_srl'])) {
+                $args->invitation_srl = $_SESSION['join_extend_invitation_srl'];
+                
+                // 해당 초대장이 있는지 확인
+                $output = executeQuery('join_extend.getInvitation', $args);
+                if (!$output->toBool()) return $output;
+                if (!$output->data) return new Object(-1, 'msg_incorrect_invitation');
+                
+                // 해당 초대장이 사용된 것인지 확인
+                if ($output->data->joindate != "-") return new Object(-1, 'msg_used_invitation');
+            
                 $args->invitation_srl = $_SESSION['join_extend_invitation_srl'];
                 $args->member_srl = $member_srl;
                 $args->joindate = date("YmdHis");
                 $output = executeQuery('join_extend.updateInvitation', $args);
-                if (!$output->toBool()) return false;
+                if (!$output->toBool()) return $output;
+            }else{
+                return new Object(-1, 'invitation session is null');
             }
             
-            return true;
+            return new Object(0);
         }
         
         /**
@@ -352,9 +364,9 @@
 
             // 초대장
             $res = $this->procJoin_extendInvitationUse($member_srl);
-            if (!$res){
+            if (!$res->toBool()){
                 $oMemberController->deleteMember($member_srl);
-                return new Object(-1, 'insert_fail_invitation');
+                return $res;
             }
             
             // 추천인 포인트 지급
