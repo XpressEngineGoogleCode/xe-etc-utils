@@ -150,6 +150,13 @@
                 return;
             }
             
+            // 유효기간 확인
+            $validdate = Context::get('validdate');
+            if ($validdate && $validdate < date("Ymd")) {
+                $this->SetError(1);
+                $this->SetMessage('msg_validdate_past');
+            }
+            
             // 초대장 생성
             $oDB = &DB::getInstance();
             $oDB->begin();
@@ -167,6 +174,7 @@
                 
                 $args->invitation_srl = getNextSequence();
                 $args->own_member_srl = 0;
+                $args->validdate = $validdate;
                 $output = $oDB->executeQuery('join_extend.insertInvitation', $args);
                 if (!$output->toBool()) {
                     $oDB->rollback();

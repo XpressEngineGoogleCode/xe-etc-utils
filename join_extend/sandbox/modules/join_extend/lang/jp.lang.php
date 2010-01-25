@@ -136,7 +136,7 @@
     $lang->about_use_invitation = '招待状機能を使えば招待状番号を持った人だけ加入することができます.';
     $lang->unit_number = '個';
     $lang->generate_invitation = '招待状生成';
-    $lang->about_generate_invitation = '一度に生成することができる招待状の最大個数は 100個です.';
+    $lang->about_generate_invitation = '一度に生成することができる招待状の最大個数は 100個です. 유효기간을 설정하여 생성된 초대장은 해당 기간까지만 유효합니다. 유효기간을 비워두면 유효기간이 없는 초대장이 생성됩니다.';
     $lang->msg_invitation_incorrect_count = '1~100 間を入力してください.';
     $lang->invitation_code = '招待状番号';
     $lang->invitation_join_id = '加入ID';
@@ -151,4 +151,7 @@
     $lang->msg_used_invitation = 'すでに使われた招待状番号です.';
     $lang->insert_fail_invitation = '招待状処理エラー';
     $lang->deleted_member = '脱退した会員';
+    $lang->validdate = '유효기간';
+    $lang->msg_validdate_past = '유효기간으로 과거 날짜를 사용할 수 없습니다.';
+    $lang->msg_expired_invitation = '유효기간이 지난 초대장입니다. (%s)';
 ?>

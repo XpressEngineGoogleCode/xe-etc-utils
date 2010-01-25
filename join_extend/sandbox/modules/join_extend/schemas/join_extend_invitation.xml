@@ -5,4 +5,5 @@
     <column name="member_srl" type="number" size="11" />
     <column name="regdate" type="date" />
     <column name="joindate" type="date" />
+    <column name="validdate" type="date" />
 </table>

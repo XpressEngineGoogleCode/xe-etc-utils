@@ -28,6 +28,9 @@
             // 해당 초대장이 사용된 것인지 확인
             if ($output->data->joindate != "-") return $this->stop('msg_used_invitation');
             
+            // 유효기간 확인
+            if (!empty($output->data->validdate) && $output->data->validdate < date("Ymd")) return $this->stop(sprintf(Context::getLang('msg_expired_invitation'), zdate($output->data->validdate, "Y-m-d")));
+            
             // 초대장 번호 저장
             $_SESSION['join_extend_invitation'] = true;
             $_SESSION['join_extend_invitation_srl'] = $output->data->invitation_srl;
@@ -115,6 +118,9 @@
                 
                 // 해당 초대장이 사용된 것인지 확인
                 if ($output->data->joindate != "-") return new Object(-1, 'msg_used_invitation');
+            
+                // 유효기간 확인
+                if (!empty($output->data->validdate) && $output->data->validdate < date("Ymd")) return new Object(-1, sprintf(Context::getLang('msg_expired_invitation'), zdate($output->data->validdate, "Y-m-d")));
             
                 $args->invitation_srl = $_SESSION['join_extend_invitation_srl'];
                 $args->member_srl = $member_srl;

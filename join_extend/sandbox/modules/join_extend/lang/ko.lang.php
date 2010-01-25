@@ -136,7 +136,7 @@
     $lang->about_use_invitation = '초대장 기능을 사용하면 초대장 번호를 가진 사람만 가입할 수 있습니다.';
     $lang->unit_number = '개';
     $lang->generate_invitation = '초대장 생성';
-    $lang->about_generate_invitation = '한번에 생성할 수 있는 초대장의 최대 개수는 100개입니다.';
+    $lang->about_generate_invitation = '한번에 생성할 수 있는 초대장의 최대 개수는 100개입니다. 유효기간을 설정하여 생성된 초대장은 해당 기간까지만 유효합니다. 유효기간을 비워두면 유효기간이 없는 초대장이 생성됩니다.';
     $lang->msg_invitation_incorrect_count = '1~100 사이를 입력해주세요.';
     $lang->invitation_code = '초대장 번호';
     $lang->invitation_join_id = '가입 아이디';
@@ -151,4 +151,7 @@
     $lang->msg_used_invitation = '이미 사용된 초대장 번호입니다.';
     $lang->insert_fail_invitation = '초대장 처리 에러';
     $lang->deleted_member = '탈퇴한 회원';
+    $lang->validdate = '유효기간';
+    $lang->msg_validdate_past = '유효기간으로 과거 날짜를 사용할 수 없습니다.';
+    $lang->msg_expired_invitation = '유효기간이 지난 초대장입니다. (%s)';
 ?>
