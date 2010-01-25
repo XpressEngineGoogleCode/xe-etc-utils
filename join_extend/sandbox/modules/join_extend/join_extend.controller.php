@@ -121,8 +121,6 @@
                 $args->joindate = date("YmdHis");
                 $output = executeQuery('join_extend.updateInvitation', $args);
                 if (!$output->toBool()) return $output;
-            }else{
-                return new Object(-1, 'invitation session is null');
             }
             
             return new Object(0);
