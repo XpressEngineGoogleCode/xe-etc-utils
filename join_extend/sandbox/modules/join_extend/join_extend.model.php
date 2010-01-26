@@ -349,5 +349,46 @@
             
             return true;
         }
+        
+        /**
+         * @brief 입력항목 필수 표시, 길이 제한 메시지
+         **/
+        function procRequiredLength() {
+            $config = $this->getConfig();
+            
+            Context::addJsFile('./modules/join_extend/tpl/js/input_config.js');
+            $str = '<script type="text/javascript"> var required = new Array();';
+            if (is_array($config->input_config->required)) {
+                $i = 0;
+                foreach($config->input_config->required as $name => $val){
+                    if ($val == "Y")    $str .= 'required[' . $i++ . '] = "' . $name . '";';
+                }
+            }
+            $str .= 'doMark(); </script>';
+            Context::addHtmlFooter($str);
+            
+            $lower_config = $config->input_config->lower_length;
+            $upper_config = $config->input_config->upper_length;
+            
+            // 아이디, 이름, 닉네임 설명 바꾸기
+            $this->changeDefaultMsg('about_user_id', 'my_about_user_id', 3, 20, $lower_config['user_id'], $upper_config['user_id']);
+            $this->changeDefaultMsg('about_user_name', 'my_about_user_name', 4, 40, $lower_config['user_name'], $upper_config['user_name']);
+            $this->changeDefaultMsg('about_nick_name', 'my_about_nick_name', 4, 40, $lower_config['nick_name'], $upper_config['nick_name']);
+        }
+        
+        /**
+         * @brief 기본항목 설명 바꾸기
+         **/
+        function changeDefaultMsg($og_msg, $my_msg, $default_lower_length, $default_upper_length, $lower_length, $upper_length) {
+            if (!$lower_length) $lower_length = $default_lower_length;
+            if (!$upper_length) $upper_length = $default_upper_length;
+            
+            if ($lower_length && $upper_length) $str = sprintf('%d~%d', $lower_length, $upper_length);
+            else if ($lower_length)             $str = sprintf('%d~', $lower_length);
+            else if ($upper_length)             $str = sprintf('~%d', $upper_length);
+            
+            $str = sprintf('%d~%d', $lower_length, $upper_length);
+            Context::setLang($og_msg, sprintf(Context::getLang($my_msg), $str));
+        }
     }
 ?>

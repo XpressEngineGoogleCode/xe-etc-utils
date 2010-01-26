@@ -107,4 +107,44 @@ function doDeleteInvitations() {
 function completeDeleteInvitation(ret_obj) {
     alert(ret_obj['message']);
     location.href = current_url;
-} 
+}
+
+// 정보입력 설정 검사 (XE의 기본 필터 길이제안 안에서 조절할 수 있다)
+function doCheckInputConfig(obj){
+    var lower_length = 0;
+    var upper_length = 0;
+    
+    // 아이디 길이 검사
+    lower_length = obj.user_id_lower_length.value?obj.user_id_lower_length.value:3;
+    upper_length = obj.user_id_upper_length.value?obj.user_id_upper_length.value:20;
+    if (lower_length < 3 || upper_length > 20) {
+        alert(msg_user_id_length);
+        return false;
+    }
+    
+    // 이름 길이 검사
+    lower_length = obj.user_name_lower_length.value?obj.user_name_lower_length.value:2;
+    upper_length = obj.user_name_upper_length.value?obj.user_name_upper_length.value:40;
+    if (lower_length < 2 || upper_length > 40) {
+        alert(msg_user_name_length);
+        return false;
+    }
+    
+    // 닉네임 길이 검사
+    lower_length = obj.nick_name_lower_length.value?obj.nick_name_lower_length.value:2;
+    upper_length = obj.nick_name_upper_length.value?obj.nick_name_upper_length.value:40;
+    if (lower_length < 2 || upper_length > 40) {
+        alert(msg_nick_name_length);
+        return false;
+    }
+    
+    // 이메일 길이 검사
+    lower_length = obj.email_address_lower_length.value?obj.email_address_lower_length.value:1;
+    upper_length = obj.email_address_upper_length.value?obj.email_address_upper_length.value:200;
+    if (lower_length < 1 || upper_length > 200) {
+        alert(msg_email_length);
+        return false;
+    }
+    
+    return procFilter(obj, insert_config)
+}

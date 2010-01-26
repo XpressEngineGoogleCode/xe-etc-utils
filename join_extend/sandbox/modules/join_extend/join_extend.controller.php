@@ -467,16 +467,14 @@
                         return new Object();
                     }
                 }
-                
+
+                // 로그인 상태이거나 약관, 개인정보, 주민번호 모두 사용하지 않거나 회원가입 허용되어 있지 않으면 1단계 화면은 생략
+                if ((Context::get('logged_info') || $config->use_jumin != "Y" && $config->use_agreement != "Y" && $config->use_private_agreement != "Y") || $member_config->enable_join != "Y") {
+                    $_SESSION['join_extend_authed'] = true;
+                }
+                    
                 // 회원가입 1단계
                 if(!$_SESSION['join_extend_authed']){
-                    
-                    // 로그인 상태이거나 약관, 개인정보, 주민번호 모두 사용하지 않거나 회원가입 허용되어 있지 않으면 1단계 화면은 생략
-                    if ((Context::get('logged_info') || $config->use_jumin != "Y" && $config->use_agreement != "Y" && $config->use_private_agreement != "Y") || $member_config->enable_join != "Y") {
-                        $_SESSION['join_extend_authed_act'] = true;
-                        return new Object();
-                    }
-                    
                     Context::set('config', $config);
     
                     Context::addHtmlHeader(sprintf('<script type="text/javascript"> var msg_junior_join ="%s"; var msg_check_agree ="%s"; var msg_empty_name = "%s"; var msg_empty_jumin1 = "%s"; var msg_empty_jumin2 = "%s"; var use_jumin = "%s"; var about_user_name = "%s"; </script>',
@@ -544,6 +542,9 @@
                         }
                     }
     
+                    // 필수입력 항목, 길이 제한 메시지
+                    $oJoinExtendModel->procRequiredLength();
+                    
                     unset($_SESSION['join_extend_authed']);
                     unset($_SESSION['join_extend_invitation']);
                     $_SESSION['join_extend_authed_act'] = true;
@@ -551,47 +552,50 @@
     
             // 회원 정보 수정 화면 주민번호 사용시 이름 변경 금지!
             }else if (Context::get('act') == 'dispMemberModifyInfo'){
-                    $member_info = Context::get('member_info');
-                    
-                    if (!empty($config->recoid_var_name)) {
-                        Context::addHtmlHeader(sprintf('<script type="text/javascript"> var recoid_var_name ="%s"; </script>', $config->recoid_var_name));
-                        if (!$member_info->{$config->recoid_var_name}) $member_info->{$config->recoid_var_name} = '';
-                        $_SESSION['join_extend_jumin']['recoid'] = $member_info->{$config->recoid_var_name};
+                $member_info = Context::get('member_info');
+                
+                if (!empty($config->recoid_var_name)) {
+                    Context::addHtmlHeader(sprintf('<script type="text/javascript"> var recoid_var_name ="%s"; </script>', $config->recoid_var_name));
+                    if (!$member_info->{$config->recoid_var_name}) $member_info->{$config->recoid_var_name} = '';
+                    $_SESSION['join_extend_jumin']['recoid'] = $member_info->{$config->recoid_var_name};
+                }
+
+                if ($config->use_jumin == "Y" && !empty($config->age_var_name)) {
+                    Context::addHtmlHeader(sprintf('<script type="text/javascript"> var age_var_name ="%s"; </script>', $config->age_var_name));
+                    if (!$member_info->{$config->age_var_name}) $member_info->{$config->age_var_name} = '';
+                    $_SESSION['join_extend_jumin']['age'] = $member_info->{$config->age_var_name};
+                }                
+                
+                if ($config->use_jumin == "Y" && !empty($config->sex_var_name)) {
+                    Context::addHtmlHeader(sprintf('<script type="text/javascript"> var sex_var_name ="%s"; </script>', $config->sex_var_name));
+                    if (!$member_info->{$config->sex_var_name}) $member_info->{$config->sex_var_name} = '';
+                    $_SESSION['join_extend_jumin']['sex'] = $member_info->{$config->sex_var_name};
+                }
+                
+                if ($config->use_jumin == "Y") {
+                    Context::addHtmlHeader(sprintf('<script type="text/javascript"> var user_name ="%s";  </script>', $member_info->user_name));
+                    Context::addJsFile('./modules/join_extend/tpl/js/fix_name.js',false);
+                    $_SESSION['join_extend_jumin']['name'] = $member_info->user_name;
+                }
+                
+                // 수정금지
+                unset($_SESSION['join_extend_no_mod']);
+                if (count($config->input_config->no_mod)) {
+                    $i = 0;
+                    foreach($config->input_config->no_mod as $var_name => $val) {
+                        if (!($val == "Y" || $val == "Y2"))    continue;
+                        $js_str .= "no_mod[$i] = '$var_name';";
+                        $js_str .= "no_mod_type[$i] = '{$config->input_config->type[$var_name]}';";
+                        if (!$member_info->{$var_name}) $member_info->{$var_name} = '';
+                        $_SESSION['join_extend_no_mod'][$var_name] = $member_info->{$var_name};
+                        $i++;
                     }
-    
-                    if ($config->use_jumin == "Y" && !empty($config->age_var_name)) {
-                        Context::addHtmlHeader(sprintf('<script type="text/javascript"> var age_var_name ="%s"; </script>', $config->age_var_name));
-                        if (!$member_info->{$config->age_var_name}) $member_info->{$config->age_var_name} = '';
-                        $_SESSION['join_extend_jumin']['age'] = $member_info->{$config->age_var_name};
-                    }                
-                    
-                    if ($config->use_jumin == "Y" && !empty($config->sex_var_name)) {
-                        Context::addHtmlHeader(sprintf('<script type="text/javascript"> var sex_var_name ="%s"; </script>', $config->sex_var_name));
-                        if (!$member_info->{$config->sex_var_name}) $member_info->{$config->sex_var_name} = '';
-                        $_SESSION['join_extend_jumin']['sex'] = $member_info->{$config->sex_var_name};
-                    }
-                    
-                    if ($config->use_jumin == "Y") {
-                        Context::addHtmlHeader(sprintf('<script type="text/javascript"> var user_name ="%s";  </script>', $member_info->user_name));
-                        Context::addJsFile('./modules/join_extend/tpl/js/fix_name.js',false);
-                        $_SESSION['join_extend_jumin']['name'] = $member_info->user_name;
-                    }
-                    
-                    // 수정금지
-                    unset($_SESSION['join_extend_no_mod']);
-                    if (count($config->input_config->no_mod)) {
-                        $i = 0;
-                        foreach($config->input_config->no_mod as $var_name => $val) {
-                            if (!($val == "Y" || $val == "Y2"))    continue;
-                            $js_str .= "no_mod[$i] = '$var_name';";
-                            $js_str .= "no_mod_type[$i] = '{$config->input_config->type[$var_name]}';";
-                            if (!$member_info->{$var_name}) $member_info->{$var_name} = '';
-                            $_SESSION['join_extend_no_mod'][$var_name] = $member_info->{$var_name};
-                            $i++;
-                        }
-                    }
-                    Context::addHtmlHeader(sprintf('<script type="text/javascript"> var no_mod = new Array(); var no_mod_type = new Array(); %s </script>', $js_str));
-                    Context::addJsFile('./modules/join_extend/tpl/js/no_mod.js',false);
+                }
+                Context::addHtmlHeader(sprintf('<script type="text/javascript"> var no_mod = new Array(); var no_mod_type = new Array(); %s </script>', $js_str));
+                Context::addJsFile('./modules/join_extend/tpl/js/no_mod.js',false);
+                
+                // 필수입력 항목, 길이 제한 메시지
+                $oJoinExtendModel->procRequiredLength();
             }
         
             return new Object();

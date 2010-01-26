@@ -157,6 +157,15 @@
             if (!count($extend_list))   $extend_list = array();
             Context::set('extend_list', $extend_list);
             
+            // 안내 메시지 언어팩
+            $msg_user_id_length = Context::getLang('msg_user_id_length');
+            $msg_user_name_length = Context::getLang('msg_user_name_length');
+            $msg_nick_name_length = Context::getLang('msg_nick_name_length');
+            $msg_email_length = Context::getLang('msg_email_length');
+            Context::addHtmlHeader(sprintf('<script type="text/javascript"> var msg_user_id_length="%s"; var msg_user_name_length="%s"; var msg_nick_name_length="%s"; var msg_email_length="%s"; </script>',
+                $msg_user_id_length, $msg_user_name_length, $msg_nick_name_length, $msg_email_length)
+            );
+            
             // 템플릿 지정
             $this->setTemplatePath($this->module_path.'tpl');
             $this->setTemplateFile('input_config');
