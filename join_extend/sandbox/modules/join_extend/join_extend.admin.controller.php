@@ -12,7 +12,7 @@
          **/
         function procJoin_extendAdminInsertConfig() {
             $oJoinExtendModel = &getModel('join_extend');
-            $config = $oJoinExtendModel->getConfig(false, false);
+            $config = $oJoinExtendModel->_getConfig(false, false);
             $new_config = Context::getRequestVars();
             
             // 입력항목 설정일 경우 기존 일력항목 설정 값은 초기화
