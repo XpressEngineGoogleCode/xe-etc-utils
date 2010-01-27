@@ -32,6 +32,7 @@
             unset($config->private_agreement);
             unset($config->private_gathering_agreement);
             unset($config->welcome);
+            unset($config->welcome_email);
 
             // 새 설정을 기존 설정과 합친다.
             $config_list = get_object_vars($new_config);
