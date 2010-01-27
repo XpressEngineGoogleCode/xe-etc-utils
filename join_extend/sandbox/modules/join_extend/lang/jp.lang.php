@@ -35,6 +35,7 @@
     $lang->msg_user_name_length = '이름 길이 제한은 2~40 사이에서 가능합니다.';
     $lang->msg_nick_name_length = '닉네임 길이 제한은 2~40 사이에서 가능합니다.';
     $lang->msg_email_length = '이메일 길이 제한은 1~200 사이에서 가능합니다.';
+    $lang->msg_length = '글자 길이(%s)';
     
     $lang->my_about_user_id = '사용자 ID는 %s자 사이의 영문+숫자로 이루어져야 하며 영문으로 시작되어야 합니다.';
     $lang->my_about_password = '비밀번호는 %s자로 되어야 합니다.';

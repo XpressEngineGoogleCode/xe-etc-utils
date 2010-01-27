@@ -661,6 +661,10 @@
             if ($config->use_join_extend != 'Y')    return new Object();
             
             if (Context::getResponseMethod() == 'HTML' && in_array(Context::get('act'), array("dispMemberSignUpForm", "dispMemberModifyInfo"))) {
+                // 폼 필터 변경
+                $output = str_replace('procFilter(this, signup)', 'my_procFilter(this, signup)', $output);
+                $output = str_replace('procFilter(this, modify_info)', 'my_procFilter(this, modify_info)', $output);
+                
                 if (empty($config->recoid_var_name))    return new Object();
                 
                 // 추천인 포인트
