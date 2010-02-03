@@ -36,7 +36,7 @@
 	$oCommentModel = &getModel('comment');
 
 	// 댓글 item 구하기
-	$comment_srls = implode(',', $matches[1]);
+	$comment_srls = $matches[1];
 	$oComments = $oCommentModel->getComments($comment_srls);
 
 	// new 이미지 적용
