@@ -163,4 +163,18 @@
     $lang->validdate = '유효기간';
     $lang->msg_validdate_past = '유효기간으로 과거 날짜를 사용할 수 없습니다.';
     $lang->msg_expired_invitation = '유효기간이 지난 초대장입니다. (%s)';
+    
+    $lang->coupon_config = '가입쿠폰 설정';
+    $lang->use_coupon = '가입쿠폰 사용';
+    $lang->coupon_var_name = '쿠폰 확장 변수명';
+    $lang->about_coupon_var_name = '회원 관리 - 가입 폼 관리에 추가된 쿠폰 입력칸의 <strong>입력항목 이름</strong>을 입력하세요.';
+    $lang->about_use_coupon = '가입쿠폰 기능을 사용하면 가입시 쿠폰번호를 입력한 회원은 쿠폰의 포인트를 지급 받습니다.';
+    $lang->generate_coupon = '가입쿠폰 생성';
+    $lang->receive_point = '받는 포인트';
+    $lang->about_generate_coupon = '한번에 생성할 수 있는 쿠폰의 최대 개수는 100개입니다. 유효기간을 설정하여 생성된 쿠폰은 해당 기간까지만 유효합니다. 유효기간을 비워두면 유효기간이 없는 쿠폰이 생성됩니다.';
+    $lang->msg_invalid_number = '숫자로 입력하세요.';
+    $lang->msg_incorrect_coupon = '유효하지 않은 쿠폰 번호입니다.';
+    $lang->msg_used_coupon = '이미 사용된 쿠폰 번호입니다.';
+    $lang->msg_expired_coupon = '유효기간이 지난 쿠폰입니다. (%s)';
+    
 ?>

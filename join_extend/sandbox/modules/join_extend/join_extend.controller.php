@@ -186,6 +186,47 @@
             
             return true;
         }
+        
+        /**
+         * @brief 쿠폰 포인트 지급
+         **/
+        function procJoin_extendCoupon($member_srl) {
+            $oJoinExtendModel = &getModel('join_extend');
+            $config = $oJoinExtendModel->getConfig();
+            if (empty($config->coupon_var_name))    return true;
+            
+            // 쿠폰
+            $args->coupon_code = str_replace('-', '', Context::get($config->coupon_var_name));
+            if (empty($args->coupon_code))    return true;
+            
+            // 포인트 컨트롤러
+            $oPointController = &getController('point');
+            
+            // 해당 쿠폰이 있는지 확인
+            $output = executeQuery('join_extend.getCoupon', $args);
+            if (!$output->toBool()) return $output;
+            if (!$output->data) return $this->stop('msg_incorrect_coupon');
+
+            // 해당 쿠폰이 사용된 것인지 확인
+            if ($output->data->joindate != "-") return $this->stop('msg_used_coupon');
+            
+            // 유효기간 확인
+            if (!empty($output->data->validdate) && $output->data->validdate < date("Ymd")) return $this->stop(sprintf(Context::getLang('msg_expired_coupon'), zdate($output->data->validdate, "Y-m-d")));
+            
+            // 본인 포인트 지급
+            if (intVal($output->data->point)) {
+                $oPointController->setPoint($member_srl, intVal($output->data->point), 'add');
+            }
+            
+            // 쿠폰 사용 표시
+            $args->coupon_srl = $output->data->coupon_srl;
+            $args->member_srl = $member_srl;
+            $args->joindate = date("YmdHis");
+            $output = executeQuery('join_extend.updateCoupon', $args);
+            if (!$output->toBool()) return $output;
+                
+            return new Object();
+        }
 
         /**
          * @brief 가입 환영 쪽지 발송
@@ -380,6 +421,15 @@
             if (!$res){
                 $oMemberController->deleteMember($member_srl);
                 return new Object(-1, 'point_fail');
+            }
+            
+            // 가입 쿠폰 포인트 지급
+            $res = $this->procJoin_extendCoupon($member_srl);
+            
+            // 포인트 지급에 실패하면 회원가입을 취소
+            if (!$res->toBool()){
+                $oMemberController->deleteMember($member_srl);
+                return $res;
             }
             
             // 회원 가입 환영 쪽지

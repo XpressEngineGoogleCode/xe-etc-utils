@@ -109,6 +109,41 @@ function completeDeleteInvitation(ret_obj) {
     location.href = current_url;
 }
 
+// 쿠폰 개별 삭제
+function doDeleteCoupon(coupon_srl) {
+    var fo_obj = xGetElementById("fo_coupon");
+    if(!fo_obj) return;
+    fo_obj.coupon_srls.value = coupon_srl;
+    procFilter(fo_obj, delete_coupon);
+}
+
+// 쿠폰 일괄 삭제
+function doDeleteCoupons() {
+    var fo_obj = xGetElementById("coupon_list");
+    var coupon_srl = new Array();
+
+    if(typeof(fo_obj.cart.length)=='undefined') {
+        if(fo_obj.cart.checked) coupon_srl[coupon_srl.length] = fo_obj.cart.value;
+    } else {
+        var length = fo_obj.cart.length;
+        for(var i=0;i<length;i++) {
+            if(fo_obj.cart[i].checked) coupon_srl[coupon_srl.length] = fo_obj.cart[i].value;
+        }
+    }
+
+    if(coupon_srl.length<1) return;
+
+    var fo_form = xGetElementById("fo_coupon");
+    fo_form.coupon_srls.value = coupon_srl.join(',');
+    procFilter(fo_form, delete_coupon);
+}
+
+// 쿠폰 삭제 후 
+function completeDeleteCoupon(ret_obj) {
+    alert(ret_obj['message']);
+    location.href = current_url;
+}
+
 // 정보입력 설정 검사 (XE의 기본 필터 길이제안 안에서 조절할 수 있다)
 function doCheckInputConfig(obj){
     var lower_length = 0;

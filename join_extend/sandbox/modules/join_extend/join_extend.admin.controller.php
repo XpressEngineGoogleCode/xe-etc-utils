@@ -8,6 +8,12 @@
     class join_extendAdminController extends join_extend {
 
         /**
+         * @brief 초기화
+         **/
+        function init() {
+        }
+        
+        /**
          * @brief 모듈 설정 저장
          **/
         function procJoin_extendAdminInsertConfig() {
@@ -156,6 +162,7 @@
             if ($validdate && $validdate < date("Ymd")) {
                 $this->SetError(1);
                 $this->SetMessage('msg_validdate_past');
+                return;
             }
             
             // 초대장 생성
@@ -193,6 +200,75 @@
             if (!$args->invitation_srls) return new Object(-1, 'invitaion_srls is missing');
             
             $output = executeQuery('join_extend.deleteInvitation', $args);
+            if (!$output->toBool()) return $output;
+            
+            $this->setMessage('success_deleted');
+        }
+        
+        /**
+         * @brief 쿠폰 생성
+         **/
+        function procJoin_extendAdminGenerateCoupon(){
+            // 개수 확인
+            $count = intVal(Context::get('count'));
+            if ($count < 1 || $count > 100) {
+                $this->SetError(1);
+                $this->SetMessage('msg_invitation_incorrect_count');
+                return;
+            }
+            
+            // 포인트 확인
+            $point = Context::get('point');
+            if (!$point || !is_numeric($point) || intVal($point) < 0){
+                $this->SetError(1);
+                $this->SetMessage('msg_invalid_number');
+                return;
+            }
+            
+            // 유효기간 확인
+            $validdate = Context::get('validdate');
+            if ($validdate && $validdate < date("Ymd")) {
+                $this->SetError(1);
+                $this->SetMessage('msg_validdate_past');
+                return;
+            }
+            
+            // 쿠폰 생성
+            $oDB = &DB::getInstance();
+            $oDB->begin();
+            for ($i = 0; $i < $count; $i++) {
+                
+                while(1) {
+                    $args->coupon_code = strtoupper(md5(microtime()+$i));
+                    $output = $oDB->executeQuery('join_extend.getCoupon', $args);
+                    if (!$output->toBool()) {
+                        $oDB->rollback();
+                        return $output;
+                    }
+                    if (!$output->data) break;
+                }
+                
+                $args->coupon_srl = getNextSequence();
+                $args->own_member_srl = 0;
+                $args->validdate = $validdate;
+                $args->point = $point;
+                $output = $oDB->executeQuery('join_extend.insertCoupon', $args);
+                if (!$output->toBool()) {
+                    $oDB->rollback();
+                    return $output;
+                }
+            }
+            $oDB->commit();
+        }
+        
+        /**
+         * @brief 쿠폰 삭제
+         **/
+        function procJoin_extendAdminDeleteCoupon(){
+            $args->coupon_srls = Context::get('coupon_srls');
+            if (!$args->coupon_srls) return new Object(-1, 'coupon_srls is missing');
+            
+            $output = executeQuery('join_extend.deleteCoupon', $args);
             if (!$output->toBool()) return $output;
             
             $this->setMessage('success_deleted');
