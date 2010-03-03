@@ -519,10 +519,10 @@
                 }
 
                 // 로그인 상태이거나 약관, 개인정보, 주민번호 모두 사용하지 않거나 회원가입 허용되어 있지 않으면 1단계 화면은 생략
-                if ((Context::get('logged_info') || $config->use_jumin != "Y" && $config->use_agreement != "Y" && $config->use_private_agreement != "Y") || $member_config->enable_join != "Y") {
+                if (Context::get('logged_info') || ($config->use_jumin != "Y" && $config->use_agreement != "Y" && $config->use_private_agreement != "Y") || $member_config->enable_join != "Y") {
                     $_SESSION['join_extend_authed'] = true;
                 }
-                    
+
                 // 회원가입 1단계
                 if(!$_SESSION['join_extend_authed']){
                     Context::set('config', $config);
@@ -711,9 +711,11 @@
             if ($config->use_join_extend != 'Y')    return new Object();
             
             if (Context::getResponseMethod() == 'HTML' && in_array(Context::get('act'), array("dispMemberSignUpForm", "dispMemberModifyInfo"))) {
-                // 폼 필터 변경
-                $output = str_replace('procFilter(this, signup)', 'my_procFilter(this, signup)', $output);
-                $output = str_replace('procFilter(this, modify_info)', 'my_procFilter(this, modify_info)', $output);
+                // 폼 필터 변경 (구버전의 js filter 사용시만 변경한다.)
+                if (__ZBXE_VERSION__ < '1.4') {
+                    $output = str_replace('procFilter(this, signup)', 'my_procFilter(this, signup)', $output);
+                    $output = str_replace('procFilter(this, modify_info)', 'my_procFilter(this, modify_info)', $output);
+                }
                 
                 if (empty($config->recoid_var_name))    return new Object();
                 

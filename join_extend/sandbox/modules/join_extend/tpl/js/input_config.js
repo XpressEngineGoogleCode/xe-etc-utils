@@ -1,5 +1,57 @@
+(function($){
+    var validator = xe.getApp('Validator')[0];
+    if(!validator) return false;
+    
+    // 기존 필터를 얻는다.
+    var og_filter = validator.cast("GET_FILTER", ['signup']);
+    if (!og_filter) og_filter = validator.cast("GET_FILTER", ['modify_info']);
+    
+    for (i = 0; i < var_name.length; i++){
+        var name = var_name[i];
+        
+        // 필수 입력 반영
+        if (required[name]) {
+            if (!og_filter[name])   og_filter[name] = {required: true};
+            else {
+                var og_obj = og_filter[name];
+                og_obj.required = true;
+                og_filter[name] = og_obj;
+            }
+        }
+        
+        // 길이 제한 반영
+        if (lower_length[name] || upper_length[name]){
+            var minlength = lower_length[name];
+            var maxlength = upper_length[name];
+            
+            if (isNaN(minlength))   minlength = null;
+            if (isNaN(maxlength))   maxlength = null;
+            
+            if (!og_filter[name]){
+                var new_obj = new Object;
+                
+                if (minlength !== null) new_obj.minlength = minlength;
+                if (maxlength !== null) new_obj.maxlength = maxlength;
+                
+                og_filter[name] = new_obj;
+            }else{
+                var og_obj = og_filter[name];
+            
+                if (minlength !== null) og_obj.minlength = minlength;
+                if (maxlength !== null) og_obj.maxlength = maxlength;
+                
+                og_filter[name] = og_obj;
+            }
+        }
+    }
+    
+    // 새 필터 적용
+    validator.cast("ADD_FILTER", ['signup', og_filter]);
+    validator.cast("ADD_FILTER", ['signup', modify_info]);
+})(jQuery);
+
 function doMark() {
-    for(i = 0; i < required.length; i++)    markRequired(required[i]);
+    for(name in required)    markRequired(name);
 }
 
 // 필수항목 표시
@@ -16,22 +68,29 @@ function my_procFilter(obj, filter) {
     if (!defaultRequired(obj, 'user_name')) return false;
     if (!defaultRequired(obj, 'nick_name')) return false;
     if (!defaultRequired(obj, 'email_address')) return false;
+    
+    for (i = 0; i < var_name.length; i++){
+        var name = var_name[i];
         
-    // 필수 입력 확인
-    for(i = 0; i < required.length; i++){
-        if (!jQuery("[name="+required[i]+"]").val())   return myAlertMsg(obj, required[i], 'isnull');
+        // 필수 입력 확인
+        if (required[name]) {
+            if (!jQuery("[name="+name+"]").val())   return myAlertMsg(obj, name, 'isnull');
+        }
+        
+        // 길이 확인
+        if (lower_length[name] || upper_length[name]){
+            if (!obj[name])   continue;
+            minlength = lower_length[name];
+            maxlength = upper_length[name];
+            if (isNaN(minlength))  minlength = 0;
+            if (isNaN(maxlength))  maxlength = 999;
+            value = jQuery("[name="+name+"]").val();
+            if(value.length < minlength || value.length > maxlength) return myAlertMsg(obj, name, 'outofrange', minlength, maxlength);
+        }
     }
     
-    // 길이 확인
-    for(i = 0; i < length_name.length; i++){
-        if (!obj[length_name[i]])   continue;
-        minlength = lower_length[i];
-        maxlength = upper_length[i];
-        if (isNaN(minlength))  minlength = 0;
-        if (isNaN(maxlength))  maxlength = 999;
-        value = jQuery("[name="+length_name[i]+"]").val();
-        if(value.length < minlength || value.length > maxlength) return myAlertMsg(obj, length_name[i], 'outofrange', minlength, maxlength);
-    }
+    
+    
     
     return procFilter(obj, filter);
 }

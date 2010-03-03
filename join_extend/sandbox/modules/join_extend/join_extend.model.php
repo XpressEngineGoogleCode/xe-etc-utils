@@ -356,19 +356,18 @@
         function procRequiredLength() {
             $config = $this->getConfig();
             
-            Context::addJsFile('./modules/join_extend/tpl/js/input_config.js');
             $str = '<script type="text/javascript"> var required = new Array();';
             if (is_array($config->input_config->required)) {
-                $i = 0;
                 foreach($config->input_config->required as $name => $val){
-                    if ($val == "Y")    $str .= 'required[' . $i++ . '] = "' . $name . '";';
+                    if ($val == "Y")    $str .= "required['$name'] = true;";
                 }
             }
-            $str .= 'doMark(); </script>';
+            $str .= '</script>';
             Context::addHtmlFooter($str);
             
             $lower_config = $config->input_config->lower_length;
             $upper_config = $config->input_config->upper_length;
+            $type_config = $config->input_config->type;
             
             // 아이디, 이름, 닉네임 설명 바꾸기
             $this->changeDefaultMsg('about_user_id', 'my_about_user_id', 3, 20, $lower_config['user_id'], $upper_config['user_id']);
@@ -381,10 +380,12 @@
             Context::set('extend_form_list', $extend_form_list);
             
             // 폼 필터에서 사용하기 위한 길이 제한 정보
-            $str = '<script type="text/javascript"> var length_name = new Array(); var lower_length = new Array(); var upper_length = new Array();';
+            $str = '<script type="text/javascript"> var var_name = new Array(); var lower_length = new Array(); var upper_length = new Array();';
             $i = 0;
-            if (is_array($lower_config)) {
-                foreach($lower_config as $name => $val) {
+            $j = 0;
+            if (is_array($type_config)) {
+                foreach($type_config as $name => $val) {
+                    $str .= "var_name[" .$j++ . "] = '$name';";
                     if (!$lower_config[$name] && !$upper_config[$name]) continue;
                     
                     // 기본 항목의 길이와 조합
@@ -399,12 +400,18 @@
                             break;
                     }
                     
-                    $str .= "length_name[$i] = '$name'; lower_length[$i] = parseInt('{$lower_config[$name]}'); upper_length[$i] = parseInt('{$upper_config[$name]}');";
+                    $str .= "lower_length['$name'] = parseInt('{$lower_config[$name]}'); upper_length['$name'] = parseInt('{$upper_config[$name]}');";
                     $i++;
                 }
             }
+            
             $str .= '</script>';
             Context::addHtmlFooter($str);
+            
+            // 이 js 파일이 가장 뒤에 실행될 수 있도록 html footer로 넣는다.
+            Context::addHtmlFooter('<script type="text/javascript" src="./modules/join_extend/tpl/js/input_config.js"></script>');
+            //Context::addJsFile('./modules/join_extend/tpl/js/input_config.js');
+            Context::addHtmlFooter('<script type="text/javascript"> doMark(); </script>');
         }
         
         /**
