@@ -20,7 +20,7 @@
     $lang->agree_config = '약관 설정';
     $lang->extend_var_config = '확장변수 연동';
     $lang->restrictions_config = '가입제한 설정';
-    $lang->after_config = '가입후 처리';
+    $lang->after_config = '가입/탈퇴 후 처리';
     $lang->jumin_config = '주민등록번호 설정';
 
     $lang->input_config = '정보입력 설정';
@@ -31,6 +31,15 @@
     $lang->no_modification = '수정금지';
     $lang->birthday_no_mod_op1 = '수정금지(가입시 가능)';
     $lang->birthday_no_mod_op2 = '수정금지';
+    $lang->msg_user_id_length = '아이디 길이 제한은 3~20 사이에서 가능합니다.';
+    $lang->msg_user_name_length = '이름 길이 제한은 2~40 사이에서 가능합니다.';
+    $lang->msg_nick_name_length = '닉네임 길이 제한은 2~40 사이에서 가능합니다.';
+    $lang->msg_email_length = '이메일 길이 제한은 1~200 사이에서 가능합니다.';
+    $lang->msg_length = '글자 길이(%s)';
+    
+    $lang->my_about_user_id = '사용자 ID는 %s자 사이의 영문+숫자로 이루어져야 하며 영문으로 시작되어야 합니다.';
+    $lang->my_about_user_name = '이름은 %s자 이내여야 합니다.';
+    $lang->my_about_nick_name = '닉네임은 %s자 이내여야 합니다.';
     
     $lang->use_join_extend = '회원가입 확장 사용';
     $lang->about_use_join_extend = '회원가입 확장 기능 사용 여부를 선택합니다.';
@@ -95,6 +104,8 @@
     $lang->point_fail = '추천인 ID를 이용한 포인트 지급에 실패했습니다. 추천인 ID가 존재하지 않을 수 있습니다.';
     
     $lang->welcome = '가입 환영 쪽지 내용';
+    $lang->welcome_title = '가입 환영 쪽지 제목';
+    $lang->about_welcome_title = '가입 확영 쪽지 제목을 입력하세요. 내용은 아래에서 별도로 작성하세요.';
     $lang->use_welcome = '가입 환영 쪽지';
     $lang->about_use_welcome = '가입한 회원에게 환영 쪽지를 보냅니다.';
     $lang->welcome_email = '가입 환영 메일 내용';
@@ -102,6 +113,23 @@
     $lang->about_welcome_email_title = '가입 환영 메일 제목을 입력하세요. 내용은 아래에서 별로도 작성하세요.';
     $lang->use_welcome_email = '가입 환영 메일';
     $lang->about_use_welcome_email = '가입한 회원에게 환영 메일를 보냅니다.';
+    $lang->use_notify_admin = '관리자 통보 기능';
+    $lang->about_use_notify_admin = '이용자가 회원가입이나 회원탈퇴 시 관련 정보를 관리자에게 통보합니다.';
+    $lang->only_signin = '회원가입만';
+    $lang->only_signout = '회원탈퇴만';
+    $lang->both = '모두';
+    $lang->notify_admin_period = '관리자 통보 주기';
+    $lang->about_notify_admin_period = '관리자 통보 기능의 통보 주기를 선택하세요.';
+    $lang->notify_each_time = '매번 통보';
+    $lang->notify_collect = '모아서 통보';
+    $lang->notify_admin_method = '관리자 통보 방법';
+    $lang->about_notify_admin_method = '관리자에게 어떤 방법으로 통보할지 선택하세요.';
+    $lang->message = '쪽지';
+    $lang->email = '이메일';
+    $lang->notify_admin_collect_number = '모아서 통보할 개수';
+    $lang->about_notify_admin_collect_number = '이곳에 설정한 개수만큼 통보가 쌓이면 모아서 관리자에게 통보합니다. (기본값 10개)';
+    $lang->notify_type = '구분';
+    $lang->notify_title = '가입/탈퇴 통보';
     
     $lang->agree_agreement= '이용약관에 동의 합니다.'; 
     $lang->agree_private_agreement= '개인정보취급방침에 동의 합니다.'; 
@@ -117,13 +145,13 @@
     $lang->about_use_invitation = '초대장 기능을 사용하면 초대장 번호를 가진 사람만 가입할 수 있습니다.';
     $lang->unit_number = '개';
     $lang->generate_invitation = '초대장 생성';
-    $lang->about_generate_invitation = '한번에 생성할 수 있는 초대장의 최대 개수는 100개입니다.';
+    $lang->about_generate_invitation = '한번에 생성할 수 있는 초대장의 최대 개수는 100개입니다. 유효기간을 설정하여 생성된 초대장은 해당 기간까지만 유효합니다. 유효기간을 비워두면 유효기간이 없는 초대장이 생성됩니다.';
     $lang->msg_invitation_incorrect_count = '1~100 사이를 입력해주세요.';
     $lang->invitation_code = '초대장 번호';
     $lang->invitation_join_id = '가입 아이디';
     $lang->invitation_joindate = '가입일';
     $lang->view = '보기';
-    $lang->view_all = '모두';
+    $lang->my_view_all = '모두';
     $lang->view_not_use = '사용안됨';
     $lang->join_extend_invitation = '초대장 확인';
     $lang->msg_invitation = '초대장 번호를 입력해주세요';
@@ -132,4 +160,21 @@
     $lang->msg_used_invitation = '이미 사용된 초대장 번호입니다.';
     $lang->insert_fail_invitation = '초대장 처리 에러';
     $lang->deleted_member = '탈퇴한 회원';
+    $lang->validdate = '유효기간';
+    $lang->msg_validdate_past = '유효기간으로 과거 날짜를 사용할 수 없습니다.';
+    $lang->msg_expired_invitation = '유효기간이 지난 초대장입니다. (%s)';
+    
+    $lang->coupon_config = '가입쿠폰 설정';
+    $lang->use_coupon = '가입쿠폰 사용';
+    $lang->coupon_var_name = '쿠폰 확장 변수명';
+    $lang->about_coupon_var_name = '회원 관리 - 가입 폼 관리에 추가된 쿠폰 입력칸의 <strong>입력항목 이름</strong>을 입력하세요.';
+    $lang->about_use_coupon = '가입쿠폰 기능을 사용하면 가입시 쿠폰번호를 입력한 회원은 쿠폰의 포인트를 지급 받습니다.';
+    $lang->generate_coupon = '가입쿠폰 생성';
+    $lang->receive_point = '받는 포인트';
+    $lang->about_generate_coupon = '한번에 생성할 수 있는 쿠폰의 최대 개수는 100개입니다. 유효기간을 설정하여 생성된 쿠폰은 해당 기간까지만 유효합니다. 유효기간을 비워두면 유효기간이 없는 쿠폰이 생성됩니다.';
+    $lang->msg_invalid_number = '숫자로 입력하세요.';
+    $lang->msg_incorrect_coupon = '유효하지 않은 쿠폰 번호입니다.';
+    $lang->msg_used_coupon = '이미 사용된 쿠폰 번호입니다.';
+    $lang->msg_expired_coupon = '유효기간이 지난 쿠폰입니다. (%s)';
+    
 ?>

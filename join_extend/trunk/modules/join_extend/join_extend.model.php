@@ -30,6 +30,7 @@
 
             // 기본값
             if (!$config->skin) $config->skin = 'default';
+            if (!$config->notify_admin_collect_number)  $config->notify_admin_collect_number = 10;
             
             // 에디터 내용을 가져온다.
             if ($editor_config == true) {
@@ -347,6 +348,101 @@
                 isset($config->welcome)) return false;
             
             return true;
+        }
+        
+        /**
+         * @brief 입력항목 필수 표시, 길이 제한 메시지
+         **/
+        function procRequiredLength() {
+            $config = $this->getConfig();
+            
+            $str = '<script type="text/javascript"> var required = new Array();';
+            if (is_array($config->input_config->required)) {
+                foreach($config->input_config->required as $name => $val){
+                    if ($val == "Y")    $str .= "required['$name'] = true;";
+                }
+            }
+            $str .= '</script>';
+            Context::addHtmlFooter($str);
+            
+            $lower_config = $config->input_config->lower_length;
+            $upper_config = $config->input_config->upper_length;
+            $type_config = $config->input_config->type;
+            
+            // 아이디, 이름, 닉네임 설명 바꾸기
+            $this->changeDefaultMsg('about_user_id', 'my_about_user_id', 3, 20, $lower_config['user_id'], $upper_config['user_id']);
+            $this->changeDefaultMsg('about_user_name', 'my_about_user_name', 2, 40, $lower_config['user_name'], $upper_config['user_name']);
+            $this->changeDefaultMsg('about_nick_name', 'my_about_nick_name', 2, 40, $lower_config['nick_name'], $upper_config['nick_name']);
+            
+            // 확장 변수 설명 바꾸기
+            $extend_form_list = Context::get('extend_form_list');
+            $this->changeExtendMsg($extend_form_list, $lower_config, $upper_config);
+            Context::set('extend_form_list', $extend_form_list);
+            
+            // 폼 필터에서 사용하기 위한 길이 제한 정보
+            $str = '<script type="text/javascript"> var var_name = new Array(); var lower_length = new Array(); var upper_length = new Array();';
+            $i = 0;
+            $j = 0;
+            if (is_array($type_config)) {
+                foreach($type_config as $name => $val) {
+                    $str .= "var_name[" .$j++ . "] = '$name';";
+                    if (!$lower_config[$name] && !$upper_config[$name]) continue;
+                    
+                    // 기본 항목의 길이와 조합
+                    switch ($name) {
+                        case 'user_id':
+                            if ($lower_config[$name] < 3)   $lower_config[$name] = 3;
+                            if ($upper_config[$name] > 20)  $upper_config[$name] = 20;
+                            break;
+                        case 'user_name': case 'nick_name':
+                            if ($lower_config[$name] < 2)   $lower_config[$name] = 2;
+                            if ($upper_config[$name] > 40)  $upper_config[$name] = 40;
+                            break;
+                    }
+                    
+                    $str .= "lower_length['$name'] = parseInt('{$lower_config[$name]}'); upper_length['$name'] = parseInt('{$upper_config[$name]}');";
+                    $i++;
+                }
+            }
+            
+            $str .= '</script>';
+            Context::addHtmlFooter($str);
+            
+            // 이 js 파일이 가장 뒤에 실행될 수 있도록 html footer로 넣는다.
+            Context::addHtmlFooter('<script type="text/javascript" src="./modules/join_extend/tpl/js/input_config.js"></script>');
+            //Context::addJsFile('./modules/join_extend/tpl/js/input_config.js');
+            Context::addHtmlFooter('<script type="text/javascript"> doMark(); </script>');
+        }
+        
+        /**
+         * @brief 기본항목 설명 바꾸기
+         **/
+        function changeDefaultMsg($og_msg, $my_msg, $default_lower_length, $default_upper_length, $lower_length, $upper_length) {
+            if (!$lower_length) $lower_length = $default_lower_length;
+            if (!$upper_length) $upper_length = $default_upper_length;
+            
+            $str = sprintf('%d~%d', $lower_length, $upper_length);
+            Context::setLang($og_msg, sprintf(Context::getLang($my_msg), $str));
+        }
+        
+        /**
+         * @brief 확장변수 설명 바꾸기
+         **/
+        function changeExtendMsg(&$extend_form_list, $lower_config, $upper_config) {
+            if (!is_array($extend_form_list))   return;
+            
+            foreach($extend_form_list as $no => $val) {
+                if ($lower_config[$val->column_name] && $upper_config[$val->column_name])
+                    $str = sprintf('%d~%d', $lower_config[$val->column_name], $upper_config[$val->column_name]);
+                else if ($lower_config[$val->column_name])
+                    $str = sprintf('%d~', $lower_config[$val->column_name]);
+                else if ($upper_config[$val->column_name])
+                    $str = sprintf('~%d', $upper_config[$val->column_name]);
+                else    continue;
+                
+                $str = sprintf(' ' . Context::getLang('msg_length'), $str);
+                $extend_form_list[$no]->description .= $str;
+            }
         }
     }
 ?>

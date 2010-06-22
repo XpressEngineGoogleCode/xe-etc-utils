@@ -1,6 +1,6 @@
 <!--#include("header.html")-->
-<!--%import("filter/generate_invitation.xml")-->
-<!--%import("filter/delete_invitation.xml")-->
+<!--%import("filter/generate_coupon.xml")-->
+<!--%import("filter/delete_coupon.xml")-->
 
 <!--// datepicker javascript plugin load -->
 <!--%load_js_plugin("ui.datepicker")-->
@@ -8,13 +8,20 @@
 <form action="./" method="post" onsubmit="return procFilter(this, insert_config)">
     <table cellspacing="0" class="rowTable">
     <tr>
-        <th scope="row" class="w150"><div>{$lang->use_invitation}</div></th>
+        <th scope="row" class="w150"><div>{$lang->use_coupon}</div></th>
         <td>
-            <select name="use_invitation">
-                <option value="N"<!--@if($config->use_invitation=='N')--> selected="selected"<!--@end-->>{$lang->notuse}</option>
-                <option value="Y"<!--@if($config->use_invitation=='Y')--> selected="selected"<!--@end-->>{$lang->use}</option>
+            <select name="use_coupon">
+                <option value="N"<!--@if($config->use_coupon=='N')--> selected="selected"<!--@end-->>{$lang->notuse}</option>
+                <option value="Y"<!--@if($config->use_coupon=='Y')--> selected="selected"<!--@end-->>{$lang->use}</option>
             </select>
-            <p>{$lang->about_use_invitation}</p>
+            <p>{$lang->about_use_coupon}</p>
+        </td>
+    </tr>
+    <tr>
+        <th scope="row" class="w150"><div>{$lang->coupon_var_name}</div></th>
+        <td>
+            <input type="type=" name="coupon_var_name" class="inputTypeText w100" value="{$config->coupon_var_name}" />
+            <p>{$lang->about_coupon_var_name}</p>
         </td>
     </tr>
     <tr>
@@ -25,18 +32,20 @@
     </table>
 </form>
 
-<form action="./" method="post" onsubmit="return procFilter(this, generate_invitation)">
+<form action="./" method="post" onsubmit="return procFilter(this, generate_coupon)">
     <table cellspacing="0" class="rowTable">
     <tr>
-        <th scope="row" class="w150"><div>{$lang->generate_invitation}</div></th>
+        <th scope="row" class="w150"><div>{$lang->generate_coupon}</div></th>
         <td>
             <input type="type=" name="count" class="inputTypeText w40" /> {$lang->unit_number},
             
-            {$lang->validdate} : 
-            <input type="hidden" name="validdate" id="date_validdate" value="" />
-            <input type="text" value="" readonly="readonly" class="inputDate inputTypeText" />
+            <label>{$lang->receive_point} : <input type="type=" name="point" class="inputTypeText w40" maxlength="10" /></label>,
             
-            <p>{$lang->about_generate_invitation}</p>
+            <label for="validate_input">{$lang->validdate} : </label>
+            <input type="hidden" name="validdate" id="date_validdate" value="" />
+            <input id="validate_input" type="text" value="" readonly="readonly" class="inputDate inputTypeText" />
+            
+            <p>{$lang->about_generate_coupon}</p>
         </td>
     </tr>
     <tr>
@@ -47,12 +56,12 @@
     </table>
 </form>
 
-<!-- »èÁ¦¸¦ À§ÇÑ ÀÓ½Ã form -->
-<form id="fo_invitation" action="./" method="get">
-    <input type="hidden" name="invitation_srls" value="" />
+<!-- ì‚­ì œë¥¼ ìœ„í•œ ìž„ì‹œ form -->
+<form id="fo_coupon" action="./" method="get">
+    <input type="hidden" name="coupon_srls" value="" />
 </form>
 
-<form action="./" method="get" id="invitation_list">
+<form action="./" method="get" id="coupon_list">
     <input type="hidden" name="module" value="admin" />
     <input type="hidden" name="act" value="{$act}" />
     <select name="joindate">
@@ -64,32 +73,34 @@
     <tr>
         <th scope="col"><div><input type="checkbox" onclick="XE.checkboxToggleAll(); return false;" /></div></th>
         <th scope="col"><div>{$lang->no}</div></th>
-        <th scope="col"><div>{$lang->invitation_code}</div></th>
+        <th scope="col"><div>{$lang->coupon_code}</div></th>
+        <th scope="col"><div>{$lang->receive_point}</div></th>
         <th scope="col"><div>{$lang->regdate}</div></th>
         <th scope="col"><div>{$lang->validdate}</div></th>
         <th scope="col"><div>{$lang->invitation_join_id}</div></th>
         <th scope="col"><div>{$lang->invitation_joindate}</div></th>
         <th scope="col"><div>&nbsp;</div></th>
     </tr>
-    <!--@foreach($invitation_list as $no => $val)-->
+    <!--@foreach($coupon_list as $no => $val)-->
     <tr>
-        <td class="center"><input type="checkbox" name="cart" value="{$val->invitation_srl}" /></td>
+        <td class="center"><input type="checkbox" name="cart" value="{$val->coupon_srl}" /></td>
         <td>{$no}</td>
         <td style="font-family: monospace">{$val->code}</td>
+        <td>{$val->point}</td>
         <td>{zdate($val->regdate,"Y-m-d")}</td>
         <td>{zdate($val->validdate,"Y-m-d")}</td>
         <td>{$val->join_id}</td>
         <td>{zdate($val->joindate,"Y-m-d")}</td>
-        <td><a href="#" onclick="doDeleteInvitation('{$val->invitation_srl}');return false;" title="{htmlspecialchars($lang->cmd_delete)}" class="buttonSet buttonDelete"><span>{$lang->cmd_delete}</span></a></td>
+        <td><a href="#" onclick="doDeleteCoupon('{$val->coupon_srl}');return false;" title="{htmlspecialchars($lang->cmd_delete)}" class="buttonSet buttonDelete"><span>{$lang->cmd_delete}</span></a></td>
     </tr>
     <!--@end-->
     </table>
 </form>
 <div class="fl">
-    <a href="#" onclick="doDeleteInvitations();return false;" class="button red"><span>{$lang->cmd_delete}</span></a>
+    <a href="#" onclick="doDeleteCoupons();return false;" class="button red"><span>{$lang->cmd_delete}</span></a>
 </div>
 
-<!-- ÆäÀÌÁö ³×ºñ°ÔÀÌ¼Ç -->
+<!-- íŽ˜ì´ì§€ ë„¤ë¹„ê²Œì´ì…˜ -->
 <div class="pagination a1">
     <a href="{getUrl('page','')}" class="prevEnd">{$lang->first_page}</a> 
     <!--@while($page_no = $page_navigation->getNextPage())-->

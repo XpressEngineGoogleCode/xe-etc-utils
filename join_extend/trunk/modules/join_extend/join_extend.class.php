@@ -48,6 +48,9 @@
             // 에디터 내용 이전 (2009-12-12)
             if(!$oJoinExtendModel->isUpdateEditor())    return true;
             
+            // 초대장에 유효기간 추가 (2009-01-25)
+            if(!$oDB->isColumnExists("join_extend_invitation", "validdate"))    return true;
+            
             return false;
         }
 
@@ -78,6 +81,10 @@
             
             // 에디터 내용 이전 (2009-12-12)
             if(!$oJoinExtendModel->isUpdateEditor()) return $oJoinExtendAdminController->updateEditor();
+            
+            // 초대장에 유효기간 추가 (2009-01-25)
+            if(!$oDB->isColumnExists("join_extend_invitation", "validdate"))
+                $oDB->addColumn("join_extend_invitation", "validdate", "date");
             
             return new Object(0, 'success_updated');
         }

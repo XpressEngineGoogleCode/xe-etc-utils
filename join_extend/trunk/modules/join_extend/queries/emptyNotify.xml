@@ -1,0 +1,5 @@
+<query id="emptyNotify" action="delete">
+    <tables>
+        <table name="join_extend_notify" />
+    </tables>
+</query>

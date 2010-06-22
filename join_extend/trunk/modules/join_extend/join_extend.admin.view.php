@@ -157,6 +157,15 @@
             if (!count($extend_list))   $extend_list = array();
             Context::set('extend_list', $extend_list);
             
+            // 안내 메시지 언어팩
+            $msg_user_id_length = Context::getLang('msg_user_id_length');
+            $msg_user_name_length = Context::getLang('msg_user_name_length');
+            $msg_nick_name_length = Context::getLang('msg_nick_name_length');
+            $msg_email_length = Context::getLang('msg_email_length');
+            Context::addHtmlHeader(sprintf('<script type="text/javascript"> var msg_user_id_length="%s"; var msg_user_name_length="%s"; var msg_nick_name_length="%s"; var msg_email_length="%s"; </script>',
+                $msg_user_id_length, $msg_user_name_length, $msg_nick_name_length, $msg_email_length)
+            );
+            
             // 템플릿 지정
             $this->setTemplatePath($this->module_path.'tpl');
             $this->setTemplateFile('input_config');
@@ -224,6 +233,45 @@
             // 템플릿 지정
             $this->setTemplatePath($this->module_path.'tpl');
             $this->setTemplateFile('invitation_config');
+        }
+        
+        /**
+         * @brief 가입쿠폰 설정
+         **/
+        function dispJoin_extendAdminCouponConfig() {
+            $oMemberModel = &getModel('member');
+            $oJoinExtendModel = &getModel('join_extend');
+            $config = $oJoinExtendModel->getConfig();
+            Context::set('config',$config);
+            
+            // 쿠폰 목록
+            $args->page = Context::get('page');
+            $args->invitation_code = Context::get('code');
+            $args->joindate = Context::get('joindate');
+            $output = executeQuery('join_extend.getCouponList', $args);
+            if (!$output->toBool()) return $output;
+            
+            if ($output->data) {
+                foreach($output->data as $no => $val){
+                    if ($val->member_srl) {
+                        $member_info = $oMemberModel->getMemberInfoByMemberSrl($val->member_srl);
+                        if ($member_info)   $val->join_id = $member_info->user_id;
+                        else                $val->join_id = Context::getLang('deleted_member');
+                    }
+                    if ($val->joindate == "-")  $val->joindate = 0;
+                    $val->code = substr($val->code, 0, 8) .'-'. substr($val->code, 8, 8) .'-'. substr($val->code, 16, 8) .'-'. substr($val->code, 24, 8);
+                }
+            }
+            
+            Context::set('coupon_list', $output->data);
+            Context::set('total_count', $output->total_count);
+            Context::set('total_page', $output->total_page);
+            Context::set('page', $output->page);
+            Context::set('page_navigation', $output->page_navigation);
+            
+            // 템플릿 지정
+            $this->setTemplatePath($this->module_path.'tpl');
+            $this->setTemplateFile('coupon_config');
         }
     }
 ?>

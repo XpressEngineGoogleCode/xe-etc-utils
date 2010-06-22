@@ -1,0 +1,33 @@
+<h1>{getNotEncodedSiteUrl()}</h1>
+<table style="font-size: 9pt; border: 1px solid #ccc; border-collapse: collapse; text-align: center;">
+<tr style="background: #eee;">
+    <th style="border: 1px solid #ccc; padding: 5px;" rowspan="2">{$lang->no}</th>
+    <th style="border: 1px solid #ccc; padding: 5px;" rowspan="2">{$lang->notify_type}</th>
+    <th style="border: 1px solid #ccc; padding: 5px;">{$lang->regdate}</th>
+    <th style="border: 1px solid #ccc; padding: 5px;">{$lang->user_id}</th>
+    <th style="border: 1px solid #ccc; padding: 5px;">{$lang->user_name}</th>
+    <th style="border: 1px solid #ccc; padding: 5px;">{$lang->nick_name}</th>
+</tr>
+<tr style="background: #eee;">
+    <th style="border: 1px solid #ccc; padding: 5px;">{$lang->email_address}</th>
+    <th style="border: 1px solid #ccc; padding: 5px;">{$lang->homepage}</th>
+    <th style="border: 1px solid #ccc; padding: 5px;">{$lang->blog}</th>
+    <th style="border: 1px solid #ccc; padding: 5px;">{$lang->birthday}</th>
+</tr>
+<!--@foreach($member_infos as $no => $val)-->
+<tr>
+    <td style="border: 1px solid #ccc; padding: 5px;" rowspan="2">{$no}</td>
+    <td style="border: 1px solid #ccc; padding: 5px;" rowspan="2">{$val->mode}</td>
+    <td style="border: 1px solid #ccc; padding: 5px;">{zdate($val->regdate)}</td>
+    <td style="border: 1px solid #ccc; padding: 5px;">{$val->member_info->user_id}</td>
+    <td style="border: 1px solid #ccc; padding: 5px;">{$val->member_info->user_name}</td>
+    <td style="border: 1px solid #ccc; padding: 5px;">{$val->member_info->nick_name}</td>
+</tr>
+<tr>
+    <td style="border: 1px solid #ccc; padding: 5px;">{$val->member_info->email_address}</td>
+    <td style="border: 1px solid #ccc; padding: 5px;">{$val->member_info->homepage}</td>
+    <td style="border: 1px solid #ccc; padding: 5px;">{$val->member_info->blog}</td>
+    <td style="border: 1px solid #ccc; padding: 5px;">{zdate($val->member_info->birthday, "Y-m-d")}</td>
+</tr>
+<!--@end-->
+</table>

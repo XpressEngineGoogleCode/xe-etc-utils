@@ -2,7 +2,7 @@
 
 <div class="infoText">{nl2br($lang->about_input_config)}</div>
 
-<form action="./" method="post" onsubmit="return procFilter(this, insert_config)">
+<form action="./" method="post" onsubmit="return doCheckInputConfig(this)">
 
     <table cellspacing="0" class="rowTable">
     <tr>
@@ -12,12 +12,12 @@
         <th scope="row">{$lang->length}</th>
     </tr>
     <tr>
-        <th scope="col">{$lang->user_id}</th>
+        <th scope="col">{$lang->user_id} <input type="hidden" name="user_id_type" value="text" /></th>
         <td><input type="checkbox" value="Y" checked="checked" disabled="disabled" /></td>
         <td><input type="checkbox" value="Y" checked="checked" disabled="disabled" /></td>
         <td>
-            <input type="text" value="3" class="inputTypeText w40" disabled="disabled" /> {$lang->great_than}
-            <input type="text" value="20" class="inputTypeText w40" disabled="disabled" /> {$lang->less_than}
+            <input type="text" name="user_id_lower_length" value="{$config->user_id_lower_length}" class="inputTypeText w40" /> {$lang->great_than}
+            <input type="text" name="user_id_upper_length" value="{$config->user_id_upper_length}" class="inputTypeText w40" /> {$lang->less_than}
         </td>
     </tr>
     <tr>

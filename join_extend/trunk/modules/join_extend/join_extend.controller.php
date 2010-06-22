@@ -28,6 +28,9 @@
             // 해당 초대장이 사용된 것인지 확인
             if ($output->data->joindate != "-") return $this->stop('msg_used_invitation');
             
+            // 유효기간 확인
+            if (!empty($output->data->validdate) && $output->data->validdate < date("Ymd")) return $this->stop(sprintf(Context::getLang('msg_expired_invitation'), zdate($output->data->validdate, "Y-m-d")));
+            
             // 초대장 번호 저장
             $_SESSION['join_extend_invitation'] = true;
             $_SESSION['join_extend_invitation_srl'] = $output->data->invitation_srl;
@@ -102,18 +105,31 @@
         function procJoin_extendInvitationUse($member_srl) {
             $oJoinExtendModel = &getModel('join_extend');
             $config = $oJoinExtendModel->getConfig();
-            if ($config->use_invitation != "Y") return true;
-            if (!$member_srl)   return false;
+            if ($config->use_invitation != "Y") return new Object(0);
+            if (!$member_srl)   return new Object(-1, 'member_srl is missing');
             
             if (!empty($_SESSION['join_extend_invitation_srl'])) {
+                $args->invitation_srl = $_SESSION['join_extend_invitation_srl'];
+                
+                // 해당 초대장이 있는지 확인
+                $output = executeQuery('join_extend.getInvitation', $args);
+                if (!$output->toBool()) return $output;
+                if (!$output->data) return new Object(-1, 'msg_incorrect_invitation');
+                
+                // 해당 초대장이 사용된 것인지 확인
+                if ($output->data->joindate != "-") return new Object(-1, 'msg_used_invitation');
+            
+                // 유효기간 확인
+                if (!empty($output->data->validdate) && $output->data->validdate < date("Ymd")) return new Object(-1, sprintf(Context::getLang('msg_expired_invitation'), zdate($output->data->validdate, "Y-m-d")));
+            
                 $args->invitation_srl = $_SESSION['join_extend_invitation_srl'];
                 $args->member_srl = $member_srl;
                 $args->joindate = date("YmdHis");
                 $output = executeQuery('join_extend.updateInvitation', $args);
-                if (!$output->toBool()) return false;
+                if (!$output->toBool()) return $output;
             }
             
-            return true;
+            return new Object(0);
         }
         
         /**
@@ -170,6 +186,47 @@
             
             return true;
         }
+        
+        /**
+         * @brief 쿠폰 포인트 지급
+         **/
+        function procJoin_extendCoupon($member_srl) {
+            $oJoinExtendModel = &getModel('join_extend');
+            $config = $oJoinExtendModel->getConfig();
+            if (empty($config->coupon_var_name))    return new Object();
+            
+            // 쿠폰
+            $args->coupon_code = str_replace('-', '', Context::get($config->coupon_var_name));
+            if (empty($args->coupon_code))    return new Object();
+            
+            // 포인트 컨트롤러
+            $oPointController = &getController('point');
+            
+            // 해당 쿠폰이 있는지 확인
+            $output = executeQuery('join_extend.getCoupon', $args);
+            if (!$output->toBool()) return $output;
+            if (!$output->data) return $this->stop('msg_incorrect_coupon');
+
+            // 해당 쿠폰이 사용된 것인지 확인
+            if ($output->data->joindate != "-") return $this->stop('msg_used_coupon');
+            
+            // 유효기간 확인
+            if (!empty($output->data->validdate) && $output->data->validdate < date("Ymd")) return $this->stop(sprintf(Context::getLang('msg_expired_coupon'), zdate($output->data->validdate, "Y-m-d")));
+            
+            // 본인 포인트 지급
+            if (intVal($output->data->point)) {
+                $oPointController->setPoint($member_srl, intVal($output->data->point), 'add');
+            }
+            
+            // 쿠폰 사용 표시
+            $args->coupon_srl = $output->data->coupon_srl;
+            $args->member_srl = $member_srl;
+            $args->joindate = date("YmdHis");
+            $output = executeQuery('join_extend.updateCoupon', $args);
+            if (!$output->toBool()) return $output;
+                
+            return new Object();
+        }
 
         /**
          * @brief 가입 환영 쪽지 발송
@@ -188,7 +245,8 @@
             $member_info = $oMemberModel->getMemberInfoByMemberSrl($member_srl);
             
             // 쪽지 발송
-            $title = cut_str($this->unhtmlentities(strip_tags($config->welcome)), 40);
+            if (strlen($config->welcome_title)) $title = $config->welcome_title;
+            else                                $title = cut_str($this->unhtmlentities(strip_tags($config->welcome)), 40);
             $content = $config->welcome;
             $oCommunicationController = &getController('communication');
             $oCommunicationController->sendMessage($admin_member_srl, $member_srl, $title, $content, false);
@@ -228,6 +286,101 @@
         }
         
         /**
+         * @brief 관리자 통보 준비
+         **/
+        function procNotifyAdmin($mode, $member_info) {
+            $oJoinExtendModel = &getModel('join_extend');
+            $config = $oJoinExtendModel->getConfig();
+            
+            // 실행 조건 검사
+            if ($mode == 'signin' && !($config->use_notify_admin == 'signin' || $config->use_notify_admin == 'both'))    return;
+            if ($mode == 'signout' && !($config->use_notify_admin == 'signout' || $config->use_notify_admin == 'both'))    return;
+
+            // 통보 주기가 있을 경우 정보를 DB에 추가
+            if ($config->notify_admin_period == 'collect') {
+                $args->mode = $mode;
+                $args->member_info = serialize($member_info);
+                
+                // DB추가(오류는 무시)
+                executeQuery('join_extend.insertNotify', $args);
+                
+                // 통보 개수
+                $output = executeQuery('join_extend.getCountNotify');
+                $count = $output->data->count;
+                
+                // 통보할 개수가 되었으면 통보
+                if (intVal($count) >= intVal($config->notify_admin_collect_number))
+                    $this->procSendNotifyAdmin('DB');
+                    
+                return;
+            }
+
+            // 매번 통보이면 바로 통보
+            $this->procSendNotifyAdmin('member_info', $member_info, $mode);
+        }
+        
+        /**
+         * @brief 관리자 통보
+         **/
+        function procSendNotifyAdmin($mode, $member_info = null, $type = 'signin') {
+            $oJoinExtendModel = &getModel('join_extend');
+            $config = $oJoinExtendModel->getConfig();
+            
+            // DB 정보를 이용
+            if ($mode == 'DB') {
+                // 통보할 정보를 가져온다
+                $output = executeQueryArray('join_extend.getNotify');
+                $member_infos = $output->data;
+                
+                // member_info 일렬화를 해제
+                if (count($member_infos))
+                    foreach($member_infos as &$val) $val->member_info = unserialize($val->member_info);
+            
+                // DB를 비운다
+                executeQuery('join_extend.emptyNotify');
+                
+            // member_info를 이용
+            }else if ($mode == 'member_info' && $member_info) {
+                $member_infos[0]->member_info = $member_info;
+                $member_infos[0]->mode = $type;
+                $member_infos[0]->regdate = date("YmdHis");
+            }
+
+            // 통보할 내용이 있는지 확인
+            if (!count($member_infos))  return;
+            
+            // 템플릿을 컴파일하여 내용을 생성
+            Context::set('member_infos', $member_infos);
+            $oTemplate = &TemplateHandler::getInstance();
+            $tpl = $oTemplate->compile('./modules/join_extend/tpl/', 'notify_email');
+
+            // 관리자 정보
+            $oMemberModel = &getModel('member');
+            $admin_info = $oMemberModel->getMemberInfoByUserID($config->admin_id);
+            $admin_member_srl = $admin_info->member_srl;
+
+            // 설정에 따라 쪽지나 메일을 발송
+            if ($config->notify_admin_method == 'message' || $config->notify_admin_method == 'both') {
+                $title = Context::getLang('notify_title');
+                $content = $tpl;
+                $oCommunicationController = &getController('communication');
+                $oCommunicationController->sendMessage($admin_member_srl, $admin_member_srl, $title, $content, false);
+            }
+            
+            if ($config->notify_admin_method == 'email' || $config->notify_admin_method == 'both') {
+                $title = Context::getLang('notify_title');
+                $content = $tpl;
+                $oMail = new Mail();
+                $oMail->setTitle($title);
+                $oMail->setContent($content);
+                $oMail->setContentType('plain');
+                $oMail->setSender($admin_info->user_name, $admin_info->email_address);
+                $oMail->setReceiptor($admin_info->user_name, $admin_info->email_address);
+                $oMail->send();
+            }
+        }
+        
+        /**
          * @brief 회원 DB 추가 후 트리거
          **/
         function triggerInsertMember(&$obj) {
@@ -256,9 +409,9 @@
 
             // 초대장
             $res = $this->procJoin_extendInvitationUse($member_srl);
-            if (!$res){
+            if (!$res->toBool()){
                 $oMemberController->deleteMember($member_srl);
-                return new Object(-1, 'insert_fail_invitation');
+                return $res;
             }
             
             // 추천인 포인트 지급
@@ -270,8 +423,22 @@
                 return new Object(-1, 'point_fail');
             }
             
+            // 가입 쿠폰 포인트 지급
+            $res = $this->procJoin_extendCoupon($member_srl);
+            
+            // 포인트 지급에 실패하면 회원가입을 취소
+            if (!$res->toBool()){
+                $oMemberController->deleteMember($member_srl);
+                return $res;
+            }
+            
             // 회원 가입 환영 쪽지
             $this->procSendWelcomeMessage($member_srl);
+            
+            // 관리자 통보
+            $oMemberModel = &getModel('member');
+            $member_info = $oMemberModel->getMemberInfoByMemberSrl($member_srl);
+            $this->procNotifyAdmin('signin', $member_info);
             
             unset($_SESSION['join_extend_authed_act']);
             unset($_SESSION['join_extend_jumin']);
@@ -285,10 +452,20 @@
         function triggerDeleteMember(&$obj) {
             $member_srl = $obj->member_srl;
 
+            // 회원정보
+            $oMemberModel = &getModel('member');
+            $member_info = $oMemberModel->getMemberInfoByMemberSrl($member_srl);
+            
             // join_extend 테이블에서 회원정보 삭제
             $args->member_srl = $member_srl;
             $output = executeQuery('join_extend.deleteMemberInfo', $args);
             if (!$output->toBool()) return $output;
+            
+            // 관리자 통보
+            // 회원확장 모듈에서 회원가입 중단시에도
+            // deleteMember를 실행하지만 이때는 통보하지 않는다.
+            if (Context::get('act') != 'procMemberInsert')
+                $this->procNotifyAdmin('signout', $member_info);
             
             return new Object();
         }
@@ -340,16 +517,14 @@
                         return new Object();
                     }
                 }
-                
+
+                // 로그인 상태이거나 약관, 개인정보, 주민번호 모두 사용하지 않거나 회원가입 허용되어 있지 않으면 1단계 화면은 생략
+                if (Context::get('logged_info') || ($config->use_jumin != "Y" && $config->use_agreement != "Y" && $config->use_private_agreement != "Y") || $member_config->enable_join != "Y") {
+                    $_SESSION['join_extend_authed'] = true;
+                }
+
                 // 회원가입 1단계
                 if(!$_SESSION['join_extend_authed']){
-                    
-                    // 로그인 상태이거나 약관, 개인정보, 주민번호 모두 사용하지 않거나 회원가입 허용되어 있지 않으면 1단계 화면은 생략
-                    if ((Context::get('logged_info') || $config->use_jumin != "Y" && $config->use_agreement != "Y" && $config->use_private_agreement != "Y") || $member_config->enable_join != "Y") {
-                        $_SESSION['join_extend_authed_act'] = true;
-                        return new Object();
-                    }
-                    
                     Context::set('config', $config);
     
                     Context::addHtmlHeader(sprintf('<script type="text/javascript"> var msg_junior_join ="%s"; var msg_check_agree ="%s"; var msg_empty_name = "%s"; var msg_empty_jumin1 = "%s"; var msg_empty_jumin2 = "%s"; var use_jumin = "%s"; var about_user_name = "%s"; </script>',
@@ -417,6 +592,9 @@
                         }
                     }
     
+                    // 필수입력 항목, 길이 제한 메시지
+                    $oJoinExtendModel->procRequiredLength();
+                    
                     unset($_SESSION['join_extend_authed']);
                     unset($_SESSION['join_extend_invitation']);
                     $_SESSION['join_extend_authed_act'] = true;
@@ -424,47 +602,50 @@
     
             // 회원 정보 수정 화면 주민번호 사용시 이름 변경 금지!
             }else if (Context::get('act') == 'dispMemberModifyInfo'){
-                    $member_info = Context::get('member_info');
-                    
-                    if (!empty($config->recoid_var_name)) {
-                        Context::addHtmlHeader(sprintf('<script type="text/javascript"> var recoid_var_name ="%s"; </script>', $config->recoid_var_name));
-                        if (!$member_info->{$config->recoid_var_name}) $member_info->{$config->recoid_var_name} = '';
-                        $_SESSION['join_extend_jumin']['recoid'] = $member_info->{$config->recoid_var_name};
+                $member_info = Context::get('member_info');
+                
+                if (!empty($config->recoid_var_name)) {
+                    Context::addHtmlHeader(sprintf('<script type="text/javascript"> var recoid_var_name ="%s"; </script>', $config->recoid_var_name));
+                    if (!$member_info->{$config->recoid_var_name}) $member_info->{$config->recoid_var_name} = '';
+                    $_SESSION['join_extend_jumin']['recoid'] = $member_info->{$config->recoid_var_name};
+                }
+
+                if ($config->use_jumin == "Y" && !empty($config->age_var_name)) {
+                    Context::addHtmlHeader(sprintf('<script type="text/javascript"> var age_var_name ="%s"; </script>', $config->age_var_name));
+                    if (!$member_info->{$config->age_var_name}) $member_info->{$config->age_var_name} = '';
+                    $_SESSION['join_extend_jumin']['age'] = $member_info->{$config->age_var_name};
+                }                
+                
+                if ($config->use_jumin == "Y" && !empty($config->sex_var_name)) {
+                    Context::addHtmlHeader(sprintf('<script type="text/javascript"> var sex_var_name ="%s"; </script>', $config->sex_var_name));
+                    if (!$member_info->{$config->sex_var_name}) $member_info->{$config->sex_var_name} = '';
+                    $_SESSION['join_extend_jumin']['sex'] = $member_info->{$config->sex_var_name};
+                }
+                
+                if ($config->use_jumin == "Y") {
+                    Context::addHtmlHeader(sprintf('<script type="text/javascript"> var user_name ="%s";  </script>', $member_info->user_name));
+                    Context::addJsFile('./modules/join_extend/tpl/js/fix_name.js',false);
+                    $_SESSION['join_extend_jumin']['name'] = $member_info->user_name;
+                }
+                
+                // 수정금지
+                unset($_SESSION['join_extend_no_mod']);
+                if (count($config->input_config->no_mod)) {
+                    $i = 0;
+                    foreach($config->input_config->no_mod as $var_name => $val) {
+                        if (!($val == "Y" || $val == "Y2"))    continue;
+                        $js_str .= "no_mod[$i] = '$var_name';";
+                        $js_str .= "no_mod_type[$i] = '{$config->input_config->type[$var_name]}';";
+                        if (!$member_info->{$var_name}) $member_info->{$var_name} = '';
+                        $_SESSION['join_extend_no_mod'][$var_name] = $member_info->{$var_name};
+                        $i++;
                     }
-    
-                    if ($config->use_jumin == "Y" && !empty($config->age_var_name)) {
-                        Context::addHtmlHeader(sprintf('<script type="text/javascript"> var age_var_name ="%s"; </script>', $config->age_var_name));
-                        if (!$member_info->{$config->age_var_name}) $member_info->{$config->age_var_name} = '';
-                        $_SESSION['join_extend_jumin']['age'] = $member_info->{$config->age_var_name};
-                    }                
-                    
-                    if ($config->use_jumin == "Y" && !empty($config->sex_var_name)) {
-                        Context::addHtmlHeader(sprintf('<script type="text/javascript"> var sex_var_name ="%s"; </script>', $config->sex_var_name));
-                        if (!$member_info->{$config->sex_var_name}) $member_info->{$config->sex_var_name} = '';
-                        $_SESSION['join_extend_jumin']['sex'] = $member_info->{$config->sex_var_name};
-                    }
-                    
-                    if ($config->use_jumin == "Y") {
-                        Context::addHtmlHeader(sprintf('<script type="text/javascript"> var user_name ="%s";  </script>', $member_info->user_name));
-                        Context::addJsFile('./modules/join_extend/tpl/js/fix_name.js',false);
-                        $_SESSION['join_extend_jumin']['name'] = $member_info->user_name;
-                    }
-                    
-                    // 수정금지
-                    unset($_SESSION['join_extend_no_mod']);
-                    if (count($config->input_config->no_mod)) {
-                        $i = 0;
-                        foreach($config->input_config->no_mod as $var_name => $val) {
-                            if (!($val == "Y" || $val == "Y2"))    continue;
-                            $js_str .= "no_mod[$i] = '$var_name';";
-                            $js_str .= "no_mod_type[$i] = '{$config->input_config->type[$var_name]}';";
-                            if (!$member_info->{$var_name}) $member_info->{$var_name} = '';
-                            $_SESSION['join_extend_no_mod'][$var_name] = $member_info->{$var_name};
-                            $i++;
-                        }
-                    }
-                    Context::addHtmlHeader(sprintf('<script type="text/javascript"> var no_mod = new Array(); var no_mod_type = new Array(); %s </script>', $js_str));
-                    Context::addJsFile('./modules/join_extend/tpl/js/no_mod.js',false);
+                }
+                Context::addHtmlHeader(sprintf('<script type="text/javascript"> var no_mod = new Array(); var no_mod_type = new Array(); %s </script>', $js_str));
+                Context::addJsFile('./modules/join_extend/tpl/js/no_mod.js',false);
+                
+                // 필수입력 항목, 길이 제한 메시지
+                $oJoinExtendModel->procRequiredLength();
             }
         
             return new Object();
@@ -530,6 +711,12 @@
             if ($config->use_join_extend != 'Y')    return new Object();
             
             if (Context::getResponseMethod() == 'HTML' && in_array(Context::get('act'), array("dispMemberSignUpForm", "dispMemberModifyInfo"))) {
+                // 폼 필터 변경 (구버전의 js filter 사용시만 변경한다.)
+                if (__ZBXE_VERSION__ < '1.4') {
+                    $output = str_replace('procFilter(this, signup)', 'my_procFilter(this, signup)', $output);
+                    $output = str_replace('procFilter(this, modify_info)', 'my_procFilter(this, modify_info)', $output);
+                }
+                
                 if (empty($config->recoid_var_name))    return new Object();
                 
                 // 추천인 포인트
