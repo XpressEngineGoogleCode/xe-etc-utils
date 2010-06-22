@@ -46,8 +46,10 @@
     }
     
     // 새 필터 적용
-    validator.cast("ADD_FILTER", ['signup', og_filter]);
-    validator.cast("ADD_FILTER", ['signup', modify_info]);
+    try{
+        validator.cast("ADD_FILTER", ['signup', og_filter]);
+        validator.cast("ADD_FILTER", ['signup', modify_info]);
+    }catch(e){ ; }
 })(jQuery);
 
 function doMark() {

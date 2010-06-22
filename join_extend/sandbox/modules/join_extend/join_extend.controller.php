@@ -193,11 +193,11 @@
         function procJoin_extendCoupon($member_srl) {
             $oJoinExtendModel = &getModel('join_extend');
             $config = $oJoinExtendModel->getConfig();
-            if (empty($config->coupon_var_name))    return true;
+            if (empty($config->coupon_var_name))    return new Object();
             
             // 쿠폰
             $args->coupon_code = str_replace('-', '', Context::get($config->coupon_var_name));
-            if (empty($args->coupon_code))    return true;
+            if (empty($args->coupon_code))    return new Object();
             
             // 포인트 컨트롤러
             $oPointController = &getController('point');

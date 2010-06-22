@@ -24,6 +24,7 @@ jQuery(function($) {
             case 'date':
                 if (jQuery("input[name="+no_mod[i]+"]").val())
                     jQuery("input[name="+no_mod[i]+"] ~ .inputDate").attr("readonly", "readonly").removeClass('inputDate');
+                jQuery("input[name="+no_mod[i]+"]").nextAll("span").remove();
                 break;
             case 'textarea':
                 if (jQuery("textarea[name="+no_mod[i]+"]").val())
