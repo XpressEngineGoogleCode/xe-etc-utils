@@ -1,0 +1,9 @@
+<table name="join_extend_invitation">
+    <column name="invitation_srl" type="number" size="11" notnull="notnull" primary_key="primary_key" />
+    <column name="code" type="varchar" size="32" notnull="notnull" unique="unique_code" />
+    <column name="own_member_srl" type="number" size="11" />
+    <column name="member_srl" type="number" size="11" />
+    <column name="regdate" type="date" />
+    <column name="joindate" type="date" />
+    <column name="validdate" type="date" />
+</table>

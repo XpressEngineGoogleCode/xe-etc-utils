@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<module>
+    <grants />
+    <actions>
+        <action name="dispJoin_extendAdminIndex" type="view" standalone="true" admin_index="true" />
+        <action name="dispJoin_extendAdminAgreeConfig" type="view" standalone="true" />
+        <action name="dispJoin_extendAdminExtendVarConfig" type="view" standalone="true" />
+        <action name="dispJoin_extendAdminRestrictionsConfig" type="view" standalone="true" />
+        <action name="dispJoin_extendAdminAfterConfig" type="view" standalone="true" />
+        <action name="dispJoin_extendAdminJuminConfig" type="view" standalone="true" />
+        <action name="dispJoin_extendAdminInputConfig" type="view" standalone="true" />
+        <action name="dispJoin_extendAdminInvitationConfig" type="view" standalone="true" />
+        <action name="dispJoin_extendAdminCouponConfig" type="view" standalone="true" />
+        
+        <action name="getJoin_extendAdminColorset" type="view" standalone="true" />
+        
+        <action name="procJoin_extendAdminUpdateTable" type="controller" />
+        <action name="procJoin_extendAdminInsertConfig" type="controller"  />
+        <action name="procJoin_extendAdminInsertEditor" type="controller"  />
+        <action name="procJoin_extendAdminGenerateInvitation" type="controller"  />
+        <action name="procJoin_extendAdminDeleteInvitation" type="controller"  />
+        <action name="procJoin_extendAdminGenerateCoupon" type="controller"  />
+        <action name="procJoin_extendAdminDeleteCoupon" type="controller"  />
+        
+        <action name="procJoin_extendAgree" type="controller"  />
+        <action name="procJoin_extendInvitation" type="controller"  />
+    </actions>
+</module>

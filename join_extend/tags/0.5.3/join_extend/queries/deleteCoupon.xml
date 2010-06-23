@@ -1,0 +1,8 @@
+<query id="deleteCoupon" action="delete">
+    <tables>
+        <table name="join_extend_coupon" />
+    </tables>
+    <conditions>
+        <condition operation="in" column="coupon_srl" var="coupon_srls" filter="number" notnull="notnull" />
+    </conditions>
+</query>

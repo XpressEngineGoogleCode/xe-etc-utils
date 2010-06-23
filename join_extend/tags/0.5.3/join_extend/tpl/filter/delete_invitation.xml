@@ -1,0 +1,7 @@
+<filter name="delete_invitation" module="join_extend" act="procJoin_extendAdminDeleteInvitation" confirm_msg_code="confirm_delete">
+    <form />
+    <response>
+        <tag name="error" />
+        <tag name="message" />
+    </response>
+</filter>
