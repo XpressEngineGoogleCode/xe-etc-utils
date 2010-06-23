@@ -334,7 +334,7 @@
                 
                 // member_info 일렬화를 해제
                 if (count($member_infos))
-                    foreach($member_infos as $val) $val->member_info = unserialize($val->member_info);
+                    for ($i = 0; $i < count($member_infos); $i++)   $member_infos[$i]->member_info = unserialize($member_infos[$i]->member_info);
             
                 // DB를 비운다
                 executeQuery('join_extend.emptyNotify');
