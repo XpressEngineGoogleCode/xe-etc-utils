@@ -31,16 +31,16 @@
     $lang->no_modification = '修正禁止';
     $lang->birthday_no_mod_op1 = '修正禁止(加入の時可能)';
     $lang->birthday_no_mod_op2 = '修正禁止';
-    $lang->msg_user_id_length = '아이디 길이 제한은 3~20 사이에서 가능합니다.';
-    $lang->msg_user_name_length = '이름 길이 제한은 2~40 사이에서 가능합니다.';
-    $lang->msg_nick_name_length = '닉네임 길이 제한은 2~40 사이에서 가능합니다.';
-    $lang->msg_email_length = '이메일 길이 제한은 1~200 사이에서 가능합니다.';
-    $lang->msg_length = '글자 길이(%s)';
+    $lang->msg_user_id_length = 'IDの長さ制限は 3~20 間で可能です.';
+    $lang->msg_user_name_length = '名前の長さ制限は 2~40 間で可能です.';
+    $lang->msg_nick_name_length = 'ニックネームの長さ制限は 2~40 間で可能です.';
+    $lang->msg_email_length = '電子メールの長さ制限は 1~200 間で可能です.';
+    $lang->msg_length = '文字長さ(%s)';
     
-    $lang->my_about_user_id = '사용자 ID는 %s자 사이의 영문+숫자로 이루어져야 하며 영문으로 시작되어야 합니다.';
-    $lang->my_about_password = '비밀번호는 %s자로 되어야 합니다.';
-    $lang->my_about_user_name = '이름은 %s자 이내여야 합니다.';
-    $lang->my_about_nick_name = '닉네임은 %s자 이내여야 합니다.';
+    $lang->my_about_user_id = '使用者 IDは %s字の間の英文+数字でなければならないし英文で始まらなければなりません.';
+    $lang->my_about_password = 'パスワードは %s字にならなければなりません.';
+    $lang->my_about_user_name = '名前は %s字以内ではなければなりません.';
+    $lang->my_about_nick_name = 'ニックネームは %s字以内ではなければなりません.';
     
     $lang->use_join_extend = '会員加入拡張使用';
     $lang->about_use_join_extend = '会員加入拡張機能使用可否を選択します.';
@@ -146,7 +146,7 @@
     $lang->about_use_invitation = '招待状機能を使えば招待状番号を持った人だけ加入することができます.';
     $lang->unit_number = '個';
     $lang->generate_invitation = '招待状生成';
-    $lang->about_generate_invitation = '一度に生成することができる招待状の最大個数は 100個です. 유효기간을 설정하여 생성된 초대장은 해당 기간까지만 유효합니다. 유효기간을 비워두면 유효기간이 없는 초대장이 생성됩니다.';
+    $lang->about_generate_invitation = '一度に生成することができる招待状の最大個数は 100個です. 有效期間を設定して生成された招待状は該当の期間までに有效です. 有效期間が空白の場合有效期間のない招待状が生成されます.';
     $lang->msg_invitation_incorrect_count = '1~100 間を入力してください.';
     $lang->invitation_code = '招待状番号';
     $lang->invitation_join_id = '加入ID';
@@ -161,20 +161,20 @@
     $lang->msg_used_invitation = 'すでに使われた招待状番号です.';
     $lang->insert_fail_invitation = '招待状処理エラー';
     $lang->deleted_member = '脱退した会員';
-    $lang->validdate = '유효기간';
-    $lang->msg_validdate_past = '유효기간으로 과거 날짜를 사용할 수 없습니다.';
-    $lang->msg_expired_invitation = '유효기간이 지난 초대장입니다. (%s)';
+    $lang->validdate = '有效期間';
+    $lang->msg_validdate_past = '有效期間で過去の日付は使用不可です.';
+    $lang->msg_expired_invitation = '有效期間が切れた招待状です. (%s)';
     
-    $lang->coupon_config = '가입쿠폰 설정';
-    $lang->use_coupon = '가입쿠폰 사용';
-    $lang->coupon_var_name = '쿠폰 확장 변수명';
-    $lang->about_coupon_var_name = '회원 관리 - 가입 폼 관리에 추가된 쿠폰 입력칸의 <strong>입력항목 이름</strong>을 입력하세요.';
-    $lang->about_use_coupon = '가입쿠폰 기능을 사용하면 가입시 쿠폰번호를 입력한 회원은 쿠폰의 포인트를 지급 받습니다.';
-    $lang->generate_coupon = '가입쿠폰 생성';
-    $lang->receive_point = '받는 포인트';
-    $lang->about_generate_coupon = '한번에 생성할 수 있는 쿠폰의 최대 개수는 100개입니다. 유효기간을 설정하여 생성된 쿠폰은 해당 기간까지만 유효합니다. 유효기간을 비워두면 유효기간이 없는 쿠폰이 생성됩니다.';
-    $lang->msg_invalid_number = '숫자로 입력하세요.';
-    $lang->msg_incorrect_coupon = '유효하지 않은 쿠폰 번호입니다.';
-    $lang->msg_used_coupon = '이미 사용된 쿠폰 번호입니다.';
-    $lang->msg_expired_coupon = '유효기간이 지난 쿠폰입니다. (%s)';
+    $lang->coupon_config = '加入クーポン設定';
+    $lang->use_coupon = '加入クーポン使用';
+    $lang->coupon_var_name = 'クーポン拡張変数名';
+    $lang->about_coupon_var_name = '会員管理 - 加入フォーム管理に追加されたクーポン入力ボックスの <strong>入力項目名前</strong>を入力してください.';
+    $lang->about_use_coupon = '加入クーポン機能を使えば加入の時クーポン番号を入力した会員はクーポンのポイントを貰えます.';
+    $lang->generate_coupon = '加入クーポン生成';
+    $lang->receive_point = '貰えるポイント';
+    $lang->about_generate_coupon = '一度に生成することができるクーポンの最大個数は 100個です. 有效期間を設定して生成されたクーポンは該当の期間までに有效です. 有效期間が空白の場合有效期間のないクーポンが生成されます.';
+    $lang->msg_invalid_number = '数字で入力してください.';
+    $lang->msg_incorrect_coupon = '有效ではないクーポン番号です.';
+    $lang->msg_used_coupon = 'すでに使われたクーポン番号です.';
+    $lang->msg_expired_coupon = '有效期間が切れたクーポンです. (%s)';
 ?>
