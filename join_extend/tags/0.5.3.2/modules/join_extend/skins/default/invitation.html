@@ -1,0 +1,29 @@
+<!--%import("css/white.css")-->
+<!--@if ($config->colorset == "black")-->
+    <!--%import("css/black.css")-->
+<!--@end-->
+
+<div class="joinContent">
+    <h2 class="joinTitle">{$lang->join_extend_invitation}</h2>
+    <form action="" method="post" onsubmit="return false" class="member_join_extend">
+        <fieldset>
+            <div class="joinButtonArea">
+                <table class="joinAgreement jumin">
+                <tr>
+                    <th scope="row">{$lang->invitation_code}</th>
+                    <td><input type="text" name="invitation_code" size="40" /></td>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        ※ {$lang->msg_invitation}
+                    </td>
+                </tr>
+                </table>
+            </div>
+            
+            <div class="joinButtonArea">
+                <span class="joinButton"><input name="" class="member_join_agree" type="submit" value="{$lang->cmd_next}" /></span>
+            </div>
+        </fieldset>
+    </form>
+</div>

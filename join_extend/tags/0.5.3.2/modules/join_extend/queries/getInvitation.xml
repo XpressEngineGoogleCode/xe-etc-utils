@@ -1,0 +1,12 @@
+<query id="getInvitation" action="select">
+    <tables>
+        <table name="join_extend_invitation" />
+    </tables>
+    <columns>
+        <column name="*" />
+    </columns>
+    <conditions>
+        <condition operation="equal" column="code" var="invitation_code" />
+        <condition operation="equal" column="invitation_srl" var="invitation_srl" pipe="and"/>
+    </conditions>
+</query>

@@ -1,0 +1,8 @@
+<query id="deleteInvitation" action="delete">
+    <tables>
+        <table name="join_extend_invitation" />
+    </tables>
+    <conditions>
+        <condition operation="in" column="invitation_srl" var="invitation_srls" filter="number" notnull="notnull" />
+    </conditions>
+</query>

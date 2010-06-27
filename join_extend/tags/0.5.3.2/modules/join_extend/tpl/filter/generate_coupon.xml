@@ -1,0 +1,10 @@
+<filter name="generate_coupon" module="join_extend" act="procJoin_extendAdminGenerateCoupon" confirm_msg_code="confirm_submit">
+    <form>
+        <node target="count" required="true" maxlength="3" filter="number" />
+        <node target="point" required="true" maxlength="10" filter="number" />
+    </form>
+    <response>
+        <tag name="error" />
+        <tag name="message" />
+    </response>
+</filter>
