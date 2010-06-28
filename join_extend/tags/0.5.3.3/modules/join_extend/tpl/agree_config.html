@@ -1,0 +1,87 @@
+<!--#include("header.html")-->
+<!--%import("filter/insert_editor.xml")-->
+
+<form action="./" method="post" onsubmit="return procFilter(this, insert_config)">
+<input type="hidden" name="config_type" value="agree_config" />
+    <table class="rowTable" cellspacing="0">
+    <tr>
+        <th scope="col" class="w150"><div>{$lang->use_agreement}</div></th>
+        <td>
+            <select name="use_agreement">
+                <option value="N"<!--@if($config->use_agreement=='N')--> selected="selected"<!--@end-->>{$lang->notuse}</option>
+                <option value="Y"<!--@if($config->use_agreement=='Y')--> selected="selected"<!--@end-->>{$lang->use}</option>
+            </select>
+            <p>{$lang->about_use_agreement}</p>
+        </td>
+    </tr>
+    <tr>
+        <th scope="col" class="w150"><div>{$lang->use_private_agreement}</div></th>
+        <td>
+            <select name="use_private_agreement">
+                <option value="N"<!--@if($config->use_private_agreement=='N')--> selected="selected"<!--@end-->>{$lang->notuse}</option>
+                <option value="Y"<!--@if($config->use_private_agreement=='Y')--> selected="selected"<!--@end-->>{$lang->use}</option>
+            </select>
+            <p>{$lang->about_use_private_agreement}</p>
+        </td>
+    </tr>
+    <tr>
+        <th colspan="2" class="button">
+            <span class="button black strong"><input type="submit" value="{$lang->cmd_registration}" /></span>
+        </th>
+    </tr>
+    </table>
+</form>
+
+<form action="./" method="post" onsubmit="return procFilter(this, insert_editor)">
+    <input type="hidden" name="type" value="agreement" />
+    <input type="hidden" name="agreement" value="{htmlspecialchars($config->agreement)}" />
+    <table cellspacing="0" class="rowTable">
+    <tr>
+        <th scope="col" class="w150"><div>{$lang->agreement}</div></th>
+        <td>
+            {$editor_agreement}
+        </td>
+    </tr>
+    <tr>
+        <th colspan="2" class="button">
+            <span class="button black strong"><input type="submit" value="{$lang->cmd_registration}" /></span>
+        </th>
+    </tr>
+    </table>
+</form>
+
+<form action="./" method="post" onsubmit="return procFilter(this, insert_editor)">
+    <input type="hidden" name="type" value="private_agreement" />
+    <input type="hidden" name="private_agreement" value="{htmlspecialchars($config->private_agreement)}" />
+    <table cellspacing="0" class="rowTable">
+    <tr>
+        <th scope="col" class="w150"><div>{$lang->private_agreement}</div></th>
+        <td>
+            {$editor_private_agreement}
+        </td>
+    </tr>
+    <tr>
+        <th colspan="2" class="button">
+            <span class="button black strong"><input type="submit" value="{$lang->cmd_registration}" /></span>
+        </th>
+    </tr>
+    </table>
+</form>
+
+<form action="./" method="post" onsubmit="return procFilter(this, insert_editor)">
+    <input type="hidden" name="type" value="private_gathering_agreement" />
+    <input type="hidden" name="private_gathering_agreement" value="{htmlspecialchars($config->private_gathering_agreement)}" />
+    <table cellspacing="0" class="rowTable">
+    <tr>
+        <th scope="col" class="w150"><div>{$lang->private_gathering_agreement}</div></th>
+        <td>
+            {$editor_private_gathering_agreement}
+        </td>
+    </tr>
+    <tr>
+        <th colspan="2" class="button">
+            <span class="button black strong"><input type="submit" value="{$lang->cmd_registration}" /></span>
+        </th>
+    </tr>
+    </table>
+</form>

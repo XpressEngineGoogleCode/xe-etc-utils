@@ -1,0 +1,61 @@
+<!--#include("header.html")-->
+
+<form action="./" method="post" onsubmit="return procFilter(this, insert_config)">
+<input type="hidden" name="config_type" value="extend_var_config" />
+    <table cellspacing="0" class="rowTable">
+    <tr>
+        <th scope="col"><div>{$lang->sex_var_name}</div></th>
+        <td>
+            <input type="text" name="sex_var_name" value="{$config->sex_var_name}"  class="inputTypeText w100" />
+            <p>{$lang->about_sex_var_name}</p>
+        </td>
+    </tr>
+    <tr>
+        <th scope="col"><div>{$lang->man_value}</div></th>
+        <td>
+            <input type="text" name="man_value" value="{$config->man_value}"  class="inputTypeText w100" />
+            <p>{$lang->about_man_value}</p>
+        </td>
+    </tr>
+    <tr>
+        <th scope="col"><div>{$lang->woman_value}</div></th>
+        <td>
+            <input type="text" name="woman_value" value="{$config->woman_value}"  class="inputTypeText w100" />
+            <p>{$lang->about_woman_value}</p>
+        </td>
+    </tr>
+    <tr>
+        <th scope="col"><div>{$lang->age_var_name}</div></th>
+        <td>
+            <input type="text" name="age_var_name" value="{$config->age_var_name}"  class="inputTypeText w100" />
+            <p>{$lang->about_age_var_name}</p>
+        </td>
+    </tr>
+    <tr>
+        <th scope="col"><div>{$lang->recoid_var_name}</div></th>
+        <td>
+            <input type="text" name="recoid_var_name" value="{$config->recoid_var_name}"  class="inputTypeText w100" />
+            <p>{$lang->about_recoid_var_name}</p>
+        </td>
+    </tr>
+    <tr>
+        <th scope="row"><div>{$lang->recoid_point}</div></th>
+        <td>
+            <input type="text" name="recoid_point" value="{$config->recoid_point}"  class="inputTypeText w100" />
+            <p>{$lang->about_recoid_point}</p>
+        </td>
+    </tr>
+    <tr>
+        <th scope="row"><div>{$lang->joinid_point}</div></th>
+        <td>
+            <input type="text" name="joinid_point" value="{$config->joinid_point}"  class="inputTypeText w100" />
+            <p>{$lang->about_joinid_point}</p>
+        </td>
+    </tr>
+    <tr>
+        <th colspan="2" class="button">
+            <span class="button black strong"><input type="submit" value="{$lang->cmd_registration}" accesskey="s" /></span>
+        </th>
+    </tr>
+    </table>
+</form>
