@@ -6,6 +6,7 @@
 <!--%load_js_plugin("ui.datepicker")-->
 
 <form action="./" method="post" onsubmit="return procFilter(this, insert_config)">
+<input type="hidden" name="config_type" value="coupon_config" />
     <table cellspacing="0" class="rowTable">
     <tr>
         <th scope="row" class="w150"><div>{$lang->use_coupon}</div></th>

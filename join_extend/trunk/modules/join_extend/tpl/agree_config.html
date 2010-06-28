@@ -2,6 +2,7 @@
 <!--%import("filter/insert_editor.xml")-->
 
 <form action="./" method="post" onsubmit="return procFilter(this, insert_config)">
+<input type="hidden" name="config_type" value="agree_config" />
     <table class="rowTable" cellspacing="0">
     <tr>
         <th scope="col" class="w150"><div>{$lang->use_agreement}</div></th>
