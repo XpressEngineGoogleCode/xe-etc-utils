@@ -1,6 +1,7 @@
 <!--#include("header.html")-->
 
 <form action="./" method="post" onsubmit="return procFilter(this, insert_config)">
+<input type="hidden" name="config_type" value="restrictions_config" />
     <table cellspacing="0" class="rowTable">
     <tr>
         <th scope="col"><div>{$lang->use_sex_restrictions}</div></th>

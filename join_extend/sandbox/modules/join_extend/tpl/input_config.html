@@ -3,7 +3,7 @@
 <div class="infoText">{nl2br($lang->about_input_config)}</div>
 
 <form action="./" method="post" onsubmit="return doCheckInputConfig(this)">
-
+<input type="hidden" name="config_type" value="input_config" />
     <table cellspacing="0" class="rowTable">
     <tr>
         <th scope="row">{$lang->column_name}</th>

@@ -20,6 +20,8 @@
             $oJoinExtendModel = &getModel('join_extend');
             $config = $oJoinExtendModel->_getConfig(false, false);
             $new_config = Context::getRequestVars();
+            $config_type = $new_config->config_type;
+            unset($new_config->config_type);
             
             // 입력항목 설정일 경우 기존 일력항목 설정 값은 초기화
             if (isset($new_config->user_name_type)) {
@@ -40,6 +42,45 @@
             unset($config->welcome);
             unset($config->welcome_email);
 
+            // 값이 없을 때
+            if ($config_type == "after_config"){
+                if (!$new_config->welcome_title) $new_config->welcome_title = '';
+                if (!$new_config->welcome_email_title) $new_config->welcome_email_title = '';
+                if (!$new_config->notify_admin_collect_number) $new_config->notify_admin_collect_number = '';
+            }
+            if ($config_type == "coupon_config"){
+                if (!$new_config->coupon_var_name) $new_config->coupon_var_name = '';
+            }
+            if ($config_type == "extend_var_config"){
+                if (!$new_config->sex_var_name) $new_config->sex_var_name = '';
+                if (!$new_config->man_value) $new_config->man_value = '';
+                if (!$new_config->woman_value) $new_config->woman_value = '';
+                if (!$new_config->age_var_name) $new_config->age_var_name = '';
+                if (!$new_config->recoid_var_name) $new_config->recoid_var_name = '';
+                if (!$new_config->recoid_point) $new_config->recoid_point = '';
+                if (!$new_config->joinid_point) $new_config->joinid_point = '';
+            }
+            if ($config_type == "index"){
+                if (!$new_config->admin_id) $new_config->admin_id = '';
+            }
+            if ($config_type == "input_config"){
+                $config_list = get_object_vars($new_config);
+                if (count($config_list)){
+                    foreach($config_list as $var_name => $val){
+                        if (strpos($var_name, "_type")){
+                            $name = substr($var_name, 0, -5);
+                            if (!$new_config->{$name. "_lower_length"}) $new_config->{$name. "_lower_length"} = '';
+                            if (!$new_config->{$name. "_upper_length"}) $new_config->{$name. "_upper_length"} = '';
+                        }
+                    }
+                }
+            }
+            if ($config_type == "restrictions_config"){
+                if (!$new_config->age_restrictions) $new_config->age_restrictions = '';
+                if (!$new_config->age_upper_restrictions) $new_config->age_upper_restrictions = '';
+                if (!$new_config->msg_junior_join) $new_config->msg_junior_join = '';
+            }
+            
             // 새 설정을 기존 설정과 합친다.
             $config_list = get_object_vars($new_config);
             if (count($config_list)) {
