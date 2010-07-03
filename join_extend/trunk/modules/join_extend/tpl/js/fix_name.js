@@ -1,5 +1,7 @@
 jQuery(function($) {
-    jQuery("input[name=user_name]").val(user_name).attr("readonly", "readonly");
+    try{
+        jQuery("input[name=user_name]").val(user_name).attr("readonly", "readonly");
+    }catch(e){}
     
     try{
         jQuery("#date_birthday").val(birthday).attr("readonly", "readonly");
