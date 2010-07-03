@@ -558,6 +558,7 @@
                         Context::addHtmlHeader(sprintf('<script type="text/javascript"> var recoid_var_name2 ="%s"; var recoid = "%s"; </script>', 
                                                         $config->recoid_var_name,
                                                         Context::get('recoid')));
+                        Context::addJsFile('./modules/join_extend/tpl/js/fix_name.js',false);
                     }
                     
                     // 주민번호를 입력받고 성별 정보가 있으면 자동으로 선택한다.
