@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module version="0.2">
+    <title xml:lang="ko">회원가입 확장</title>
+    <title xml:lang="jp">会員加入拡張</title>
+    <description xml:lang="ko">회원가입에 여러 기능을 추가합니다.</description>
+    <description xml:lang="jp">会員加入に多くの機能を追加します.</description>
+    <version>0.5.3.4</version>
+    <date>2010-07-03</date>
+    <category>member</category>
+
+    <author email_address="sinsy200@gmail.com" link="http://etcutils.xpressengine.net">
+        <name xml:lang="ko">난다날아</name>
+        <name xml:lang="jp">flysky</name>
+    </author>
+    <author>
+        <name xml:lang="ko"><![CDATA[<span style="font-size: 8pt; color: #999; white-space: nowrap">일어번역 : HIRO</span>]]></name>
+        <name xml:lang="jp"><![CDATA[<span style="font-size: 8pt; color: #999; white-space: nowrap">Japanese Translate : HIRO</span>]]></name>
+    </author>
+</module>

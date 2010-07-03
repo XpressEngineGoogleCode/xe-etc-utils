@@ -1,0 +1,107 @@
+<!--#include("header.html")-->
+
+<div class="infoText">{nl2br($lang->about_input_config)}</div>
+
+<form action="./" method="post" onsubmit="return doCheckInputConfig(this)">
+<input type="hidden" name="config_type" value="input_config" />
+    <table cellspacing="0" class="rowTable">
+    <tr>
+        <th scope="row">{$lang->column_name}</th>
+        <th scope="row">{$lang->is_required}</th>
+        <th scope="row">{$lang->no_modification}</th>
+        <th scope="row">{$lang->length}</th>
+    </tr>
+    <tr>
+        <th scope="col">{$lang->user_id} <input type="hidden" name="user_id_type" value="text" /></th>
+        <td><input type="checkbox" value="Y" checked="checked" disabled="disabled" /></td>
+        <td><input type="checkbox" value="Y" checked="checked" disabled="disabled" /></td>
+        <td>
+            <input type="text" name="user_id_lower_length" value="{$config->user_id_lower_length}" class="inputTypeText w40" /> {$lang->great_than}
+            <input type="text" name="user_id_upper_length" value="{$config->user_id_upper_length}" class="inputTypeText w40" /> {$lang->less_than}
+        </td>
+    </tr>
+    <tr>
+        <th scope="col">{$lang->user_name} <input type="hidden" name="user_name_type" value="text" /></th>
+        <td><input type="checkbox" value="Y" checked="checked" disabled="disabled" /></td>
+        <td><input type="checkbox" name="user_name_no_mod" value="Y" <!--@if($config->user_name_no_mod=="Y")-->checked="checked"<!--@end--> /></td>
+        <td>
+            <input type="text" name="user_name_lower_length" value="{$config->user_name_lower_length}" class="inputTypeText w40" /> {$lang->great_than}
+            <input type="text" name="user_name_upper_length" value="{$config->user_name_upper_length}" class="inputTypeText w40" /> {$lang->less_than}
+        </td>
+    </tr>
+    <tr>
+        <th scope="col">{$lang->nick_name} <input type="hidden" name="nick_name_type" value="text" /></th>
+        <td><input type="checkbox" value="Y" checked="checked" disabled="disabled" /></td>
+        <td><input type="checkbox" name="nick_name_no_mod" value="Y" <!--@if($config->nick_name_no_mod=="Y")-->checked="checked"<!--@end--> /></td>
+        <td>
+            <input type="text" name="nick_name_lower_length" value="{$config->nick_name_lower_length}" class="inputTypeText w40" /> {$lang->great_than}
+            <input type="text" name="nick_name_upper_length" value="{$config->nick_name_upper_length}" class="inputTypeText w40" /> {$lang->less_than}
+        </td>
+    </tr>
+    <tr>
+        <th scope="col">{$lang->email_address} <input type="hidden" name="email_address_type" value="email_address" /></th>
+        <td><input type="checkbox" value="Y" checked="checked" disabled="disabled" /></td>
+        <td><input type="checkbox" name="email_address_no_mod" value="Y" <!--@if($config->email_address_no_mod=="Y")-->checked="checked"<!--@end--> /></td>
+        <td>
+            <input type="text" name="email_address_lower_length" value="{$config->email_address_lower_length}" class="inputTypeText w40" /> {$lang->great_than}
+            <input type="text" name="email_address_upper_length" value="{$config->email_address_upper_length}" class="inputTypeText w40" /> {$lang->less_than}
+        </td>
+    </tr>
+    <tr>
+        <th scope="col">{$lang->homepage} <input type="hidden" name="homepage_type" value="homepage" /></th>
+        <td><input type="checkbox" name="homepage_required" value="Y" <!--@if($config->homepage_required=="Y")-->checked="checked"<!--@end--> /></td>
+        <td><input type="checkbox" name="homepage_no_mod" value="Y" <!--@if($config->homepage_no_mod=="Y")-->checked="checked"<!--@end--> /></td>
+        <td>
+            <input type="text" name="homepage_lower_length" value="{$config->homepage_lower_length}" class="inputTypeText w40" /> {$lang->great_than}
+            <input type="text" name="homepage_upper_length" value="{$config->homepage_upper_length}" class="inputTypeText w40" /> {$lang->less_than}
+        </td>
+    </tr>
+    <tr>
+        <th scope="col">{$lang->blog} <input type="hidden" name="blog_type" value="homepage" /></th>
+        <td><input type="checkbox" name="blog_required" value="Y" <!--@if($config->blog_required=="Y")-->checked="checked"<!--@end--> /></td>
+        <td><input type="checkbox" name="blog_no_mod" value="Y" <!--@if($config->blog_no_mod=="Y")-->checked="checked"<!--@end--> /></td>
+        <td>
+            <input type="text" name="blog_lower_length" value="{$config->blog_lower_length}" class="inputTypeText w40" /> {$lang->great_than}
+            <input type="text" name="blog_upper_length" value="{$config->blog_upper_length}" class="inputTypeText w40" /> {$lang->less_than}
+        </td>
+    </tr>
+    <tr>
+        <th scope="col">{$lang->birthday} <input type="hidden" name="birthday_type" value="date" /></th>
+        <td><input type="checkbox" name="birthday_required" value="Y" <!--@if($config->birthday_required=="Y")-->checked="checked"<!--@end--> /></td>
+        <td>
+            <select name="birthday_no_mod">
+                <option value="">{$lang->notuse}</option>
+                <option value="Y" <!--@if($config->birthday_no_mod=="Y")-->selected="selected"<!--@end-->>{$lang->birthday_no_mod_op1}</option>
+                <option value="Y2" <!--@if($config->birthday_no_mod=="Y2")-->selected="selected"<!--@end-->>{$lang->birthday_no_mod_op2}</option>
+            </select>
+        </td>
+        <td>-</td>
+    </tr>
+    {@$array_config = get_object_vars($config)}
+    <!--@foreach($extend_list as $val)-->
+    {@$required = $val->column_name . '_required'}
+    {@$no_mod = $val->column_name . '_no_mod'}
+    {@$lower_length = $val->column_name . '_lower_length'}
+    {@$upper_length = $val->column_name . '_upper_length'}
+    {@$type = $val->column_name . '_type'}
+    <tr>
+        <th scope="col">{$val->column_title}({$val->column_type}) <input type="hidden" name="{$type}" value="{$val->column_type}" /></th>
+        <td>-</td>
+        <td><input type="checkbox" name="{$no_mod}" value="Y" <!--@if($array_config[$no_mod]=="Y")-->checked="checked"<!--@end--> /></td>
+        <td>
+            <!--@if($val->column_type=="text")-->
+            <input type="text" name="{$lower_length}" value="{$array_config[$lower_length]}" class="inputTypeText w40" /> {$lang->great_than}
+            <input type="text" name="{$upper_length}" value="{$array_config[$upper_length]}" class="inputTypeText w40" /> {$lang->less_than}
+            <!--@else-->
+            -
+            <!--@end-->
+        </td>
+    </tr>
+    <!--@end-->
+    <tr>
+        <th colspan="4" class="button">
+            <span class="button black strong"><input type="submit" value="{$lang->cmd_registration}" accesskey="s" /></span>
+        </th>
+    </tr>
+    </table>
+</form>

@@ -1,0 +1,47 @@
+<!--#include("header.html")-->
+
+<form action="./" method="post" onsubmit="return procFilter(this, insert_config)">
+<input type="hidden" name="config_type" value="restrictions_config" />
+    <table cellspacing="0" class="rowTable">
+    <tr>
+        <th scope="col"><div>{$lang->use_sex_restrictions}</div></th>
+        <td>
+            <select name="use_sex_restrictions">
+                <option value="N"<!--@if($config->use_sex_restrictions=='N')--> selected="selected"<!--@end-->>{$lang->notuse}</option>
+                <option value="M"<!--@if($config->use_sex_restrictions=='M')--> selected="selected"<!--@end-->>{$lang->man}</option>
+                <option value="W"<!--@if($config->use_sex_restrictions=='W')--> selected="selected"<!--@end-->>{$lang->woman}</option>
+            </select>
+            <p>{$lang->about_use_sex_restrictions}</p>
+        </td>
+    </tr>
+    <tr>
+        <th scope="col"><div>{$lang->use_age_restrictions}</div></th>
+        <td>
+            <select name="use_age_restrictions">
+                <option value="N"<!--@if($config->use_age_restrictions=='N')--> selected="selected"<!--@end-->>{$lang->notuse}</option>
+                <option value="Y"<!--@if($config->use_age_restrictions=='Y')--> selected="selected"<!--@end-->>{$lang->use}</option>
+            </select>
+            <p>{$lang->about_use_age_restrictions}</p>
+        </td>
+    </tr>
+    <tr>
+        <th scope="row"><div>{$lang->age_restrictions}</div></th>
+        <td>
+            <input type="text" name="age_restrictions" value="{$config->age_restrictions}"  class="inputTypeText w40" /> {$lang->great_than}
+            <input type="text" name="age_upper_restrictions" value="{$config->age_upper_restrictions}"  class="inputTypeText w40" /> {$lang->less_than}
+        </td>
+    </tr>
+    <tr>
+        <th scope="col"><div>{$lang->msg_junior_join}</div></th>
+        <td>
+            <input type="text" name="msg_junior_join" class="inputTypeText w400" id="msg_junior_join" value="{htmlspecialchars($config->msg_junior_join)}" />
+            <a href="{getUrl('','module','module','act','dispModuleAdminLangcode','target','msg_junior_join')}" onclick="popopen(this.href);return false;" class="buttonSet buttonSetting"><span>{$lang->cmd_find_langcode}</span></a>
+        </td>
+    </tr>
+    <tr>
+        <th colspan="2" class="button">
+            <span class="button black strong"><input type="submit" value="{$lang->cmd_registration}" accesskey="s" /></span>
+        </th>
+    </tr>
+    </table>
+</form>

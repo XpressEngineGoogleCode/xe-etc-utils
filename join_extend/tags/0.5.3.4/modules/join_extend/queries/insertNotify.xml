@@ -1,0 +1,10 @@
+<query id="insertNotify" action="insert">
+    <tables>
+        <table name="join_extend_notify" />
+    </tables>
+    <columns>
+        <column name="mode" var="mode" notnull="notull"/>
+        <column name="member_info" var="member_info" notnull="notnull" />
+        <column name="regdate" default="curdate()" />
+    </columns>
+</query>

@@ -1,0 +1,123 @@
+<!--#include("header.html")-->
+<!--%import("filter/insert_editor.xml")-->
+
+<form action="./" method="post" onsubmit="return procFilter(this, insert_config)">
+<input type="hidden" name="config_type" value="after_config" />
+    <table cellspacing="0" class="rowTable">
+    <tr>
+        <th scope="col" class="w150"><div>{$lang->use_welcome}</div></th>
+        <td>
+            <select name="use_welcome">
+                <option value="N"<!--@if($config->use_welcome=='N')--> selected="selected"<!--@end-->>{$lang->notuse}</option>
+                <option value="Y"<!--@if($config->use_welcome=='Y')--> selected="selected"<!--@end-->>{$lang->use}</option>
+            </select>
+            <p>{$lang->about_use_welcome}</p>
+        </td>
+    </tr>
+    <tr>
+        <th scope="col" class="w150"><div>{$lang->use_welcome_email}</div></th>
+        <td>
+            <select name="use_welcome_email">
+                <option value="N"<!--@if($config->use_welcome_email=='N')--> selected="selected"<!--@end-->>{$lang->notuse}</option>
+                <option value="Y"<!--@if($config->use_welcome_email=='Y')--> selected="selected"<!--@end-->>{$lang->use}</option>
+            </select>
+            <p>{$lang->about_use_welcome_email}</p>
+        </td>
+    </tr>
+    <tr>
+        <th scope="col" class="w150"><div>{$lang->welcome_title}</div></th>
+        <td>
+            <input type="text" name="welcome_title" value="{$config->welcome_title}" class="inputTypeText w400" />
+            <p>{$lang->about_welcome_title}</p>
+        </td>
+    </tr>
+    <tr>
+        <th scope="col" class="w150"><div>{$lang->welcome_email_title}</div></th>
+        <td>
+            <input type="text" name="welcome_email_title" value="{$config->welcome_email_title}" class="inputTypeText w400" />
+            <p>{$lang->about_welcome_email_title}</p>
+        </td>
+    </tr>
+    <tr>
+        <th scope="col" class="w150"><div>{$lang->use_notify_admin}</div></th>
+        <td>
+            <select name="use_notify_admin">
+                <option value="N"<!--@if($config->use_notify_admin=='N')--> selected="selected"<!--@end-->>{$lang->notuse}</option>
+                <option value="signin"<!--@if($config->use_notify_admin=='signin')--> selected="selected"<!--@end-->>{$lang->only_signin}</option>
+                <option value="signout"<!--@if($config->use_notify_admin=='signout')--> selected="selected"<!--@end-->>{$lang->only_signout}</option>
+                <option value="both"<!--@if($config->use_notify_admin=='both')--> selected="selected"<!--@end-->>{$lang->both}</option>
+            </select>
+            <p>{$lang->about_use_notify_admin}</p>
+        </td>
+    </tr>
+    <tr>
+        <th scope="col" class="w150"><div>{$lang->notify_admin_period}</div></th>
+        <td>
+            <select name="notify_admin_period">
+                <option value="collect"<!--@if($config->notify_admin_period=='collect')--> selected="selected"<!--@end-->>{$lang->notify_collect}</option>
+                <option value="each"<!--@if($config->notify_admin_period=='each')--> selected="selected"<!--@end-->>{$lang->notify_each_time}</option>
+            </select>
+            <p>{$lang->about_notify_admin_period}</p>
+        </td>
+    </tr>
+    <tr>
+        <th scope="col" class="w150"><div>{$lang->notify_admin_collect_number}</div></th>
+        <td>
+            <input type="text" name="notify_admin_collect_number" value="{$config->notify_admin_collect_number}" class="inputTypeText w40" />
+            <p>{$lang->about_notify_admin_collect_number}</p>
+        </td>
+    </tr>
+    <tr>
+        <th scope="col" class="w150"><div>{$lang->notify_admin_method}</div></th>
+        <td>
+            <select name="notify_admin_method">
+                <option value="message"<!--@if($config->notify_admin_method=='message')--> selected="selected"<!--@end-->>{$lang->message}</option>
+                <option value="email"<!--@if($config->notify_admin_method=='email')--> selected="selected"<!--@end-->>{$lang->email}</option>
+                <option value="both"<!--@if($config->notify_admin_method=='both')--> selected="selected"<!--@end-->>{$lang->both}</option>
+            </select>
+            <p>{$lang->about_notify_admin_method}</p>
+        </td>
+    </tr>
+    <tr>
+        <th colspan="2" class="button">
+            <span class="button black strong"><input type="submit" value="{$lang->cmd_registration}" /></span>
+        </th>
+    </tr>
+    </table>
+</form>
+
+<form action="./" method="post" onsubmit="return procFilter(this, insert_editor)">
+    <input type="hidden" name="type" value="welcome" />
+    <input type="hidden" name="welcome" value="{htmlspecialchars($config->welcome)}" />
+    <table cellspacing="0" class="rowTable">
+    <tr>
+        <th scope="col" class="w150"><div>{$lang->welcome}</div></th>
+        <td>
+            {$editor_welcome}
+        </td>
+    </tr>
+    <tr>
+        <th colspan="2" class="button">
+            <span class="button black strong"><input type="submit" value="{$lang->cmd_registration}" /></span>
+        </th>
+    </tr>
+    </table>
+</form>
+
+<form action="./" method="post" onsubmit="return procFilter(this, insert_editor)">
+    <input type="hidden" name="type" value="welcome_email" />
+    <input type="hidden" name="welcome_email" value="{htmlspecialchars($config->welcome_email)}" />
+    <table cellspacing="0" class="rowTable">
+    <tr>
+        <th scope="col" class="w150"><div>{$lang->welcome_email}</div></th>
+        <td>
+            {$editor_welcome_email}
+        </td>
+    </tr>
+    <tr>
+        <th colspan="2" class="button">
+            <span class="button black strong"><input type="submit" value="{$lang->cmd_registration}" /></span>
+        </th>
+    </tr>
+    </table>
+</form>

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<skin version="0.2">
+    <title xml:lang="ko">회원가입 확장 기본 스킨</title>
+    <title xml:lang="jp">会員加入拡張のデフォルトスキン</title>
+    <description xml:lang="ko">
+        회원가입 확장 기본 스킨입니다.
+        원본 : sol (http://sol.xpressengine.net/)
+        회원가입확장 적용 : 난다날아 (http://etcutils.xpressengine.net/)
+    </description>
+    <description xml:lang="jp">
+        会員加入拡張のデフォルトスキンです.
+        原本 : sol (http://sol.xpressengine.net/)
+        会員加入拡張適用 : flysky (http://etcutils.xpressengine.net/)
+    </description>
+    <version>0.1</version>
+    <date>2009-10-11</date>
+
+    <author email_address="sol@ngleader.com" link="http://sol.xpressengine.net/">
+        <name xml:lang="ko">sol</name>
+        <name xml:lang="jp">sol</name>
+    </author>
+    <author email_address="sinsy200@gmail.com" link="http://etcutils.xpressengine.net/">
+        <name xml:lang="ko">난다날아</name>
+        <name xml:lang="jp">flysky</name>
+    </author>
+
+    <license>GPL v2 or later</license>
+
+    <colorset>
+        <color name="white" src="screenshot/white.gif">
+            <title xml:lang="ko">하얀색(기본)</title>
+            <title xml:lang="jp">白（デフォルト）</title>
+        </color>
+        <color name="black" src="screenshot/black.gif">
+            <title xml:lang="ko">검은색</title>
+            <title xml:lang="jp">黒</title>
+        </color>
+    </colorset>
+
+</skin>
+
