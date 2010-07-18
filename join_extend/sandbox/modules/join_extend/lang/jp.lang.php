@@ -93,7 +93,7 @@
     $lang->use_age_restrictions = '年齢制限使用<br/>Korea only';
     $lang->about_use_age_restrictions = '下の設定された年齢だけ加入を受けます. (万年齢)';
     $lang->age_restrictions = '年齢制限<br/>Korea only';
-    $lang->msg_age_restrictions = '年齢制限で加入することができます. (万 %s~%s)';
+    $lang->msg_age_restrictions = '年齢制限で加入することができません. (万 %s~%s)';
     $lang->msg_junior_join = '年齢制限メッセージ<br/>Korea only';
 
     $lang->recoid_var_name = '推薦人 ID 拡張変数名';

@@ -92,7 +92,7 @@
     $lang->use_age_restrictions = '나이제한 사용';
     $lang->about_use_age_restrictions = '아래 설정된 나이만 가입을 받습니다. (만나이)';
     $lang->age_restrictions = '나이제한';
-    $lang->msg_age_restrictions = '나이제한으로 가입할 수 있습니다. (만 %s~%s)';
+    $lang->msg_age_restrictions = '나이제한으로 가입할 수 없습니다. (만 %s~%s)';
     $lang->msg_junior_join = '나이제한 메시지';
 
     $lang->recoid_var_name = '추천인 ID 확장 변수명';
