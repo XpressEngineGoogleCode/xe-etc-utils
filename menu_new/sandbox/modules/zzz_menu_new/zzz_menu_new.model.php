@@ -8,15 +8,22 @@
     class zzz_menu_newModel extends zzz_menu_new {
 
         /**
-         * @brief 초기화
-         **/
-        function init() {
-        }
-
-        /**
          * @brief 설정 정보를 구함
          **/
         function getConfig() {
+            // 기본 설정을 구한다.
+            $config = $this->_getConfig();
+
+            // new 이미지 태그
+            $config->new_image_tag = $this->getNewImageTag();
+
+            return $config;
+        }
+
+        /**
+         * 설정을 받아옴.
+         */
+        function _getConfig() {
             // 설정 정보를 받아옴 (module model 객체를 이용)
             $oModuleModel = &getModel('module');
             $site_info = Context::get('site_module_info');
@@ -29,40 +36,32 @@
             if (!$config->up_new)       $config->up_new = 'N';
             if (!$config->text_new)     $config->text_new = 'N';
             if (!$config->select_module_mode)     $config->select_module_mode = 'in';
-            
+
             $config->time_check = time() - intVal($config->duration_new) * 60 * 60;
-            
-            // new 이미지 태그
-            if (!empty($config->new_image)) {
-                $config->new_image_tag = sprintf('<img src="%s" alt="new" title="new" style="margin-left:2px;vertical-align: middle;" class="addon_menu_new"/>', $config->new_image);
-            }else{
-                $path = sprintf('%s%s',getUrl(), 'modules/document/tpl/icons/');
-                $config->new_image_tag = sprintf('<img src="%snew.gif" alt="new" title="new" style="margin-left:2px;vertical-align: middle;" class="addon_menu_new"/>', $path);
-            }
-            
+
             // mid 목록
             if (empty($config->mid_list))   $config->mid_list2 = array();
             else                            $config->mid_list2 = explode('|@|', $config->mid_list);
 
             return $config;
         }
-        
+
         /**
          * @brief new 이미지 태그
          **/
         function getNewImageTag() {
-            $config = $this->getConfig();
-            
+            $config = $this->_getConfig();
+
             if (!empty($config->new_image)) {
-                $new_image = sprintf('<img src="%s" alt="new" title="new" style="margin-left:2px;vertical-align: middle;" class="addon_menu_new"/>', $config->new_image);
+                $new_image = sprintf('<img src="%s" alt="new" title="new" style="margin-left:2px;" class="addon_menu_new"/>', $config->new_image);
             }else{
                 $path = sprintf('%s%s',getUrl(), 'modules/document/tpl/icons/');
-                $new_image = sprintf('<img src="%snew.gif" alt="new" title="new" style="margin-left:2px;vertical-align: middle;" class="addon_menu_new"/>', $path);
+                $new_image = sprintf('<img src="%snew.gif" alt="new" title="new" style="margin-left:2px;" class="addon_menu_new"/>', $path);
             }
-            
+
             return $new_image;
         }
-        
+
         /**
          * @brief url에서 mid 추출
          **/
@@ -77,16 +76,16 @@
             // url 쿼리에 mid가 있으면 반환
             parse_str($url_info['query']);
             if ($mid)   return $mid;
-            
+
             // rewrite 형식
             $pattern = '/^' .str_replace('/', '\/', getScriptPath()). '([a-zA-Z0-9_]+)\/?$/';
             preg_match($pattern, $url_info['path'], $matches);
             if ($matches[1])    return $matches[1];
-            
+
             $pattern = '/\.\/([a-zA-Z0-9_]+)\/?$/';
             preg_match($pattern, $url_info['path'], $matches);
             if ($matches[1])    return $matches[1];
-            
+
             return $url;
         }
     }
