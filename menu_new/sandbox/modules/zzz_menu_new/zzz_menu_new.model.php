@@ -21,7 +21,17 @@
         }
 
         /**
-         * 설정을 받아옴.
+         * @brief 설정을 받아옴.
+         *
+         * @return 환경설정 값이 들어있는 obj.
+         *          - use_menu_new : 새글 표시 모듈 사용 여부 (Y/N)
+         *          - use_comment : 새 댓글에 대해서 사용 여부 (Y/N)
+         *          - duration_new : 새글 표시 시간. 단위 시간. 기본값 24.
+         *          - up_new : 하위 메뉴의 새글을 상위 메뉴에도 표시 여부 (Y/N)
+         *          - text_new : 메뉴의 text 변수에도 새글 이미지 표시 여부 (Y/N)
+         *          - select_module_mode : in : 선택한 모듈은 표시, out : 선택한 모듈은 표시 안함.
+         *          - time_check : 표시 시간이 지났는지 계산하기 위한 리눅스 타임 스탬프.
+         *          - mid_list2 : 선택한 모듈 배열.
          */
         function _getConfig() {
             // 설정 정보를 받아옴 (module model 객체를 이용)
@@ -48,6 +58,11 @@
 
         /**
          * @brief new 이미지 태그
+         *
+         * 새글 표시 이미지 태그를 반환한다.
+         * 새글 이미지를 따로 설정하지 않았을 경우 XE의 기본 이미지를 이용한다.
+         *
+         * @return 새글 표시 이미지 태그
          **/
         function getNewImageTag() {
             $config = $this->_getConfig();
@@ -64,6 +79,12 @@
 
         /**
          * @brief url에서 mid 추출
+         *
+         * 메뉴 링크 url에서 mid의 값을 추출한다.
+         * 먼저 url 파싱을 통해 쿼리에 mid가 있으면 당연히 그걸 리턴.
+         * rewrite 룰에 의한 형식(xe/mid)의 경우 정규식을 이용하여 mid를 추출한 후 리턴.
+         *
+         * @return url의 mid
          **/
         function getMid($url) {
             // url 파싱
