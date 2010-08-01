@@ -4,8 +4,8 @@
 	<title xml:lang="jp">メニューに新文書表示</title>
     <description xml:lang="ko">새 글/댓글이 있을 경우 메뉴에 표시해 줍니다.</description>
 	<description xml:lang="jp">新しい文/コメントがある場合メニューに表示します.</description>
-    <version>0.2.1</version>
-    <date>2009-11-07</date>
+    <version>0.3</version>
+    <date>2010-08-01</date>
     <category>construction</category>
 
     <author email_address="sinsy200@gmail.com" link="http://etcutils.xpressengine.net">
