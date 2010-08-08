@@ -81,9 +81,8 @@
                 if (!$module_info->module_srl)  return;
 
                 // 해당 모듈의 캐시 재생성
-                $obj->module_srl = $module_info->module_srl;
                 $oMenuNewController = &getController('zzz_menu_new');
-                $oMenuNewController->procUpdateCache($obj, $site_srl);
+                $oMenuNewController->procUpdateCache($module_info->module_srl, $site_srl);
             }
         }
     }
