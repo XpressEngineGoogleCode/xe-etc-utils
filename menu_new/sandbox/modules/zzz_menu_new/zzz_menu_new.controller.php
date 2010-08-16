@@ -5,6 +5,9 @@
      * @brief  zzz_menu_new 모듈의 controller class
      **/
 
+    define('MENU_NEW_DOCUMENT', 1);
+    define('MENU_NEW_COMMENT', 2);
+
     class zzz_menu_newController extends zzz_menu_new {
 
         /**
@@ -171,15 +174,20 @@
                     if ($config->use_comment == 'Y') {
                         $cache = sprintf("%s/%d.%s_com.php", $this->menu_new_cache_path, $site_srl, $mid);
                         @include $cache;
-
-                        if ($regdate_com > $regdate)    $regdate = $regdate_com;
                     }
                 }
-                // 설정된 시간 이내 새글/댓글이 있으면 new 이미지 추가
-                if (($config->up_new == 'Y' && $is_sub_new) || intVal($config->time_check) < intVal($regdate)) {
+                // 설정된 시간 이내 새글이 있으면 new 이미지 추가
+                if (($config->up_new == 'Y' && $is_sub_new == MENU_NEW_DOCUMENT) || intVal($config->time_check) < intVal($regdate)) {
                     if (!empty($menu_item['link']))   $menu_list[$menu_srl]['link'] .= $config->new_image_tag;
                     if ($config->text_new == 'Y' && !empty($menu_item['text']))   $menu_list[$menu_srl]['text'] .= $config->new_image_tag;
-                    $is_new = true;
+                    $is_new = MENU_NEW_DOCUMENT;
+                }
+
+                // 설정된 시간 이내 새 댓글이 있으면 new 이미지 추가
+                else if (($config->up_new == 'Y' && $is_sub_new == MENU_NEW_COMMENT) || intVal($config->time_check) < intVal($regdate_com)) {
+                    if (!empty($menu_item['link']))   $menu_list[$menu_srl]['link'] .= $config->new_comment_image_tag;
+                    if ($config->text_new == 'Y' && !empty($menu_item['text']))   $menu_list[$menu_srl]['text'] .= $config->new_comment_image_tag;
+                    $is_new = MENU_NEW_COMMENT;
                 }
             }
 

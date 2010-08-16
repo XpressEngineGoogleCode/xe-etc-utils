@@ -15,7 +15,10 @@
             $config = $this->_getConfig();
 
             // new 이미지 태그
-            $config->new_image_tag = $this->getNewImageTag();
+            $config->new_image_tag = $this->getNewImageTag($config);
+
+            // 댓글 new 이미지 태그
+            $config->new_comment_image_tag = $this->getCommentNewImageTag($config);
 
             return $config;
         }
@@ -64,14 +67,33 @@
          *
          * @return 새글 표시 이미지 태그
          **/
-        function getNewImageTag() {
-            $config = $this->_getConfig();
+        function getNewImageTag($config) {
 
             if (!empty($config->new_image)) {
                 $new_image = sprintf('<img src="%s" alt="new" title="new" style="margin-left:2px;" class="addon_menu_new"/>', $config->new_image);
             }else{
                 $path = sprintf('%s%s',getUrl(), 'modules/document/tpl/icons/');
                 $new_image = sprintf('<img src="%snew.gif" alt="new" title="new" style="margin-left:2px;" class="addon_menu_new"/>', $path);
+            }
+
+            return $new_image;
+        }
+
+         /**
+         * @brief 댓글 new 이미지 태그
+         *
+         * 새 댓글 표시 이미지 태그를 반환한다.
+         * 새 댓글 이미지를 따로 설정하지 않았을 경우 XE의 기본 이미지를 이용한다.
+         *
+         * @return 새 댓글 표시 이미지 태그
+         **/
+        function getCommentNewImageTag($config) {
+
+            if (!empty($config->new_image_comment)) {
+                $new_image = sprintf('<img src="%s" alt="new comment" title="new comment" style="margin-left:2px;" class="addon_menu_new_comment"/>', $config->new_image_comment);
+            }else{
+                $path = sprintf('%s%s',getUrl(), 'modules/document/tpl/icons/');
+                $new_image = sprintf('<img src="%supdate.gif" alt="new comment" title="new comment" style="margin-left:2px;" class="addon_menu_new_comment"/>', $path);
             }
 
             return $new_image;
