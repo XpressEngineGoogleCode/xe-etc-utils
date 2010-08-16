@@ -7,6 +7,9 @@
 
     class zzz_menu_newAdminController extends zzz_menu_new {
 
+        /// 캐시파일 재생성시 처리한 모듈을 기억하기 위한 변수
+        var $processedModule;
+
         /**
          * @brief 초기화
          **/
@@ -31,6 +34,8 @@
          **/
         function procZzz_menu_newAdminRemakeCacheAll() {
             FileHandler::removeFilesInDir($this->menu_new_cache_path);
+
+            unset($this->processedModule);
 
             // 메뉴 캐시를 돌며 각 메뉴의 모듈 새글 체크
             $file_list = FileHandler::readDir($this->menu_cache_path);
@@ -81,8 +86,12 @@
                 if (!$module_info->module_srl)  return;
 
                 // 해당 모듈의 캐시 재생성
-                $oMenuNewController = &getController('zzz_menu_new');
-                $oMenuNewController->procUpdateCache($module_info->module_srl, $site_srl);
+                if (!$this->processedModule[$site_srl][$module_info->module_srl]){
+                    $oMenuNewController = &getController('zzz_menu_new');
+                    $oMenuNewController->procUpdateCache($module_info->module_srl, $site_srl);
+                    $this->processedModule[$site_srl][$module_info->module_srl] = true;
+                    debugPrint($site_srl . "," . $module_info->module_srl);
+                }
             }
         }
     }
