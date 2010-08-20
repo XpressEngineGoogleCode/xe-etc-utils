@@ -11,7 +11,7 @@
     $lang->about_use_menu_new = 'メニューに新文書表示機能を使います.';
 
     $lang->use_comment = '新しいコメントに対しても動作';
-    $lang->about_use_comment = '該当のメニューの新しいコメントに対しても作動するようにします.<br/>プラネットはコメントに対して動作しません.';
+    $lang->about_use_comment = '該当のメニューの新しいコメントに対しても作動するようにします.<br/>プラネットとカテゴリーメニューはコメントに対して動作しません.';
 
     $lang->duration_new = 'new 表示時間(hours)';
     $lang->about_duration_new = '新たに登録された掲示物の new 表示時間を決めることができます. (基本 24時間)';

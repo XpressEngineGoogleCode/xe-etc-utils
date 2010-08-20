@@ -75,6 +75,8 @@
         function _procZzz_menu_newAdminRemakeCache($menu_list, $site_srl) {
             if (!count($menu_list)) return;
 
+            $oDocumentModel = &getModel('document');
+
             foreach($menu_list as $menu_item) {
                 // 하위 메뉴가 있으면 하위 메뉴부터 처리
                 if (count($menu_item['list']))    $this->_procZzz_menu_newAdminRemakeCache($menu_item['list'], $site_srl);
@@ -88,9 +90,18 @@
                 // 해당 모듈의 캐시 재생성
                 if (!$this->processedModule[$site_srl][$module_info->module_srl]){
                     $oMenuNewController = &getController('zzz_menu_new');
+
+                    // 모듈 전체에 대한 캐시 재생성
                     $oMenuNewController->procUpdateCache($module_info->module_srl, $site_srl);
+
+                    // 모듈에 속한 카테고리에 대한 캐시 재생성
+                    $category_list = $oDocumentModel->getCategoryList($module_info->module_srl);
+                    foreach ($category_list as $category) {
+                        $oMenuNewController->procUpdateCacheCategory($category->category_srl);
+                    }
+
+                    // 처리한 모듈로 설정
                     $this->processedModule[$site_srl][$module_info->module_srl] = true;
-                    debugPrint($site_srl . "," . $module_info->module_srl);
                 }
             }
         }

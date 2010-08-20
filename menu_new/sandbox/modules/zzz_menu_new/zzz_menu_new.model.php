@@ -111,12 +111,13 @@
         function getMid($url) {
             // url 파싱
             $url_info = @parse_url($url);
-            if (!$url_info) return false;
+            if (!$url_info) return null;
 
             // 내부 링크인지 확인
-            if ($url_info['host'] && $url_info['host'] != $_SERVER[HTTP_HOST])   return false;
+            if ($url_info['host'] && $url_info['host'] != $_SERVER[HTTP_HOST])   return null;
 
             // url 쿼리에 mid가 있으면 반환
+            $url_info['query'] = str_replace('&amp;', '&', $url_info['query']);
             parse_str($url_info['query']);
             if ($mid)   return $mid;
 
@@ -130,6 +131,27 @@
             if ($matches[1])    return $matches[1];
 
             return $url;
+        }
+
+        /**
+         * @brief url에서 카테고리 번호 추출
+         *
+         * @return url의 카테고리 번호
+         */
+        function getCategorySrl($url) {
+            // url 파싱
+            $url_info = @parse_url($url);
+            if (!$url_info) return null;
+
+            // 내부 링크인지 확인
+            if ($url_info['host'] && $url_info['host'] != $_SERVER[HTTP_HOST])   return null;
+
+            // url 쿼리에 category_srl이 있으면 반환
+            $url_info['query'] = str_replace('&amp;', '&', $url_info['query']);
+            parse_str($url_info['query']);
+            if ($category)   return $category;
+
+            return null;
         }
     }
 ?>

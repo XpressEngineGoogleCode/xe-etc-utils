@@ -16,6 +16,7 @@
          **/
         function triggerInsertDocument(&$obj) {
             $this->procUpdateCache($obj->module_srl);
+            $this->procUpdateCacheCategory($obj->category_srl);
 
             return new Object();
         }
@@ -36,6 +37,7 @@
          **/
         function triggerDeleteDocument(&$obj) {
             $this->procUpdateCache($obj->module_srl);
+            $this->procUpdateCacheCategory($obj->category_srl);
 
             return new Object();
         }
@@ -64,19 +66,23 @@
          * 이동 게시물은 여러개일 수 있다. 각 원본은 여러개이지만 이동하는 곳은 하나다.
          */
         function triggerMoveDocumentBefore(&$obj) {
-            $oModuleModel = &getModel('module');
+            $oDocumentModel = &getModel('document');
 
-            // 원래 게시물이 있던 모듈
+            // 원래 게시물이 있던 모듈 정보 구하기
             $module_srls = array();
-            $document_srls = explode(",", $obj->document_srls);
-            foreach ($document_srls as $document_srl) {
-                $module_info = $oModuleModel->getModuleInfoByDocumentSrl($document_srl);
-                $module_srls[] = $module_info->module_srl;
+            $category_srls = array();
+            $documents = $oDocumentModel->getDocuments($obj->document_srls);
+
+            foreach ($documents as $document) {
+                $module_srls[] = $document->get('module_srl');
+                $category_srls[] = $document->get('category_srl');
             }
             array_unique($module_srls);
+            array_unique($category_srls);
 
             // 세션에 저장
             $_SESSION['menu_new_move_module_srls'] = $module_srls;
+            $_SESSION['menu_new_move_category_srls'] = $category_srls;
 
             return new Object();
         }
@@ -88,13 +94,26 @@
         function triggerMoveDocumentAfter(&$obj) {
             // 우선 이동하는 모듈의 캐시를 업데이트 한다.
             $this->procUpdateCache($obj->module_srl);
+            $this->procUpdateCacheCategory($obj->category_srl);
 
             // 원래 게시물이 있던 모듈
             $module_srls = $_SESSION['menu_new_move_module_srls'];
 
             // 원래 게시물이 있던 모듈의 캐시를 업데이트 한다.
-            foreach ($module_srls as $module_srl) {
-                $this->procUpdateCache($module_srl);
+            if (is_array($module_srls)) {
+                foreach ($module_srls as $module_srl) {
+                    $this->procUpdateCache($module_srl);
+                }
+            }
+
+            // 원래 게시물이 있던 카테고리
+            $category_srls = $_SESSION['menu_new_move_category_srls'];
+
+            // 원래 게시물이 있던 카테고리의 캐시를 업데이트 한다.
+            if (is_array($category_srls)) {
+            foreach ($category_srls as $category_srl) {
+                    $this->procUpdateCacheCategory($category_srl);
+                }
             }
 
             return new Object();
@@ -156,9 +175,10 @@
                 if (count($menu_item['list']))
                     $is_sub_new = $this->_procNew($menu_list[$menu_srl]['list'], $config, $site_srl);
 
-                // mid 구하기
+                // mid, category_srl 구하기
                 $oMenuNewModel = &getModel('zzz_menu_new');
                 $mid = $oMenuNewModel->getMid($menu_item['url']);
+                $category_srl = $oMenuNewModel->getCategorySrl($menu_item['url']);
 
                 // 해당 mid에 새글 표시 사용인지 확인
                 $is_use = in_array($mid, $config->mid_list2);
@@ -167,13 +187,19 @@
 
                 if (!empty($mid) && $is_use) {
                     // 현재 메뉴의 마지막 글 시간
-                    $cache = sprintf("%s/%d.%s_doc.php", $this->menu_new_cache_path, $site_srl, $mid);
-                    @include $cache;
-
-                    // 현재 메뉴의 마지막 댓글 시간
-                    if ($config->use_comment == 'Y') {
-                        $cache = sprintf("%s/%d.%s_com.php", $this->menu_new_cache_path, $site_srl, $mid);
+                    // 카테고리 메뉴이면 카테고리를 이용한다.
+                    if ($category_srl) {
+                        $cache = sprintf("%s/category_doc.%d.php", $this->menu_new_cache_path, $category_srl);
                         @include $cache;
+                    }else{
+                        $cache = sprintf("%s/%d.%s_doc.php", $this->menu_new_cache_path, $site_srl, $mid);
+                        @include $cache;
+
+                        // 현재 메뉴의 마지막 댓글 시간
+                        if ($config->use_comment == 'Y') {
+                            $cache = sprintf("%s/%d.%s_com.php", $this->menu_new_cache_path, $site_srl, $mid);
+                            @include $cache;
+                        }
                     }
                 }
                 // 설정된 시간 이내 새글이 있으면 new 이미지 추가
@@ -273,6 +299,37 @@
             // comment에 대한 캐시 생성
             $cache = sprintf("%s/%d.%s_com.php", $this->menu_new_cache_path, $site_srl, $mid);
             $buff = sprintf('<? $regdate_com=%d; ?>', $regdate);
+            FileHandler::writeFile($cache, $buff);
+        }
+
+        /**
+         * @brief 카테고리 캐시 업데이트
+         * @param[in] $category_srl 캐시 업데이트할 카테고리의 번호
+         *
+         * 캐시파일은 단순히 php코드로 마지막 글/댓글의 작성시간이 '$regdate=시간;'과 같이 작성된다.
+         * 파일명은 category_doc.category_srl.php 형식으로 생성된다.
+         * 댓글은 지원하지 않는다.
+         **/
+        function procUpdateCacheCategory($category_srl) {
+            // 메뉴에 새글 표시 사용중인지 확인
+            $oMenuNewModel = &getModel('zzz_menu_new');
+            $config = $oMenuNewModel->getConfig();
+            if ($config->use_menu_new != 'Y')   return new Object();
+
+            // 마지막 글의 시간을 구한다.
+            $args->list_count = 1;
+            $args->order_type = 'asc';
+            $args->category_srl = $category_srl;
+            $output = executeQuery('document.getDocumentList', $args);
+            if (!$output->toBool()) return;
+
+            if (count($output->data)){ foreach($output->data as $doc){
+                $regdate = ztime($doc->regdate);
+            }}
+
+            // document에 대한 캐시 생성
+            $cache = sprintf("%s/category_doc.%d.php", $this->menu_new_cache_path, $category_srl);
+            $buff = sprintf('<? $regdate=%d; ?>', $regdate);
             FileHandler::writeFile($cache, $buff);
         }
 

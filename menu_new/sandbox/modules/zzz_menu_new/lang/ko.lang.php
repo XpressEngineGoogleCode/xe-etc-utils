@@ -11,7 +11,7 @@
     $lang->about_use_menu_new = '메뉴에 새글 표시 기능을 사용합니다.';
 
     $lang->use_comment = '새 댓글에 대해서도 동작';
-    $lang->about_use_comment = '해당 메뉴의 새 댓글에 대해서도 작동하도록 합니다.<br/>플래닛은 댓글에 대해 동작하지 않습니다.';
+    $lang->about_use_comment = '해당 메뉴의 새 댓글에 대해서도 작동하도록 합니다.<br/>플래닛과 카테고리 메뉴는 댓글에 대해 동작하지 않습니다.';
 
     $lang->duration_new = 'new 표시 시간(hours)';
     $lang->about_duration_new = '새로 등록된 게시물의 new 표시시간을 정할 수 있습니다. (기본 24시간)';
