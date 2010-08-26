@@ -169,6 +169,7 @@
             $is_new = false;
             foreach($menu_list as $menu_srl => $menu_item) {
                 $regdate = 0;
+                $regdate_com = 0;
 
                 // 하위 메뉴가 있으면 먼저 처리
                 $is_sub_new = false;
@@ -213,7 +214,11 @@
                 else if (($config->up_new == 'Y' && $is_sub_new == MENU_NEW_COMMENT) || intVal($config->time_check) < intVal($regdate_com)) {
                     if (!empty($menu_item['link']))   $menu_list[$menu_srl]['link'] .= $config->new_comment_image_tag;
                     if ($config->text_new == 'Y' && !empty($menu_item['text']))   $menu_list[$menu_srl]['text'] .= $config->new_comment_image_tag;
-                    $is_new = MENU_NEW_COMMENT;
+                    
+                    // 메뉴 중 하나라도 새글이 없을 때만 새댓글 표시한다.
+                    if ($is_new != MENU_NEW_DOCUMENT){
+                        $is_new = MENU_NEW_COMMENT;
+                    }
                 }
             }
 
