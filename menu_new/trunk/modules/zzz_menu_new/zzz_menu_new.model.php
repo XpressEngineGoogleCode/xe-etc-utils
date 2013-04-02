@@ -38,7 +38,7 @@
          */
         function _getConfig() {
             // 설정 정보를 받아옴 (module model 객체를 이용)
-            $oModuleModel = &getModel('module');
+            $oModuleModel = getModel('module');
             $site_info = Context::get('site_module_info');
             $config = $oModuleModel->getModulePartConfig('zzz_menu_new', $site_info->site_srl);
 
@@ -53,8 +53,27 @@
             $config->time_check = time() - intVal($config->duration_new) * 60 * 60;
 
             // mid 목록
-            if (empty($config->mid_list))   $config->mid_list2 = array();
-            else                            $config->mid_list2 = explode('|@|', $config->mid_list);
+            if(empty($config->module_srl_list))
+            {
+            	$config->mid_list2 = array();
+            }
+            else
+            {
+            	$args = new stdClass();
+            	$args->module_srls = $config->module_srl_list;
+            	$output = executeQueryArray('module.getModulesInfo', $args, array('mid'));
+            	if(!$output->toBool())
+            	{
+            		$config->mid_list2 = array();
+            	}
+            	else
+            	{
+            		foreach($output->data as $row)
+            		{
+            			$config->mid_list2[] = $row->mid;
+            		}
+            	}
+            }
 
             return $config;
         }

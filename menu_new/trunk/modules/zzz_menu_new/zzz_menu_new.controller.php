@@ -66,7 +66,7 @@
          * 이동 게시물은 여러개일 수 있다. 각 원본은 여러개이지만 이동하는 곳은 하나다.
          */
         function triggerMoveDocumentBefore(&$obj) {
-            $oDocumentModel = &getModel('document');
+            $oDocumentModel = getModel('document');
 
             // 원래 게시물이 있던 모듈 정보 구하기
             $module_srls = array();
@@ -145,7 +145,9 @@
          * @param[out] $menu_list 새글 표시를 적용할 메뉴 정보
          **/
         function procNew(&$menu_list) {
-            $oMenuNewModel = &getModel('zzz_menu_new');
+        	if (Context::getResponseMethod() != 'HTML' || Context::get('module') == 'admin') return;
+
+            $oMenuNewModel = getModel('zzz_menu_new');
             $config = $oMenuNewModel->getConfig();
             $site_info = Context::get('site_module_info');
             if ($config->use_menu_new != 'Y')   return;
@@ -177,7 +179,7 @@
                     $is_sub_new = $this->_procNew($menu_list[$menu_srl]['list'], $config, $site_srl);
 
                 // mid, category_srl 구하기
-                $oMenuNewModel = &getModel('zzz_menu_new');
+                $oMenuNewModel = getModel('zzz_menu_new');
                 $mid = $oMenuNewModel->getMid($menu_item['url']);
                 $category_srl = $oMenuNewModel->getCategorySrl($menu_item['url']);
 
@@ -214,7 +216,7 @@
                 else if (($config->up_new == 'Y' && $is_sub_new == MENU_NEW_COMMENT) || intVal($config->time_check) < intVal($regdate_com)) {
                     if (!empty($menu_item['link']))   $menu_list[$menu_srl]['link'] .= $config->new_comment_image_tag;
                     if ($config->text_new == 'Y' && !empty($menu_item['text']))   $menu_list[$menu_srl]['text'] .= $config->new_comment_image_tag;
-                    
+
                     // 메뉴 중 하나라도 새글이 없을 때만 새댓글 표시한다.
                     if ($is_new != MENU_NEW_DOCUMENT){
                         $is_new = MENU_NEW_COMMENT;
@@ -239,7 +241,7 @@
          **/
         function procUpdateCache($module_srl, $site_srl = -1) {
             // 메뉴에 새글 표시 사용중인지 확인
-            $oMenuNewModel = &getModel('zzz_menu_new');
+            $oMenuNewModel = getModel('zzz_menu_new');
             $config = $oMenuNewModel->getConfig();
             if ($config->use_menu_new != 'Y')   return new Object();
 
@@ -250,7 +252,7 @@
             }
 
             // module_info
-            $oModuleModel = &getModel('module');
+            $oModuleModel = getModel('module');
             $module_info = $oModuleModel->getModuleInfoByModuleSrl($module_srl);
             $mid = $module_info->mid;
             if (empty($mid))  return;
@@ -274,7 +276,7 @@
             // 플래닛
             if ($module_info->module == 'planet') {
                 // 플래닛 mid
-                $oPlanetModel = &getModel('planet');
+                $oPlanetModel = getModel('planet');
                 $planet_config = $oPlanetModel->getPlanetConfig();
                 $planet_mid = $planet_config->mid;
 
@@ -317,7 +319,7 @@
          **/
         function procUpdateCacheCategory($category_srl) {
             // 메뉴에 새글 표시 사용중인지 확인
-            $oMenuNewModel = &getModel('zzz_menu_new');
+            $oMenuNewModel = getModel('zzz_menu_new');
             $config = $oMenuNewModel->getConfig();
             if ($config->use_menu_new != 'Y')   return new Object();
 
@@ -348,18 +350,27 @@
                                 'procHomepageInsertMenuItem',
                                 'procHomepageDeleteMenuItem',
                                 'procHomepageMenuItemMove',
+
                                 'procMenuAdminInsertItem',
+            					'procMenuAdminUpdateItem',
                                 'procMenuAdminDeleteItem',
                                 'procMenuAdminMoveItem',
-                                'procMenuAdminMakeXmlFile'
+                                'procMenuAdminMakeXmlFile',
+            					'procMenuAdminButtonUpload',
+            					'procMenuAdminUpdateAuth'
                                 );
 
             if (in_array($oModule->act, $target_act)) {
-                $menu_srl = Context::get('menu_srl');
-                if (!$menu_srl)  return new Object();
+	            $file_list = FileHandler::readDir($this->menu_cache_path);
+	            if (!count($file_list)) return new Object(-1, 'error');
 
-                $oMenuNewAdminController = &getAdminController('zzz_menu_new');
-                $oMenuNewAdminController->procZzz_menu_newAdminRemakeCache($menu_srl);
+	            foreach($file_list as $file) {
+	                if (strpos($file, 'xml'))   continue;
+
+	                $token = explode('.', $file);
+	                $menu_srl = $token[0];
+	                $this->procMenuInclude($menu_srl);
+	            }
             }
 
             return new Object();
@@ -370,21 +381,21 @@
          * @brief CafeXE 메뉴 설정 화면 추가 작업. CafeXE의 메뉴 설정에서도 메뉴에 새글 표시를 설정할 수 있도록 한다.
          **/
         function triggerDisplay(&$output) {
-            if (Context::getResponseMethod() == 'HTML' && Context::get('act') == 'dispHomepageTopMenu') {
+            if (Context::getResponseMethod() == 'HTML' && Context::get('act') == 'dispHomepageAdminSiteTopMenu') {
                 // 설정 가져오기
-                $oMenuNewModel = &getModel('zzz_menu_new');
+                $oMenuNewModel = getModel('zzz_menu_new');
                 $config = $oMenuNewModel->getConfig();
                 Context::set('config', $config);
 
                 // 현재 사이트의 mid 목록
-                $oModuleModel = &getModel('module');
+                $oModuleModel = getModel('module');
                 $site_info = Context::get('site_module_info');
                 $args->site_srl = $site_info->site_srl;
                 $mid_list = $oModuleModel->getMidList($args);
                 Context::set('mid_list',$mid_list);
 
                 // 설정 화면 컴파일
-                $oTemplate = new TemplateHandler();
+                $oTemplate = TemplateHandler::getInstance();
                 $menu_new = $oTemplate->compile('./modules/zzz_menu_new/tpl', 'menu_new_config.html');
 
                 // HTML 추가

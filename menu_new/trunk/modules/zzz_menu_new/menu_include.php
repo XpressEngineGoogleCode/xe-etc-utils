@@ -8,6 +8,6 @@
      * @brief  메뉴 캐시에 include되어 작동하는 코드
      **/
 
-     $oMenuNewController = &getController('zzz_menu_new');
+     $oMenuNewController = getController('zzz_menu_new');
      $oMenuNewController->procNew($menu->list);
 ?>
