@@ -27,7 +27,7 @@
             FileHandler::makeDir('./files/cache/menu_new');
 
             // 글/댓글 작성에 트리거
-            $oModuleController = &getController('module');
+            $oModuleController = getController('module');
 
             $oModuleController->insertTrigger('document.insertDocument', 'zzz_menu_new', 'controller', 'triggerInsertDocument', 'after');
             $oModuleController->insertTrigger('comment.insertComment', 'zzz_menu_new', 'controller', 'triggerInsertComment', 'after');
@@ -49,7 +49,7 @@
          * @brief 설치가 이상이 없는지 체크하는 method
          **/
         function checkUpdate() {
-            $oModuleModel = &getModel('module');
+            $oModuleModel = getModel('module');
 
             // 트리거 체크
             if(!$oModuleModel->getTrigger('document.insertDocument', 'zzz_menu_new', 'controller', 'triggerInsertDocument', 'after'))   return true;
@@ -70,8 +70,8 @@
          * @brief 업데이트 실행
          **/
         function moduleUpdate() {
-            $oModuleModel = &getModel('module');
-            $oModuleController = &getController('module');
+            $oModuleModel = getModel('module');
+            $oModuleController = getController('module');
 
             if(!$oModuleModel->getTrigger('document.insertDocument', 'zzz_menu_new', 'controller', 'triggerInsertDocument', 'after'))
                 $oModuleController->insertTrigger('document.insertDocument', 'zzz_menu_new', 'controller', 'triggerInsertDocument', 'after');
@@ -104,7 +104,7 @@
          * @brief 캐시 파일 재생성
          **/
         function recompileCache() {
-            $oMenuNewAdminController = &getAdminController('zzz_menu_new');
+            $oMenuNewAdminController = getAdminController('zzz_menu_new');
             $oMenuNewAdminController->procZzz_menu_newAdminRemakeCacheAll();
         }
     }

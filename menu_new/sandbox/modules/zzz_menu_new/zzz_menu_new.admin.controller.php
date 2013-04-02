@@ -23,10 +23,13 @@
             $config = Context::getRequestVars();
 
             // module Controller 객체 생성하여 입력
-            $oModuleController = &getController('module');
+            $oModuleController = getController('module');
             $site_info = Context::get('site_module_info');
             $output = $oModuleController->insertModulePartConfig('zzz_menu_new', $site_info->site_srl, $config);
             if (!$output->toBool()) $output;
+
+            $this->setMessage('success_updated');
+            $this->setRedirectUrl(Context::get('success_return_url'));
         }
 
         /**
@@ -55,7 +58,7 @@
          **/
         function procZzz_menu_newAdminRemakeCache($menu_srl) {
             // menu info
-            $oMenuAdminModel = &getAdminModel('menu');
+            $oMenuAdminModel = getAdminModel('menu');
             $menu_info = $oMenuAdminModel->getMenu($menu_srl);
 
             // 메뉴 include
@@ -75,21 +78,21 @@
         function _procZzz_menu_newAdminRemakeCache($menu_list, $site_srl) {
             if (!count($menu_list)) return;
 
-            $oDocumentModel = &getModel('document');
+            $oDocumentModel = getModel('document');
 
             foreach($menu_list as $menu_item) {
                 // 하위 메뉴가 있으면 하위 메뉴부터 처리
                 if (count($menu_item['list']))    $this->_procZzz_menu_newAdminRemakeCache($menu_item['list'], $site_srl);
 
                 // 해당 메뉴의 모듈 정보
-                $oModuleModel = &getModel('module');
-                $oMenuNewModel = &getModel('zzz_menu_new');
+                $oModuleModel = getModel('module');
+                $oMenuNewModel = getModel('zzz_menu_new');
                 $module_info = $oModuleModel->getModuleInfoByMid($oMenuNewModel->getMid($menu_item[url]), $site_srl);
                 if (!$module_info->module_srl)  continue;
 
                 // 해당 모듈의 캐시 재생성
                 if (!$this->processedModule[$site_srl][$module_info->module_srl]){
-                    $oMenuNewController = &getController('zzz_menu_new');
+                    $oMenuNewController = getController('zzz_menu_new');
 
                     // 모듈 전체에 대한 캐시 재생성
                     $oMenuNewController->procUpdateCache($module_info->module_srl, $site_srl);
